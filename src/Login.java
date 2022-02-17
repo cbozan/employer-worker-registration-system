@@ -46,7 +46,6 @@ public class Login extends JFrame{
 	
 	public Login() {
 		
-		
 		super("Login");
 		setIconImage(Toolkit.getDefaultToolkit().getImage("src\\icons\\Login_user_24.png"));
 		setResizable(false);
@@ -59,7 +58,6 @@ public class Login extends JFrame{
 		
 		insets = this.getInsets();
 		
-		System.out.println("kajsdf");
 		GUI();
 		
 	}
@@ -69,16 +67,14 @@ public class Login extends JFrame{
 		contentPane = new JPanel();
 		contentPane.setLayout(null);
 		contentPane.setBounds(insets.left, insets.top, W_FRAME - insets.left - insets.right, 
-														H_FRAME - insets.bottom - insets.top);
+				H_FRAME - insets.bottom - insets.top);
 	
 		label_username = new JLabel("Username");
-		label_username.setLayout(null);
 		label_username.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		label_username.setBounds(120, 140, 70, 20);
 		contentPane.add(label_username);
 		
 		label_password = new JLabel("Password");
-		label_password.setLayout(null);
 		label_password.setFont(label_username.getFont());
 		label_password.setBounds(label_username.getX(), label_username.getY() + 40, 
 				label_username.getWidth(), label_username.getHeight());
@@ -152,8 +148,6 @@ public class Login extends JFrame{
 		
 		
 		setContentPane(contentPane);
-		
-		
 		
 	}
 	
