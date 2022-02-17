@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -120,10 +121,11 @@ public class Login extends JFrame{
 				} else {
 					
 					label_errorText.setText("");
-					if(textField_username.getText().equals("admin") && 
-							String.valueOf(passwordField_password.getPassword()).equals("root")) {
+					if( DataBase.verifyLogin(textField_username.getText(), 
+							String.valueOf(passwordField_password.getPassword())) != -1 ) {
 						
-						System.out.println("Login successful");
+						JOptionPane.showMessageDialog(contentPane, "Login successful. Welcome", "Login", 
+								JOptionPane.INFORMATION_MESSAGE);
 						
 					} else {
 						label_errorText.setText(errorText);
