@@ -48,18 +48,20 @@ public class Login extends JFrame{
 	public Login() {
 		
 		super("Login");
-		setIconImage(Toolkit.getDefaultToolkit().getImage("src\\icons\\Login_user_24.png"));
+		new AdminPanel();
+		/*setIconImage(Toolkit.getDefaultToolkit().getImage("src\\icons\\Login_user_24.png"));
 		setResizable(false);
 		setLayout(null);
 		setSize(W_FRAME, H_FRAME);
 		setLocationRelativeTo(null);
 		setLocation(getX() - 80, getY() - 80);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setVisible(true);
+		setVisible(true);*/
 		
 		insets = this.getInsets();
 		
-		GUI();
+		//GUI();
+		
 		
 	}
 	
@@ -124,9 +126,19 @@ public class Login extends JFrame{
 					if( DataBase.verifyLogin(textField_username.getText(), 
 							String.valueOf(passwordField_password.getPassword())) != -1 ) {
 						
-						JOptionPane.showMessageDialog(contentPane, "Login successful. Welcome", "Login", 
+						EventQueue.invokeLater(new Runnable() {
+							
+							@Override
+							public void run() {
+								
+								Login.this.dispose();
+								new AdminPanel();
+								
+							}
+						});
+						/*JOptionPane.showMessageDialog(contentPane, "Login successful. Welcome", "Login", 
 								JOptionPane.INFORMATION_MESSAGE);
-						
+						*/
 					} else {
 						label_errorText.setText(errorText);
 					}
