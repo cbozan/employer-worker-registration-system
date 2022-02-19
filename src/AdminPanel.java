@@ -2,15 +2,22 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 
 
 public class AdminPanel extends JFrame implements ActionListener{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * AdminPanel window width
 	 */
@@ -35,7 +42,10 @@ public class AdminPanel extends JFrame implements ActionListener{
 	private JMenuItem addEmployer_item, addWorker_item, addRecord_item, viewRecord_item;
 	private JMenuItem viewEmployer_item, viewWorker_item, billEmployer_item, billWorker_item;
 	private JMenuItem settings_item, reset_item, logout_item;
-	
+	private HomePage homePage;
+	private ArrayList<JPanel> components = new ArrayList<>();
+	private int currentComponent = 0;
+
 	
 	public AdminPanel() {
 		
@@ -57,6 +67,15 @@ public class AdminPanel extends JFrame implements ActionListener{
 	
 	
 	private void GUI() {
+		
+		createMenus();
+		createComponents();
+		init();
+		
+		
+	}
+	
+	private void createMenus() {
 		
 		menuBar_menubar = new JMenuBar();
 	
@@ -120,7 +139,25 @@ public class AdminPanel extends JFrame implements ActionListener{
 		menuBar_menubar.add(system_menu);
 
 		
-		this.setJMenuBar(menuBar_menubar);
+		setJMenuBar(menuBar_menubar);
+		
+	}
+	
+	
+	private void createComponents() {
+		
+		homePage = new HomePage();
+		
+		
+		
+		components.add(homePage);
+		
+	}
+	
+	
+	private void init() {
+		
+		setContentPane(components.get(currentComponent));
 		
 	}
 
