@@ -19,7 +19,7 @@ public class HomePage extends JPanel{
 				AdminPanel.W_FRAME - AdminPanel.INSETS.left - AdminPanel.INSETS.right,
 				AdminPanel.H_FRAME - AdminPanel.INSETS.bottom - AdminPanel.INSETS.top);
 		
-		backgroundImage.setIcon(new ImageIcon("src\\icons\\backgroundImage.jpg"));
+		backgroundImage.setIcon(new ImageIcon("src\\icons\\background_image.jpg"));
 		
 		add(backgroundImage);
 		
