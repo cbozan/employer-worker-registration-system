@@ -71,7 +71,7 @@ public class NewWorker extends JPanel implements ActionListener, FocusListener{
 	private JLabel name_label, surname_label, phoneNumber_label, image_label;
 	private JTextField name_text, surname_text, phoneNumber_text;
 	private JButton save_button;
-	private JPanel saveButtonBack_panel;
+	//private JPanel saveButtonBack_panel;
 	
 	
 	public NewWorker() {
@@ -139,9 +139,9 @@ public class NewWorker extends JPanel implements ActionListener, FocusListener{
 		save_button.setBounds(0, 0, BW, BH);
 		save_button.addActionListener(this);
 		save_button.setBounds(phoneNumber_text.getX() + ((TW - BW) / 2), phoneNumber_text.getY() + LH + 20, BW, BH);
+		save_button.setFocusPainted(false);
 		
 		//save_button.setContentAreaFilled(false);
-		//save_button.setFocusPainted(false);
 		//save_button.setOpaque(false);
 		//save_button.setBorder(new LineBorder(Color.GREEN, 2));
 		
