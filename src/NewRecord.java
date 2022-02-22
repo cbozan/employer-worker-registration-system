@@ -1,8 +1,11 @@
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,11 +13,13 @@ import java.awt.event.FocusEvent;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -142,7 +147,7 @@ public class NewRecord extends JPanel implements FocusListener, CaretListener, A
 		add(selected_scroll);
 		
 		selectionBox_label = new JLabel("Worker List");
-		selectionBox_label.setBounds(LBX + (LBW - 50) / 2, LBY - SBH, LBW, 50);
+		selectionBox_label.setBounds(LBX + (LBW - 50) / 2, LBY - SBH - 50, LBW, 50);
 		add(selectionBox_label);
 		
 		selectedBox_label = new JLabel("Selected List");
@@ -167,7 +172,7 @@ public class NewRecord extends JPanel implements FocusListener, CaretListener, A
 		employer_comboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				selectionEmployer_label.setText((String)employer_comboBox.getSelectedItem());
+				selectedEmployer_label.setText((String)employer_comboBox.getSelectedItem());
 			}
 		});
 		add(employer_comboBox);
@@ -192,7 +197,7 @@ public class NewRecord extends JPanel implements FocusListener, CaretListener, A
 		dateBox_text.addCaretListener(new CaretListener() {
 			@Override
 			public void caretUpdate(CaretEvent e) {
-				selectionDate_label.setText(dateBox_text.getText());
+				selectedDate_label.setText(dateBox_text.getText());
 			}
 		});
 		add(dateBox_text);
@@ -227,7 +232,7 @@ public class NewRecord extends JPanel implements FocusListener, CaretListener, A
 		add(note_label);
 		
 		note_textArea = new JTextArea();
-		note_textArea.setBounds(dateBox_label.getX(), dateBox_label.getY() + 80, LBW, 24);
+		note_textArea.setBounds(note_label.getX(), note_label.getY() + note_label.getHeight(), LBS, 60);
 		add(note_textArea);
 		
 		add_button = new JButton("Add");
@@ -264,11 +269,91 @@ public class NewRecord extends JPanel implements FocusListener, CaretListener, A
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// button function codes
+				boolean date_bool = false;
+				
+				try {
+					new SimpleDateFormat("yyyy-MM-dd").parse(dateBox_text.getText());
+				} catch (ParseException e1) {
+					
+				}
+				
+				if(selected_model.getSize() > 0 && employer_comboBox.getSelectedItem() != null) {
+					
+					JTextArea employer_text_t, worker_text_t, date_text_t, count_text_t, note_text_t;
+					String worker_s = "";
+					for(int i = 0; i < selected_model.getSize(); i++) {
+						worker_s += (i + 1) + " - " + selected_model.getElementAt(i) + "\n";
+					}
+					
+					employer_text_t = new JTextArea((String)employer_comboBox.getSelectedItem());
+					employer_text_t.setEditable(false);
+					
+					worker_text_t = new JTextArea(worker_s);
+					worker_text_t.setEditable(false);
+					
+					date_text_t = new JTextArea(dateBox_text.getText());
+					date_text_t.setEditable(false);
+					
+					count_text_t = new JTextArea(selected_model.getSize() + " Workers");
+					count_text_t.setEditable(false);
+					
+					note_text_t = new JTextArea(note_textArea.getText());
+					note_text_t.setEditable(false);
+					
+					JScrollPane worker_j = new JScrollPane(worker_text_t) {
+						
+						@Override
+						public Dimension getPreferredSize() {
+							return new Dimension(300, 200);
+						}
+						
+					};
+					
+					JScrollPane note_j = new JScrollPane(note_text_t) {
+						@Override
+						public Dimension getPreferredSize() {
+							return new Dimension(300, 100);
+						}
+					};
+					
+					
+					if(date_bool) {
+						
+						Object[] pane = {
+								new JLabel("Employer"),
+								employer_text_t,
+								new JLabel("Workers"),
+								worker_j,
+								new JLabel("Date"),
+								date_text_t,
+								new JLabel("Selected workers"),
+								count_text_t,
+								new JLabel("Note"),
+								note_j
+						};
+						
+						int result = JOptionPane.showOptionDialog(NewRecord.this, pane, "DOCUMENT", 1, 1, 
+								new ImageIcon("src\\icons\\accounting_icon_1_32.png"), new Object[] {"SAVE", "CANCEL"}, "CANCEL");
+						
+						if(result == 0) {
+							
+							// save to database
+							
+						}
+						
+					} else {
+						
+						JOptionPane.showMessageDialog(NewRecord.this, "Please check the date field", "DATE", JOptionPane.ERROR_MESSAGE);
+						
+					}
+					
+				} else {
+					JOptionPane.showMessageDialog(NewRecord.this, "Please fill in the blanks", "NULL", JOptionPane.ERROR_MESSAGE);
+				}
 				
 			}
 		});
-		
+		add(save_button);
 		
 		
 		
@@ -277,13 +362,33 @@ public class NewRecord extends JPanel implements FocusListener, CaretListener, A
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		if(e.getSource() == add_button && selectionBox_list.getSelectedValue() != null) {
+			
+			String text = (String) selectionBox_list.getSelectedValue();
+			selection_model.removeElement(text);
+			selected_model.addElement(text);
+			selectionSearchBox_text.setText("");
+			add_button.setBackground(Color.gray);
+			add_button.setEnabled(false);
+			
+		} else if(e.getSource() == remove_button && selectedBox_list.getSelectedValue() != null) {
+			
+			String text = (String) selectedBox_list.getSelectedValue();
+			selected_model.removeElement(text);
+			selection_model.addElement(text);
+			selectedSearchBox_text.setText("");
+			remove_button.setBackground(Color.gray);
+			remove_button.setEnabled(false);
+			
+		}
+		
+		countText_label.setText(countText + selected_model.getSize());
 		
 	}
 
 	@Override
 	public void caretUpdate(CaretEvent e) {
-		// TODO Auto-generated method stub
+		//
 		
 	}
 
