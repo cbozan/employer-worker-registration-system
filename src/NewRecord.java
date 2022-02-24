@@ -27,9 +27,11 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.text.PlainDocument;
 
-public class NewRecord extends JPanel implements FocusListener, CaretListener, ActionListener{
+public class NewRecord extends JPanel implements CaretListener, ActionListener, ListSelectionListener{
 
 	/**
 	 * 
@@ -112,31 +114,36 @@ public class NewRecord extends JPanel implements FocusListener, CaretListener, A
 		setLayout(null);
 		
 		selection_model = new DefaultListModel<>();//pull database
-		selection_model.addElement("selection-1");
-		selection_model.addElement("selection-2");
-		selection_model.addElement("selection-3");
-		selection_model.addElement("selection-4");
-		selection_model.addElement("selection-5");
+		
+		
+		selection_model.addElement("JAMES");
+		selection_model.addElement("MARY");
+		selection_model.addElement("ROBERT");
+		selection_model.addElement("PATRICIA");
+		selection_model.addElement("JENNIFER");
+		selection_model.addElement("JOHN");
 		
 		employer_model = new DefaultComboBoxModel<>(); // pull from database
-		employer_model.addElement("selection-1");
-		employer_model.addElement("selection-2");
-		employer_model.addElement("selection-3");
-		employer_model.addElement("selection-4");
-		employer_model.addElement("selection-5");
+		employer_model.addElement("JAMES");
+		employer_model.addElement("MARY");
+		employer_model.addElement("ROBERT");
+		employer_model.addElement("PATRICIA");
+		employer_model.addElement("JENNIFER");
+		employer_model.addElement("JOHN");
 		
 		selected_model = new DefaultListModel<String>();
+		
 		
 		
 		selectionBox_list = new JList<String>(selection_model);
 		selectionBox_list.setFixedCellHeight(24);
 		selectionBox_list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		selectionBox_list.addFocusListener(this);
+		selectionBox_list.addListSelectionListener(this);
 		
 		selectedBox_list = new JList<String>(selected_model);
 		selectedBox_list.setFixedCellHeight(24);
 		selectedBox_list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		selectedBox_list.addFocusListener(this);
+		selectedBox_list.addListSelectionListener(this);
 		
 		selection_scroll = new JScrollPane(selectionBox_list);
 		selection_scroll.setBounds(LBX, LBY, LBW, LBH);
@@ -273,6 +280,7 @@ public class NewRecord extends JPanel implements FocusListener, CaretListener, A
 				
 				try {
 					new SimpleDateFormat("yyyy-MM-dd").parse(dateBox_text.getText());
+					date_bool = true;
 				} catch (ParseException e1) {
 					
 				}
@@ -359,6 +367,41 @@ public class NewRecord extends JPanel implements FocusListener, CaretListener, A
 		
 		
 	}
+	
+	
+	public DefaultListModel<String> searchBoxSort(JTextField t){
+		
+		DefaultListModel<String> model = null, newModel = new DefaultListModel<String>();
+		String text;
+		
+		if(t == selectionSearchBox_text)
+			model = selection_model;
+		else if(t == selectedSearchBox_text)
+			model = selected_model;
+		
+		if(!t.getText().equals("")) {
+			
+			if(model != null) {
+				
+				text = t.getText().toUpperCase();
+				
+				for(int i = 0; i < model.getSize(); i++) {
+					
+					if( ((String)model.get(i)).contains(text)) {
+						newModel.addElement(model.get(i));
+					}
+					
+				}
+				
+			}
+			
+		} else {
+			newModel = model;
+		}
+		
+		return newModel;
+		
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -388,19 +431,38 @@ public class NewRecord extends JPanel implements FocusListener, CaretListener, A
 
 	@Override
 	public void caretUpdate(CaretEvent e) {
-		//
+		
+		if(e.getSource() == selectionSearchBox_text) {
+			selectionBox_list.setModel(searchBoxSort(selectionSearchBox_text));
+		} else if(e.getSource() == selectedSearchBox_text) {
+			selectedBox_list.setModel(searchBoxSort(selectedSearchBox_text));
+		}
 		
 	}
 
-	@Override
-	public void focusGained(FocusEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
-	public void focusLost(FocusEvent e) {
-		// TODO Auto-generated method stub
+	public void valueChanged(ListSelectionEvent e) {
+		
+		if(e.getSource() == selectionBox_list && selectionBox_list.getSelectedValue() != null){//selectionBox_list.getModel().getSize() != 0) {
+			
+			remove_button.setBackground(Color.gray);
+			remove_button.setEnabled(false);
+			add_button.setBackground(Color.green);
+			add_button.setEnabled(true);
+			selectedBox_list.clearSelection();
+			selectedSearchBox_text.setText("");
+			
+		} else if(e.getSource() == selectedBox_list && selectedBox_list.getSelectedValue() != null){ //&& selectedBox_list.getModel().getSize() != 0) {
+			
+			add_button.setBackground(Color.gray);
+			add_button.setEnabled(false);
+			remove_button.setBackground(Color.red);
+			remove_button.setEnabled(true);
+			selectionBox_list.clearSelection();
+			selectionSearchBox_text.setText("");
+			
+		}
 		
 	}
 	
