@@ -44,7 +44,7 @@ public class AdminPanel extends JFrame implements ActionListener{
 	private JMenuItem settings_item, reset_item, logout_item;
 	private HomePage homePage;
 	private ArrayList<JPanel> components = new ArrayList<>();
-	private int currentComponent = 2;
+	private int currentComponent = 3;
 
 	
 	public AdminPanel() {
@@ -151,7 +151,8 @@ public class AdminPanel extends JFrame implements ActionListener{
 		
 		components.add(homePage);
 		components.add(new NewWorker());
-		components.add(new NewRecord());		
+		components.add(new NewRecord());
+		components.add(new NewEmployer());
 		
 	}
 	
