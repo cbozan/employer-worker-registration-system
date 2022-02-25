@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -5,11 +6,15 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
 
+import javax.management.remote.SubjectDelegationPermission;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 
 public class NewEmployer extends JPanel implements FocusListener, ActionListener{
 
@@ -136,27 +141,73 @@ public class NewEmployer extends JPanel implements FocusListener, ActionListener
 		textArray.add(phoneNumber_text);
 		add(phoneNumber_text);
 		
-	}
-	
-	
-	
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		save_button = new JButton("KAYDET");
+		save_button.setBounds(phoneNumber_text.getX() + ((TW - BW) / 2), phoneNumber_text.getY() + LH + 20, BW, BH);
+		//save_button.setContentAreaFilled(false);
+		save_button.setFocusPainted(false);
+		save_button.addActionListener(this);
+		add(save_button);
 		
 	}
-
+	
+	
 	@Override
 	public void focusGained(FocusEvent e) {
-		// TODO Auto-generated method stub
+		((JTextField)e.getSource()).setBorder(new LineBorder(Color.green));
 		
 	}
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		// TODO Auto-generated method stub
+		if((e.getSource() == name_text || e.getSource() == surname_text)
+				&& ((JTextField)e.getSource()).getText().replaceAll("\\s+", "").equals("")) {
+			
+			((JTextField)e.getSource()).setBorder(new LineBorder(Color.red));
+			
+		} else {
+			((JTextField)e.getSource()).setBorder(new LineBorder(Color.white));
+		}
 		
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		boolean phoneNumberControl = true;
+		if(phoneNumber_text.getText().length() != 0) {
+			phoneNumberControl = (phoneNumber_text.getText().charAt(0) == '0' && phoneNumber_text.getText().length() == 11)
+					|| (phoneNumber_text.getText().charAt(0) != '0' && phoneNumber_text.getText().length() == 10);
+		
+		}
+		
+		if(!name_text.getText().replaceAll("\\s+", "").equals("") && !surname_text.getText().replaceAll("\\s+", "").equals("") && phoneNumberControl) {
+			
+			String text = "\n  Name :\t" + name_text.getText().toUpperCase() + "\n\n" + "  Surname : \t" + surname_text.getText().toUpperCase() + 
+					"\n\n" + "  Business : \t" + business_text.getText().toUpperCase() + "\n\n" + "  Phone number : \t" + phoneNumber_text.getText().toUpperCase() + "\n";
+			Object[] pane = {
+					new JLabel("Will be saved as"),
+					new JTextArea(text) {
+						public boolean isEditable() {
+							return false;
+						};
+					}
+				
+			};
+			
+			int result = JOptionPane.showOptionDialog(this, pane, "DOCUMENT", 1, 1, 
+					new ImageIcon("src\\icons\\accounting_icon_1_32.png"), new Object[] {"SAVE", "CANCEL"}, "CANCEL");
+			
+			// System.out.println(result);
+			// 0 -> SAVE
+			// 1 -> CANCEL
+					
+			if(result == 0) {
+				
+				// Database processes
+			}
+		}
+		
+	}
+
+	
 
 }
