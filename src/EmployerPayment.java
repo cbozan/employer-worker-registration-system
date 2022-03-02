@@ -12,6 +12,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -23,15 +24,21 @@ import javax.swing.event.CaretListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
-public class ViewEmployer extends JPanel{
+public class EmployerPayment extends JPanel{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	
 	JButton newSearch_button, search_button;
 	JTextField searchBox_text;
 	JPanel searchBottom_panel;
 	JLabel searchBoxInfoMessage_label, searchBoxTitle_label;
-	private /*final*/ String[][] employers;// DataBase
+	private /*final*/ String[][] employers = {{"1", "EMPLOYER-1", "300", "02.03.2022"}, {"1", "EMPLOYER-2", "8300", "07.03.2022"}, {"3", "EMPLOYER-3", "500", "02.02.2022"},{"1", "EMPLOYER-4", "300", "18.11.2022"}, {"5", "EMPLOYER-5", "2348", "22.06.2022"}};//DataBase.getEmployerData(employerId);;// DataBase
 	
-	public ViewEmployer() {
+	public EmployerPayment() {
 		setLayout(null);
 		
 		newSearch_button = new JButton("New search");
@@ -117,19 +124,83 @@ public class ViewEmployer extends JPanel{
 	
 	void viewGUI(String employer) {
 		
-this.removeAll();
 		
-		JTable t_isTable;
-		String [] columnNames = {"ID", "Employer","Date", "Number of worker", "paid"};
-		String [][] rowData = {{"r1c1", "r1c2", "sdf","r1c3","r1c4"},{"r2c1", "r2c2", "r2c3","r2c4"},{"r3c1", "r3c2", "r3c3","r3c4"},
-								{"r4c1", "r4c2", "r4c3","r4c4"}, {"r5c1", "r5c2", "r5c3","r5c4"}, {"r6c1", "r6c2", "r6c3","r1c6n"},
-								{"r4c1", "r4c2", "r4c3","r4c4"}, {"r5c1", "r5c2", "r5c3","r5c4"}, {"r6c1", "r6c2", "r6c3","r1c6n"},
-								{"r4c1", "r4c2", "r4c3","r4c4"}, {"r5c1", "r5c2", "r5c3","r5c4"}, {"r6c1", "r6c2", "r6c3","r1c6n"}};
-		t_isTable = new JTable(rowData, columnNames) {
+		this.removeAll();
+		this.setBackground(Color.white);
+		this.add(newSearch_button);
+		/*
+		JLabel employer_label = new JLabel(employer);
+		employer_label.setFont(new Font(Font.SERIF, Font.BOLD, 21));
+		employer_label.setForeground(new Color(61, 35, 82));
+		employer_label.setHorizontalAlignment(SwingConstants.RIGHT);
+		employer_label.setBounds(0, 60, 440, 28);
+		this.add(employer_label);
+		*/
+		JLabel title_label = new JLabel("Payment form for " + employer);
+		title_label.setFont(new Font(Font.SERIF, Font.BOLD + Font.ITALIC, 21));
+		title_label.setBounds(0, 60, this.getWidth(), 28);
+		title_label.setHorizontalAlignment(SwingConstants.CENTER);
+		title_label.setForeground(new Color(152, 30, 58));
+		//System.out.println(title_label.getPreferredSize());
+		this.add(title_label);
+		
+		JTextField amount_text = new JTextField();
+		amount_text.setBounds(180, 270, 130, 26);
+		amount_text.setHorizontalAlignment(SwingConstants.CENTER);
+		amount_text.setBorder(new LineBorder(new Color(0, 160, 0), 1));
+		this.add(amount_text);
+		
+		JLabel amountTitle_label = new JLabel("amount of payment");
+		amountTitle_label.setBounds(180, 240, 130, 30);
+		amountTitle_label.setForeground(new Color(0, 160, 0));
+		amountTitle_label.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		amountTitle_label.setHorizontalAlignment(SwingConstants.CENTER);
+		amountTitle_label.setVerticalAlignment(SwingConstants.CENTER);
+		this.add(amountTitle_label);
+		
+		JTextField amount2_text = new JTextField();
+		amount2_text.setBounds(341, 270, 65, 26);
+		amount2_text.setHorizontalAlignment(SwingConstants.CENTER);
+		amount2_text.setBorder(new LineBorder(new Color(20, 20, 220), 1));
+		amount2_text.addCaretListener(new CaretListener() {
 			@Override
-			public boolean isCellEditable(int row, int col) {
-				return false;
+			public void caretUpdate(CaretEvent e) {
+				String text = amount2_text.getText();
+				if(!text.equals("")) {
+					
+					try {
+						int numberOfDays = Integer.parseInt(text);
+						int wage = 100;//Integer.parseInt(getSettingsWage());
+						amount_text.setText("" + (wage * numberOfDays));
+					} catch (NumberFormatException nfe) {
+						amount_text.setText("a lot of money");
+					}
+					
+				} else {
+					amount_text.setText("" + 0);
+				}
 			}
+		});
+		this.add(amount2_text);
+		
+		JLabel amountTitle2_label = new JLabel("Wage");
+		amountTitle2_label.setBounds(341, 240, 65, 30);
+		amountTitle2_label.setForeground(new Color(20, 20, 220));
+		amountTitle2_label.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		amountTitle2_label.setHorizontalAlignment(SwingConstants.CENTER);
+		amountTitle2_label.setVerticalAlignment(SwingConstants.CENTER);
+		this.add(amountTitle2_label);
+		
+		String [][] tableData_2array = {{"1", "EMPLOYER-1", "300", "02.03.2022"}, {"1", "EMPLOYER-2", "8300", "07.03.2022"}, {"3", "EMPLOYER-3", "500", "02.02.2022"},{"1", "EMPLOYER-4", "300", "18.11.2022"}, {"5", "EMPLOYER-5", "2348", "22.06.2022"}};//DataBase.getEmployerData(employerId);
+		String [] titleTable_array = {"ID", "Employer", "Amount", "Date"};
+		
+		/*
+		for(int i = 0; i < tableData.length; i++) {
+			tableData[i][1] = getEmployer(tableData[i][1], 2);
+		}
+		*/
+		
+		JTable bottom_table = new JTable(tableData_2array, titleTable_array) {
 			
 			DefaultTableCellRenderer render = new DefaultTableCellRenderer();
 			{
@@ -139,30 +210,66 @@ this.removeAll();
 				
 				return render;
 			}
+			
+			public boolean isCellEditable(int row, int col) {
+				return false;
+			}
+			
 		};
+		bottom_table.setRowHeight(24);
 		
-		t_isTable.getColumnModel().getColumn(0).setPreferredWidth(5);
-		t_isTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-		t_isTable.getColumnModel().getColumn(2).setPreferredWidth(50);
-		t_isTable.getColumnModel().getColumn(3).setPreferredWidth(5);
-		t_isTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+		bottom_table.getColumnModel().getColumn(0).setPreferredWidth(5);
+		bottom_table.getColumnModel().getColumn(1).setPreferredWidth(80);
+		bottom_table.getColumnModel().getColumn(2).setPreferredWidth(22);
+		bottom_table.getColumnModel().getColumn(3).setPreferredWidth(40);
+		bottom_table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		
+		JScrollPane bottomTable_scroll = new JScrollPane(bottom_table);
+		bottomTable_scroll.setBounds(500, 200, 400, 210);
+		bottomTable_scroll.getViewport().setBackground(Color.white);
 		
+		this.add(bottomTable_scroll);
 		
-		t_isTable.setRowHeight(25);
-		
-		JScrollPane js_isTable = new JScrollPane(t_isTable);
-		js_isTable.setBounds(175, 30, 600, 200);
-		
-		
-		
-		this.add(js_isTable);
-		
+		JButton getPaid_button = new JButton("Get paid");
+		getPaid_button.setBounds(150, 380, 286, 30);
+		getPaid_button.setFocusPainted(false);
+		getPaid_button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(!amount_text.getText().equals("") && !amount_text.getText().equals("0")) {
+					boolean state = true;
+					int amount;
+					try {
+						
+						amount = Integer.parseInt(amount_text.getText());
+						
+						String employerId = "1";//DataBase.getEmployerData(employer, "")[0][0];
+						
+						if( true ) { //DataBase.getPaid(employerID, ""+amount) ) {
+							JOptionPane.showMessageDialog(null, "PAYMENT SUCCESSFUL", "PAYMENT RESULT", JOptionPane.INFORMATION_MESSAGE);
+
+							viewGUI(employer); // rebuild
+							
+							
+						}
+						
+						
+					} catch(NumberFormatException nfe) {
+						JOptionPane.showMessageDialog(null, "Enter only the number values \nin the amount field.", "ERROR", JOptionPane.ERROR_MESSAGE);;
+					}
+					
+				}
+				
+			}
+		});
+		this.add(getPaid_button);
 		
 		revalidate();
 		repaint();
 		
 	}
+	
+	
 	
 	protected void searchResultsGUI(String searchText) {
 		
@@ -170,7 +277,7 @@ this.removeAll();
 		this.add(newSearch_button);
 		
 		DefaultListModel<String> searchResultsListModel = new DefaultListModel<String>();
-		for(int i = 0; i < employers.length; i++) {
+		for(int i = 0; i < (employers == null ? 0 : employers.length); i++) {
 			searchResultsListModel.addElement(employers[i][1]);
 		}
 		
@@ -234,7 +341,7 @@ this.removeAll();
 			
 		}
 		
-		searchBottom_panel.setSize(482, (position > 10 ? 10 : position) * 29);
+		searchBottom_panel.setSize(502, (position > 10 ? 10 : position) * 29);
 		searchBottom_panel.setVisible(true);
 		
 		//IsciOdeme.this.revalidate();

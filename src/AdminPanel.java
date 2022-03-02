@@ -155,7 +155,8 @@ public class AdminPanel extends JFrame implements ActionListener{
 		components.add(new NewEmployer());
 		components.add(new ViewRecord());
 		components.add(new ViewWorker());
-		components.add(new ViewEmployer());
+		
+		components.add(new EmployerPayment());
 		
 	}
 	
