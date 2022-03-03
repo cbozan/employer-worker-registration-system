@@ -40,7 +40,7 @@ public class AdminPanel extends JFrame implements ActionListener{
 	private JMenuBar menuBar_menubar;
 	private JMenu homePage_menu, record_menu, view_menu, bill_menu, system_menu;
 	private JMenuItem addEmployer_item, addWorker_item, addRecord_item, viewRecord_item;
-	private JMenuItem viewEmployer_item, viewWorker_item, billEmployer_item, billWorker_item;
+	private JMenuItem viewWorker_item, billEmployer_item, billWorker_item;
 	private JMenuItem settings_item, reset_item, logout_item;
 	private HomePage homePage;
 	private ArrayList<JPanel> components = new ArrayList<>();
@@ -107,9 +107,6 @@ public class AdminPanel extends JFrame implements ActionListener{
 		view_menu.add(viewWorker_item);
 		viewWorker_item.addActionListener(this);
 		
-		viewEmployer_item = new JMenuItem("View employer");
-		view_menu.add(viewEmployer_item);
-		viewEmployer_item.addActionListener(this);
 		
 		billWorker_item = new JMenuItem("Worker payment");
 		bill_menu.add(billWorker_item);
@@ -155,7 +152,7 @@ public class AdminPanel extends JFrame implements ActionListener{
 		components.add(new NewEmployer());
 		components.add(new ViewRecord());
 		components.add(new ViewWorker());
-		
+		components.add(new WorkerPayment());
 		components.add(new EmployerPayment());
 		
 	}

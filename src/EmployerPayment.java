@@ -255,7 +255,7 @@ public class EmployerPayment extends JPanel{
 						
 						
 					} catch(NumberFormatException nfe) {
-						JOptionPane.showMessageDialog(null, "Enter only the number values \nin the amount field.", "ERROR", JOptionPane.ERROR_MESSAGE);;
+						JOptionPane.showMessageDialog(null, "Enter only the number values \nin the amount field.", "ERROR", JOptionPane.ERROR_MESSAGE);
 					}
 					
 				}

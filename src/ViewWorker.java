@@ -34,17 +34,17 @@ public class ViewWorker extends JPanel implements MouseListener{
 	/**
 	 * x position of the search box
 	 */
-	private final int SBX = 210;
+	private final int SBX = 250;
 	
 	/**
 	 * y position of the search box
 	 */
-	private final int SBY = 100;
+	private final int SBY = 150;
 	
 	/**
 	 * width of the search box
 	 */
-	private final int SBW = 500;
+	private final int SBW = 420;
 	
 	/**
 	 * height of the search box
@@ -64,7 +64,7 @@ public class ViewWorker extends JPanel implements MouseListener{
 	private JPanel searchBottom_panel;
 	private JScrollPane searchPressed_scroll;
 	private JTextField searchBox_text;
-	private JLabel resultSearch_label;
+	private JLabel resultSearch_label, searchBoxTitle_label;
 	private JButton search_button, back_button, choose_button;
 	private DefaultListModel<String> worker_model = new DefaultListModel<String>();
 	private String[][] firstRecordData_2array, filterData_2array;
@@ -94,6 +94,14 @@ public class ViewWorker extends JPanel implements MouseListener{
 			}
 		});
 		add(searchBox_text);
+		
+		
+		searchBoxTitle_label = new JLabel("SEARCH WORKER");
+		searchBoxTitle_label.setBounds(searchBox_text.getX(), searchBox_text.getY() - 50, searchBox_text.getWidth(), 24);
+		searchBoxTitle_label.setFont(new Font("Tahoma", Font.BOLD + Font.ITALIC, 18));
+		searchBoxTitle_label.setForeground(new Color(38, 38, 38));
+		searchBoxTitle_label.setHorizontalAlignment(SwingConstants.CENTER);
+		this.add(searchBoxTitle_label);
 		
 		searchBottom_panel = new JPanel();
 		add(searchBottom_panel);
@@ -274,7 +282,7 @@ public class ViewWorker extends JPanel implements MouseListener{
 		filterData_2array = firstRecordData_2array;
 		
 		JScrollPane table_scroll = new JScrollPane(createTable(firstRecordData_2array, column_array));
-		table_scroll.setBounds(SBX + 200, 10, 500, 400);
+		table_scroll.setBounds(SBX + 170, 10, 500, 400);
 		ViewWorker.this.add(table_scroll);
 		
 		JLabel filter_label = new JLabel("Filter");
