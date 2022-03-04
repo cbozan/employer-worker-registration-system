@@ -396,6 +396,11 @@ public class EmployerPayment extends JPanel{
 				
 		return comp;
 	}
-	
 
+	@Override
+	public String toString() {
+		return "Employer Payment";
+	}
+	
+	
 }

@@ -1,7 +1,13 @@
+import java.awt.EventQueue;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -9,6 +15,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 
 public class AdminPanel extends JFrame implements ActionListener{
@@ -18,6 +26,7 @@ public class AdminPanel extends JFrame implements ActionListener{
 	 */
 	private static final long serialVersionUID = 1L;
 
+	public static final String NAME = "Registration System";
 	/**
 	 * AdminPanel window width
 	 */
@@ -44,8 +53,7 @@ public class AdminPanel extends JFrame implements ActionListener{
 	private JMenuItem settings_item, reset_item, logout_item;
 	private HomePage homePage;
 	private ArrayList<JPanel> components = new ArrayList<>();
-	private int currentComponent = 6;
-
+	private int currentComponent = 0;
 	
 	public AdminPanel() {
 		
@@ -81,6 +89,15 @@ public class AdminPanel extends JFrame implements ActionListener{
 	
 		
 		homePage_menu = new JMenu("Home page");
+		homePage_menu.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				currentComponent = 0;
+				init();
+				
+			}
+		});
+
 		record_menu = new JMenu("Record");
 		view_menu = new JMenu("View");
 		bill_menu = new JMenu("Bill");
@@ -143,10 +160,7 @@ public class AdminPanel extends JFrame implements ActionListener{
 	
 	private void createComponents() {
 		
-		homePage = new HomePage();
-		
-		
-		components.add(homePage);
+		components.add(new HomePage());
 		components.add(new NewWorker());
 		components.add(new NewRecord());
 		components.add(new NewEmployer());
@@ -161,13 +175,112 @@ public class AdminPanel extends JFrame implements ActionListener{
 	private void init() {
 		
 		setContentPane(components.get(currentComponent));
+		this.setTitle(NAME + " - " + components.get(currentComponent).toString());
+		this.revalidate();
+		this.repaint();
 		
 	}
 
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		
+		if( ((JMenuItem)e.getSource()).getText().equals(addWorker_item.getText())) {
+			
+			if(currentComponent == 1) {
+				components.set(currentComponent, new NewWorker());
+			} else {
+				currentComponent = 1;
+			}
+			
+			init();
+			
+		} else if( ((JMenuItem)e.getSource()).getText().equals(addRecord_item.getText())) {
+			
+			if(currentComponent == 2) {
+				components.set(currentComponent, new NewRecord());
+			} else {
+				currentComponent = 2;
+			}
+			
+			init();
+			
+		} else if( ((JMenuItem)e.getSource()).getText().equals(addEmployer_item.getText())) {
+			
+			if(currentComponent == 3) {
+				components.set(currentComponent, new NewEmployer());
+			} else {
+				currentComponent = 3;
+			}
+			
+			init();
+			
+		} else if( ((JMenuItem)e.getSource()).getText().equals(viewRecord_item.getText())) {
+
+			if(currentComponent == 4) {
+				components.set(currentComponent, new ViewRecord());
+			} else {
+				currentComponent = 4;
+			}
+			
+			init();
+			
+		} else if( ((JMenuItem)e.getSource()).getText().equals(viewWorker_item.getText())) {
+
+			if(currentComponent == 5) {
+				components.set(currentComponent, new ViewWorker());
+			} else {
+				currentComponent = 5;
+			}
+			
+			init();
+			
+		} else if( ((JMenuItem)e.getSource()).getText().equals(billWorker_item.getText())) {
+
+			if(currentComponent == 6) {
+				components.set(currentComponent, new WorkerPayment());
+			} else {
+				currentComponent = 6;
+			}
+			
+			init();
+			
+		} else if( ((JMenuItem)e.getSource()).getText().equals(billEmployer_item.getText())) {
+
+			if(currentComponent == 7) {
+				components.set(currentComponent, new EmployerPayment());
+			} else {
+				currentComponent = 7;
+			}
+			
+			init();
+			
+		} else if( ((JMenuItem)e.getSource()).getText().equals(settings_item.getText())) {
+			
+			// Settings pane .. . 
+			
+		} else if( ((JMenuItem)e.getSource()).getText().equals(reset_item.getText())) {
+			
+			EventQueue.invokeLater(new Runnable() {
+				
+				@Override
+				public void run() {
+					AdminPanel.this.dispose();
+					try {
+						Thread.sleep(350);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					new AdminPanel();
+				}
+			});
+		} else if( ((JMenuItem)e.getSource()).getText().equals(logout_item.getText())) {
+			
+			this.dispose();
+			
+		} 
+		
 		
 	}
 	

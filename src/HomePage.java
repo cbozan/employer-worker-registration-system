@@ -28,4 +28,12 @@ public class HomePage extends JPanel{
 		
 	}
 
+	@Override
+	public String toString() {
+		return "Home Page";
+	}
+	
+	
+	
+
 }

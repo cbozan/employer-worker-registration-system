@@ -292,6 +292,11 @@ public class ViewRecord extends JPanel{
 			{"1", "col0", "col1", "col2", "col3", "col4"}, 
 			{"1", "col0", "col1", "col2", "col3", "col4"}}; // DataBase.get(...);
 	}
-	
+
+	@Override
+	public String toString() {
+		return "View Record";
+	}
+
 	
 }

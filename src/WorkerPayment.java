@@ -88,8 +88,8 @@ public class WorkerPayment extends JPanel{
 		this.add(searchBox_text);
 		
 		search_button = new JButton("Search");
-		search_button.setBounds(searchBox_text.getX() + searchBox_text.getWidth() + 1, searchBox_text.getY(), 60, 30);
-		//b_searchButton.setFocusPainted(false);
+		search_button.setBounds(searchBox_text.getX() + searchBox_text.getWidth() + 1, searchBox_text.getY(), 80, 30);
+		//search_button.setFocusPainted(false);
 		search_button.setBackground(new Color(214, 214, 214));
 		search_button.setFocusPainted(false);
 		search_button.addActionListener(new ActionListener() {
@@ -145,11 +145,11 @@ public class WorkerPayment extends JPanel{
 			
 		}
 		
-		bottom_panel.setSize(482, (position > 10 ? 10 : position) * 29);
+		bottom_panel.setSize(502, (position > 10 ? 10 : position) * 29);
 		bottom_panel.setVisible(true);
 		
-		WorkerPayment.this.revalidate();
-		WorkerPayment.this.repaint();	
+		this.revalidate();
+		this.repaint();	
 	}
 	
 	
@@ -160,7 +160,7 @@ public class WorkerPayment extends JPanel{
 		if(string.equals("")) {
 			
 			JButton button = new JButton("Choose");
-			button.setBounds(421, position * 29, 60, 28);
+			button.setBounds(421, position * 29, 80, 28);
 			button.setName(string + position);
 			button.setFocusPainted(false);
 			button.setBackground(new Color(214, 214, 214));
@@ -168,7 +168,7 @@ public class WorkerPayment extends JPanel{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					int compIndex = Integer.parseInt(((JButton)e.getSource()).getName());
-					odemeGUI( ((JTextField)bottom_panel.getComponent(compIndex * 2)).getText() );
+					paymentGUI( ((JTextField)bottom_panel.getComponent(compIndex * 2)).getText() );
 				}
 			});
 			
@@ -190,7 +190,7 @@ public class WorkerPayment extends JPanel{
 					tf.setBackground(Color.WHITE);
 				}
 				public void mouseClicked(MouseEvent e) {
-					odemeGUI( ((JTextField)e.getSource()).getText() );
+					paymentGUI( ((JTextField)e.getSource()).getText() );
 				}
 			});
 			
@@ -230,7 +230,7 @@ public class WorkerPayment extends JPanel{
 			@Override 
 			public void mouseClicked(MouseEvent evt) {
 				if( evt.getClickCount() == 2) {
-					odemeGUI( (String) ((JList)evt.getSource()).getSelectedValue());
+					paymentGUI( (String) ((JList)evt.getSource()).getSelectedValue());
 				}
 			}
 		});
@@ -242,7 +242,8 @@ public class WorkerPayment extends JPanel{
 		JLabel scroll_bottom_info = new JLabel("Double click on the person you want to select");
 		scroll_bottom_info.setBounds(searchResultsScroll.getX(), searchResultsScroll.getY() + 
 				searchResultsScroll.getHeight(), searchResultsScroll.getWidth(), 12);
-		scroll_bottom_info.setFont(new Font(Font.DIALOG, Font.ITALIC, 10));
+		scroll_bottom_info.setHorizontalAlignment(SwingConstants.CENTER);
+		scroll_bottom_info.setFont(new Font(Font.DIALOG, Font.ITALIC, 11));
 		scroll_bottom_info.setForeground(new Color(0, 180, 0));
 		this.add(scroll_bottom_info);
 		
@@ -253,23 +254,23 @@ public class WorkerPayment extends JPanel{
 	}
 	
 	
-	protected void odemeGUI(String worker) {
+	protected void paymentGUI(String worker) {
 		
 		this.removeAll();
 		this.setBackground(Color.white);
 		this.add(newSearch_button);
 		
-		JLabel worker_label = new JLabel(worker);
-		worker_label.setFont(new Font(Font.SERIF, Font.BOLD, 21));
-		worker_label.setForeground(new Color(61, 35, 82));
-		worker_label.setHorizontalAlignment(SwingConstants.RIGHT);
-		worker_label.setBounds(0, 60, 440, 28);
-		this.add(worker_label);
+		JLabel titleWorker_label = new JLabel(worker);
+		titleWorker_label.setFont(new Font(Font.SERIF, Font.BOLD, 21));
+		titleWorker_label.setBounds(AdminPanel.W_FRAME / 2 + 4, 60, AdminPanel.W_FRAME / 2 - 4, 28);
+		titleWorker_label.setHorizontalAlignment(SwingConstants.LEFT);
+		titleWorker_label.setForeground(Color.BLUE);
+		this.add(titleWorker_label);
 		
-		JLabel title_label = new JLabel("Payment form for ...");
+		JLabel title_label = new JLabel("Payment form for");
 		title_label.setFont(new Font(Font.SERIF, Font.BOLD + Font.ITALIC, 21));
-		title_label.setBounds(445, 60, 200, 28);
-		title_label.setHorizontalAlignment(SwingConstants.LEFT);
+		title_label.setBounds(0, 60, AdminPanel.W_FRAME / 2 - 4, 28);
+		title_label.setHorizontalAlignment(SwingConstants.RIGHT);
 		title_label.setForeground(new Color(152, 30, 58));
 		this.add(title_label);
 		
@@ -323,9 +324,9 @@ public class WorkerPayment extends JPanel{
 				if(!text.equals("")) {
 					
 					try {
-						int gun = Integer.parseInt(text);
-						int yevmiye = Integer.parseInt(/*AdminPanel.SETTINGS[0]*/"100") - Integer.parseInt("10"/*AdminPanel.SETTINGS[1]*/);
-						amount_text.setText("" + (yevmiye * gun));
+						int numberOfDays = Integer.parseInt(text);
+						int wage = Integer.parseInt(/*AdminPanel.SETTINGS[0]*/"100") - Integer.parseInt("10"/*AdminPanel.SETTINGS[1]*/);
+						amount_text.setText("" + (wage * numberOfDays));
 					} catch (NumberFormatException nfe) {
 						amount_text.setText("a lot of money");
 					}
@@ -403,7 +404,7 @@ public class WorkerPayment extends JPanel{
 						if( true) {//DataBase.payment(workerId, employerId, ""+amount) ) {
 							JOptionPane.showMessageDialog(WorkerPayment.this, "PAYMENT SUCCESSFUL", "PAYMENT RESULT", JOptionPane.INFORMATION_MESSAGE);
 
-							odemeGUI(worker);
+							paymentGUI(worker);
 							
 							
 						}
@@ -422,5 +423,11 @@ public class WorkerPayment extends JPanel{
 		repaint();
 		
 	}
+
+	@Override
+	public String toString() {
+		return "Worker Payment";
+	}
+	
 	
 }

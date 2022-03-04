@@ -208,6 +208,11 @@ public class NewEmployer extends JPanel implements FocusListener, ActionListener
 		
 	}
 
+
+	@Override
+	public String toString() {
+		return "New Employer";
+	}
 	
 
 }

@@ -200,4 +200,11 @@ public class NewWorker extends JPanel implements ActionListener, FocusListener{
 		// TODO Auto-generated method stub
 		
 	}
+
+
+	@Override
+	public String toString() {
+		return "New Worker";
+	}
+	
 }

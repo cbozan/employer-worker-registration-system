@@ -64,7 +64,7 @@ public class ViewWorker extends JPanel implements MouseListener{
 	private JPanel searchBottom_panel;
 	private JScrollPane searchPressed_scroll;
 	private JTextField searchBox_text;
-	private JLabel resultSearch_label, searchBoxTitle_label;
+	private JLabel resultSearch_label, searchBoxTitle_label, searchBoxInfoMessage_label;
 	private JButton search_button, back_button, choose_button;
 	private DefaultListModel<String> worker_model = new DefaultListModel<String>();
 	private String[][] firstRecordData_2array, filterData_2array;
@@ -95,6 +95,12 @@ public class ViewWorker extends JPanel implements MouseListener{
 		});
 		add(searchBox_text);
 		
+		searchBoxInfoMessage_label = new JLabel("If to view all workers, leave the field blank and press the Search button.");
+		searchBoxInfoMessage_label.setFont(new Font(Font.DIALOG, Font.ITALIC, 9));
+		searchBoxInfoMessage_label.setForeground(new Color(0, 190, 0));
+		searchBoxInfoMessage_label.setBounds(searchBox_text.getX(), searchBox_text.getY() + searchBox_text.getHeight(), searchBox_text.getWidth(), 10);
+		searchBoxInfoMessage_label.setHorizontalAlignment(SwingConstants.CENTER);
+		this.add(searchBoxInfoMessage_label);
 		
 		searchBoxTitle_label = new JLabel("SEARCH WORKER");
 		searchBoxTitle_label.setBounds(searchBox_text.getX(), searchBox_text.getY() - 50, searchBox_text.getWidth(), 24);
@@ -263,7 +269,7 @@ public class ViewWorker extends JPanel implements MouseListener{
 		
 		if(tCount > 0) {
 			tCount = (tCount < 5 ? tCount : 5);
-			searchBottom_panel.setBounds(SBX, SBY + SBH + 1, SBW + search_button.getWidth(), tCount * SBH + tCount);
+			searchBottom_panel.setBounds(SBX, SBY + SBH + 11, SBW + search_button.getWidth(), tCount * SBH + tCount);
 			searchBottom_panel.setBackground(Color.WHITE);
 		}
 //		
@@ -476,5 +482,12 @@ public JTable createTable(String[][] data, String[] columnData) {
 		   @Override
 		   public void setSelectionInterval(final int index0, final int index1) { }
 	}
+
+	@Override
+	public String toString() {
+		return "View Worker";
+	}
+	
+	
 
 }

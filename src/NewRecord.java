@@ -465,5 +465,15 @@ public class NewRecord extends JPanel implements CaretListener, ActionListener, 
 		}
 		
 	}
+
+
+	@Override
+	public String toString() {
+		return "New Record";
+	}
+	
+	
+	
+	
 	
 }
