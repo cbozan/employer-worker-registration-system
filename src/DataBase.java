@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -135,10 +136,131 @@ public class DataBase {
 		
 		return state;
 	}
+
+	
+	
+	
+
+	/**
+	 * 
+	 * @param employer_id
+	 * @param date
+	 * @param worker_array
+	 * @param note
+	 * @return
+	 */
+	public static int addRecord(String employer_id, String date, String[] worker_array, String note) {
+		
+		Connection conn = DataBase.getConnect();
+		PreparedStatement pst = null;
+		int state = 0;
+		
+		try {
+			pst = conn.prepareStatement("");
+			pst = conn.prepareStatement("INSERT INTO employer_record (employer_id, date, note, number_worker, wage) "
+					+ "VALUES (?, ?, ?, ?, ?)");
+			
+			pst.setInt(1, Integer.parseInt(employer_id));
+			pst.setString(2, date);
+			pst.setString(3, note);
+			pst.setShort(4, (short) worker_array.length);
+			pst.setShort(5, (short)AdminPanel.WAGE);
+			
+			if(pst.executeUpdate() > 0) {
+				state = 1;
+			} 
+			
+			
+			if(state == 1) {
+				
+				pst = conn.prepareStatement("INSERT INTO worker_record (worker_id, employer_id, date, wage) VALUES (?, ?, ?, ?)");
+				for(int i = 0; i < worker_array.length; i++) {
+					
+					pst.setInt(1, Integer.parseInt(worker_array[0]));
+					pst.setInt(2, Integer.parseInt(employer_id));
+					pst.setString(3, date);
+					pst.setShort(4, AdminPanel.WAGE);
+					
+					if(pst.executeUpdate() <= 0) {
+						pst.close();
+						conn.close();
+						return i;
+					}
+					
+				}
+				
+			}
+			
+			pst.close();
+			conn.close();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return state;
+	}
+	
+	/**
+	 * 
+	 * @param tableName 
+	 * 		the name of the table whose data you want 
+	 * 		to import, for example 'worker' or 'employer'
+	 * 
+	 * @return arrayList<String[column Size]>
+	 */
+	public static ArrayList<String[]> getData(String tableName) {
+		
+		return DataBase.getData(tableName, null);
+		
+	}
+	
+public static ArrayList<String[]> getData(String tableName, String condition) {
+		
+		ArrayList<String[]> arrayList = new ArrayList<String[]>();
+		String[] arrayString;
+		
+		Connection conn = DataBase.getConnect();
+		Statement st = null;
+		ResultSet rs = null;
+	
+		if(condition != null && tableName.equals("worker"));
+		else {
+			condition = "";
+		}
+		
+		try {
+			st = conn.createStatement();
+			rs = st.executeQuery("SELECT * FROM " + tableName + " " + condition);
+			
+			int columnSize = rs.getMetaData().getColumnCount();
+			int i;
+			while(rs.next()) {
+				arrayString = new String[columnSize];
+				for(i = 1; i < columnSize + 1; i++) {
+					arrayString[i - 1] = rs.getString(i);
+				}
+				arrayList.add(arrayString);
+			}
+			
+			rs.close();
+			st.close();
+			conn.close();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return arrayList;
+		
+	}
 	
 	public static void main(String[] args) {
 		
-		// MAIN METHOD FOR TESTING
+		DataBase.getData("employer");
 
 	}
 

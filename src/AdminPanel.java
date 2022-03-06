@@ -25,6 +25,8 @@ public class AdminPanel extends JFrame implements ActionListener{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	public static final short WAGE = 100;
 
 	public static final String NAME = "Registration System";
 	/**
@@ -53,9 +55,13 @@ public class AdminPanel extends JFrame implements ActionListener{
 	private JMenuItem settings_item, reset_item, logout_item;
 	private HomePage homePage;
 	private ArrayList<JPanel> components = new ArrayList<>();
-	private int currentComponent = 0;
+	private int currentComponent;
 	
 	public AdminPanel() {
+		this(0);
+	}
+	
+	public AdminPanel(int component) {
 		
 		super("Registration System");
 		setIconImage(Toolkit.getDefaultToolkit().getImage("src\\icons\\admin_user.png"));
@@ -66,6 +72,8 @@ public class AdminPanel extends JFrame implements ActionListener{
 		setLocation(getX() - 40, getY() - 20);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
+		
+		this.currentComponent = component;
 		
 		INSETS = getInsets();
 		

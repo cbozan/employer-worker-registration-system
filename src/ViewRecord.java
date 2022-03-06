@@ -26,7 +26,9 @@ import java.awt.font.TextAttribute;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 public class ViewRecord extends JPanel{
 
@@ -73,7 +75,6 @@ public class ViewRecord extends JPanel{
 	private JComboBox<String> employer_comboBox;
 	private int tableSelectedRow = -1;
 	
-	private String employerName_s = null, employerSurname_s = null, recordId_s = null;
 	
 	
 	public ViewRecord() {
@@ -101,7 +102,7 @@ public class ViewRecord extends JPanel{
 		note_area.setEditable(false);
 		add(note_area);
 		
-		data_2array = getData();
+		data_2array = getData("employer_record", "all");
 		
 		record_scroll = new JScrollPane(createTable(data_2array, column_array));
 		record_scroll.setBounds(TX, TY, TW, TH);
@@ -121,16 +122,17 @@ public class ViewRecord extends JPanel{
 						
 						tableSelectedRow = ((JTable)record_scroll.getViewport().getComponent(0)).getSelectedRow();
 						
-						employerName_s = (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 1);
-						employerSurname_s = (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 2);
-						recordId_s = (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 0);
+						String record_id = (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 1);
+						String employer_id = (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 2);
+						String date = (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 0);
+						String note = (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 3);
+						String numberOfWorkers = (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 4);
+						String wage = (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 5);
 						
-						String numberOfWorkers = (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 3);
-						String date = (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 4);
-						String note = (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 5);
 						
-						
-						detailRecord_scroll.getViewport().add(createTable(/*DataBase.get(...*/getData(), detailColumn_array));
+						detailRecord_scroll.getViewport().removeAll();
+						detailRecord_scroll.getViewport().add(createTable(getData("worker_record", 
+								employer_id + "," + date + "," + numberOfWorkers), detailColumn_array));
 
 						note_area.setText(note);
 						
@@ -292,10 +294,33 @@ public class ViewRecord extends JPanel{
 		
 	}
 	
-	private String[][] getData(){
-		return new String[][] {{"1", "col0", "col1", "col2", "col3", "col4"}, 
-			{"1", "col0", "col1", "col2", "col3", "col4"}, 
-			{"1", "col0", "col1", "col2", "col3", "col4"}}; // DataBase.get(...);
+	public String[][] getData(String tableName, String operation){
+		ArrayList<String[]> temp;
+	
+		if(operation.equals("all")) {
+			temp = DataBase.getData(tableName);
+			
+		} else {
+			
+			StringTokenizer st = new StringTokenizer(operation, ",");
+			
+			operation = "WHERE";
+			operation += " employer_id=" + st.nextToken();
+			operation += " AND date=" + st.nextToken();
+			operation += " AND number_worker=" + st.nextToken();
+			
+			temp = DataBase.getData(tableName, operation);
+			
+		}
+		
+		String[][] data = new String[temp.size()][temp.get(0).length];
+		for(int i = 0; i < data.length; i++) {
+			for(int j = 0; j < data[i].length; j++) {
+				data[i][j] = temp.get(i)[j];
+			}
+		}
+		
+		return data;
 	}
 
 	@Override

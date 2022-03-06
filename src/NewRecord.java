@@ -109,6 +109,9 @@ public class NewRecord extends JPanel implements CaretListener, ActionListener, 
 	private JLabel dateBox_label, todayCheckBox_label, selectionEmployer_label, selectedEmployer_label;
 	private JLabel selectionDate_label, selectedDate_label, note_label, noteRemainderCharacter_label;
 	
+	private ArrayList<String[]> workerData_arrayList;
+	private ArrayList<String[]> employerData_arrayList;
+	
 	private JTextArea note_textArea;
 	private String logNote;
 	private JCheckBox today_checkBox;
@@ -120,23 +123,19 @@ public class NewRecord extends JPanel implements CaretListener, ActionListener, 
 		
 		setLayout(null);
 		
-		data_model = new DefaultListModel<>(); // get database
-		data_model.addElement("JAMES");
-		data_model.addElement("MARY");
-		data_model.addElement("ROBERT");
-		data_model.addElement("PATRICIA");
-		data_model.addElement("JENNIFER");
-		data_model.addElement("JOHN");
+		workerData_arrayList = DataBase.getData("worker");
+		
+		employerData_arrayList = DataBase.getData("employer");
+		
+		data_model = new DefaultListModel<>();
+		for(int i = 0; i < workerData_arrayList.size(); i++)
+			data_model.addElement(workerData_arrayList.get(i)[1] + " " + workerData_arrayList.get(i)[2]);
 		
 		selection_model = data_model;
 		
-		employer_model = new DefaultComboBoxModel<>(); // get database
-		employer_model.addElement("JAMES");
-		employer_model.addElement("MARY");
-		employer_model.addElement("ROBERT");
-		employer_model.addElement("PATRICIA");
-		employer_model.addElement("JENNIFER");
-		employer_model.addElement("JOHN");
+		employer_model = new DefaultComboBoxModel<>();
+		for(int i = 0; i < employerData_arrayList.size(); i++)
+			employer_model.addElement(employerData_arrayList.get(i)[1] + " " + employerData_arrayList.get(i)[2]);
 		
 		selected_model = new DefaultListModel<String>();
 		
@@ -373,8 +372,27 @@ public class NewRecord extends JPanel implements CaretListener, ActionListener, 
 						
 						if(result == 0) {
 							
-							//DataBase.addRecord(employer_text_t.getText(), date_text_t.getText(), selected_model.toArray(), note_text_t.getText());
-							clearPanel();
+							String worker_array[] = new String[selected_model.getSize()];
+							for(int i = worker_array.length - 1; i >= 0; i--) {
+								worker_array[i] = getPersonId(workerData_arrayList, selected_model.remove(i));
+							}
+							
+							int state = DataBase.addRecord(getPersonId(employerData_arrayList, employer_text_t.getText()), 
+									date_text_t.getText(), worker_array, note_text_t.getText());
+							
+							if( state == 1) {
+								
+								JOptionPane.showMessageDialog(NewRecord.this, "SAVED", "SUCCESSFUL", JOptionPane.INFORMATION_MESSAGE);
+								clearPanel();
+								
+							} else {
+								
+								JOptionPane.showMessageDialog(NewRecord.this, ( "NOT SAVED" + (state == 0 ? "" : ("only " + state + " added")) + "\nUnsaved, in selected box" ), "DATABASE ERROR", JOptionPane.ERROR_MESSAGE);
+								
+								for(int i = selected_model.getSize() - 1; (i > state -1); i--)
+									selection_model.addElement(selected_model.remove(i));
+							}
+							
 							
 						}
 						
@@ -492,6 +510,19 @@ public class NewRecord extends JPanel implements CaretListener, ActionListener, 
 			selectionSearchBox_text.setText("");
 			
 		}
+		
+	}
+	
+	
+	private String getPersonId(ArrayList<String[]> arrayList, String nameSurname) {
+		
+		for(String[] person : arrayList) {
+			if(nameSurname.equalsIgnoreCase(person[1] + " " + person[2])){
+				return person[0];
+			}
+		}
+		
+		return null;
 		
 	}
 
