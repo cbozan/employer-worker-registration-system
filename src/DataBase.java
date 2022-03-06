@@ -62,26 +62,30 @@ public class DataBase {
 		
 	}
 	
+	/**
+	 * 
+	 * @param name
+	 * @param surname
+	 * @param phoneNumber
+	 * @return added: true, not added: false
+	 */
 	
 	public static boolean addWorker(String name, String surname, String phoneNumber) {
 		
 		Connection conn = DataBase.getConnect();
 		Statement st = null;
+		boolean state = false;
 		
 		try {
 			st = conn.createStatement();
 			if(st.executeUpdate("INSERT INTO worker(name, surname, phonenumber) VALUES "
-					+ "('"+name+"','"+surname+"','"+phoneNumber+"')") == 0) {
-				
-				st.close();
-				conn.close();
-				return false;
-			} 
+					+ "('"+name+"','"+surname+"','"+phoneNumber+"')") > 0) {
+				state = true;
+			}
 			
 			st.close();
 			conn.close();
 			
-			return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -90,15 +94,26 @@ public class DataBase {
 		
 		
 		
-		return false;
+		return state;
 		
 	}
 	
+	
+	/**
+	 * 
+	 * @param name
+	 * @param surname
+	 * @param business
+	 * @param phoneNumber
+	 * @return added: true, not added: false
+	 */
 	
 	public static boolean addEmployer(String name, String surname, String business, String phoneNumber) {
 		
 		Connection conn = DataBase.getConnect();
 		PreparedStatement pst = null;
+		boolean state = false;
+		
 		try {
 			pst = conn.prepareStatement("INSERT INTO employer (name, surname, business, phonenumber) VALUES (?, ?, ?, ?)");
 			pst.setString(1, name);
@@ -106,21 +121,19 @@ public class DataBase {
 			pst.setString(3, business);
 			pst.setString(4, phoneNumber);
 			
-			if(pst.executeUpdate() == 0) {
-				pst.close();
-				conn.close();
-				return false;
+			if(pst.executeUpdate() > 0) {
+				state = true;
 			}
 			
 			pst.close();
 			conn.close();
-			return true;
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return false;
+		return state;
 	}
 	
 	public static void main(String[] args) {

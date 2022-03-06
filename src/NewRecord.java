@@ -7,6 +7,7 @@ import java.awt.event.KeyListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -143,6 +144,7 @@ public class NewRecord extends JPanel implements CaretListener, ActionListener, 
 		selectionBox_list.setFixedCellHeight(24);
 		selectionBox_list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		selectionBox_list.addListSelectionListener(this);
+		
 		
 		selectedBox_list = new JList<String>(selected_model);
 		selectedBox_list.setFixedCellHeight(24);
@@ -371,7 +373,8 @@ public class NewRecord extends JPanel implements CaretListener, ActionListener, 
 						
 						if(result == 0) {
 							
-							// save to database
+							//DataBase.addRecord(employer_text_t.getText(), date_text_t.getText(), selected_model.toArray(), note_text_t.getText());
+							clearPanel();
 							
 						}
 						
@@ -492,6 +495,15 @@ public class NewRecord extends JPanel implements CaretListener, ActionListener, 
 		
 	}
 
+	
+	private void clearPanel() {
+		
+		// clear listboxs
+		for(int i = selected_model.getSize() - 1; i >= 0; i--)
+			selection_model.addElement(selected_model.remove(i));
+		
+		
+	}
 
 	@Override
 	public String toString() {

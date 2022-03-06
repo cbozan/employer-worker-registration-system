@@ -173,8 +173,6 @@ public class NewWorker extends JPanel implements ActionListener, FocusListener{
 				color = Color.red;
 			else
 				color = Color.white;
-				
-			((JTextField) e.getSource()).setBorder(new LineBorder(color));
 			
 		} else {
 			if(e.getSource() == phoneNumber_text) {
@@ -186,11 +184,9 @@ public class NewWorker extends JPanel implements ActionListener, FocusListener{
 					color = Color.red;
 				}
 			} 
-			
-			((JTextField) e.getSource()).setBorder(new LineBorder(color));
-			
-			
 		}
+			
+		((JTextField) e.getSource()).setBorder(new LineBorder(color));
 		
 	}
 
@@ -262,7 +258,7 @@ public class NewWorker extends JPanel implements ActionListener, FocusListener{
 	}
 
 
-	public boolean phoneNumberControl(String phoneNumber) {
+	private boolean phoneNumberControl(String phoneNumber) {
 		
 		if(phoneNumber.equals("")) {
 			return true;
@@ -279,7 +275,7 @@ public class NewWorker extends JPanel implements ActionListener, FocusListener{
 	}
 	
 	
-	public void clearPanel() {
+	private void clearPanel() {
 		
 		name_text.setText("");
 		surname_text.setText("");

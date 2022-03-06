@@ -109,6 +109,13 @@ public class NewEmployer extends JPanel implements FocusListener, ActionListener
 		name_text.setBounds(name_label.getX() + LW + LHS, name_label.getY(), TW, TH);
 		name_text.addFocusListener(this);
 		textArray.add(name_text);
+		name_text.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(save_button != null) {
+					surname_text.requestFocus();
+				}
+			}
+		});
 		add(name_text);
 		
 		surname_label = new JLabel("Surname");
@@ -119,6 +126,13 @@ public class NewEmployer extends JPanel implements FocusListener, ActionListener
 		surname_text.setBounds(surname_label.getX() + LW + LHS, surname_label.getY(), TW, TH);
 		surname_text.addFocusListener(this);
 		textArray.add(surname_text);
+		surname_text.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(save_button != null) {
+					business_text.requestFocus();
+				}
+			}
+		});
 		add(surname_text);
 		
 		business_label = new JLabel("Business");
@@ -129,6 +143,13 @@ public class NewEmployer extends JPanel implements FocusListener, ActionListener
 		business_text.setBounds(business_label.getX() + LW + LHS, business_label.getY(), TW, TH);
 		business_text.addFocusListener(this);
 		textArray.add(business_text);
+		surname_text.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(save_button != null) {
+					phoneNumber_text.requestFocus();
+				}
+			}
+		});
 		add(business_text);
 		
 		phoneNumber_label = new JLabel("Phone Number");
@@ -163,33 +184,43 @@ public class NewEmployer extends JPanel implements FocusListener, ActionListener
 	
 	@Override
 	public void focusGained(FocusEvent e) {
-		((JTextField)e.getSource()).setBorder(new LineBorder(Color.green));
+		((JTextField)e.getSource()).setBorder(new LineBorder(Color.blue));
 		
 	}
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		if((e.getSource() == name_text || e.getSource() == surname_text)
-				&& ((JTextField)e.getSource()).getText().replaceAll("\\s+", "").equals("")) {
+		Color color = Color.green;
+		if( ((JTextField) e.getSource()).getText().replaceAll("\\s+", "").equals("")) {
 			
-			((JTextField)e.getSource()).setBorder(new LineBorder(Color.red));
+			color = Color.red;	
 			
 		} else {
-			((JTextField)e.getSource()).setBorder(new LineBorder(Color.white));
+			if(e.getSource() == phoneNumber_text) {
+				if( phoneNumberControl(phoneNumber_text.getText())) {
+					color = Color.white;
+				} else {
+					color = Color.red;
+				}
+			}
 		}
+			
+		((JTextField) e.getSource()).setBorder(new LineBorder(color));
 		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		boolean phoneNumberControl = false;
-		if(phoneNumber_text.getText().length() != 0) {
-			phoneNumberControl = (phoneNumber_text.getText().charAt(0) == '0' && phoneNumber_text.getText().length() == 11)
-					|| (phoneNumber_text.getText().charAt(0) != '0' && phoneNumber_text.getText().length() == 10);
-			phoneNumberControl = true;
-		}
 		
-		if(!name_text.getText().replaceAll("\\s+", "").equals("") && !surname_text.getText().replaceAll("\\s+", "").equals("") && phoneNumberControl) {
+		
+		if(		name_text.getText().replaceAll("\\s+", "").equals("") || 
+				surname_text.getText().replaceAll("\\s+", "").equals("") || 
+				business_text.getText().replaceAll("\\s+", "").equals("") ||
+				!phoneNumberControl(phoneNumber_text.getText()) ) {
+			
+			JOptionPane.showMessageDialog(this, "Please enter the information correctly\ncannot be empty", "ERROR", JOptionPane.ERROR_MESSAGE);
+			
+		} else {
 			
 			String text = "\n  Name :\t" + name_text.getText().toUpperCase() + "\n\n" + "  Surname : \t" + surname_text.getText().toUpperCase() + 
 					"\n\n" + "  Business : \t" + business_text.getText().toUpperCase() + "\n\n" + "  Phone number :   " + phoneNumber_text.getText().toUpperCase() + "\n";
@@ -216,15 +247,46 @@ public class NewEmployer extends JPanel implements FocusListener, ActionListener
 						business_text.getText().toUpperCase(), phoneNumber_text.getText().toUpperCase())) {
 					
 					JOptionPane.showMessageDialog(this, "SAVED");
+					clearPanel();
 					
 				} else {
 					
 					JOptionPane.showMessageDialog(this, "NOT SAVED", "DATABASE ERROR", JOptionPane.ERROR_MESSAGE);
 				
 				}
-				
 			}
+			
 		}
+	}
+	
+	
+	private boolean phoneNumberControl(String phoneNumber) {
+		
+		if(phoneNumber.equals("")) {
+			return false;
+		} else if( (phoneNumber.charAt(0) == '0' && phoneNumber.length() == 11) 
+				|| (phoneNumber.charAt(0) != '0' && phoneNumber.length() == 10) 
+				|| (phoneNumber.charAt(0) == '+' && phoneNumber.length() == 13)) {
+			
+			return true;
+			
+		}
+		
+		return false;
+		
+	}
+	
+	private void clearPanel() {
+		
+		name_text.setText("");
+		surname_text.setText("");
+		business_text.setText("");
+		phoneNumber_text.setText("");
+		
+		name_text.setBorder(new LineBorder(Color.white));
+		surname_text.setBorder(new LineBorder(Color.white));
+		business_text.setBorder(new LineBorder(Color.white));
+		phoneNumber_text.setBorder(new LineBorder(Color.white));
 		
 	}
 
