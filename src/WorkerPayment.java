@@ -39,8 +39,8 @@ public class WorkerPayment extends JPanel{
 		
 		setLayout(null);
 		
-		workerData_2array = new String[][]{{"sd", "WORKER-1"}, {"sdfsdf", "WORKER-2"}};
-		employerData_2array = new String[][]{{"sd", "EMPLOYER-1"}, {"sdfsdf", "EMPLOYER-2"}};
+		workerData_2array = new String[][]{{"1", "WORKER-1"}, {"2", "WORKER-2"}, {"3", "WORKER-3"}, {"4", "WORKER-4"}, {"5", "WORKER-5"}, {"6", "WORKER-6"}};
+		employerData_2array = new String[][]{{"1", "EMPLOYER-1"}, {"2", "EMPLOYER-2"}, {"3", "EMPLOYER-3"}, {"4", "EMPLOYER-4"}, {"5", "EMPLOYER-5"}, {"6", "EMPLOYER-6"}};
 		
 		newSearch_button = new JButton("New search");
 		newSearch_button.setFocusPainted(false);
@@ -101,7 +101,7 @@ public class WorkerPayment extends JPanel{
 		
 		this.add(search_button);
 		
-		searchBoxInfoMessage_label = new JLabel("If to view all employers, leave the field blank and press the Search button.");
+		searchBoxInfoMessage_label = new JLabel("If to view all workers, leave the field blank and press the Search button.");
 		searchBoxInfoMessage_label.setFont(new Font(Font.DIALOG, Font.ITALIC, 9));
 		searchBoxInfoMessage_label.setForeground(new Color(0, 190, 0));
 		searchBoxInfoMessage_label.setBounds(searchBox_text.getX(), searchBox_text.getY() + searchBox_text.getHeight(), searchBox_text.getWidth(), 10);
@@ -354,7 +354,7 @@ public class WorkerPayment extends JPanel{
 				{"3", "Worker-3", "Employer-3", "230", "03.03.2022"}, 
 				{"2", "Worker-2", "Employer-2", "302", "03.03.2022"},
 				{"4", "Worker-4", "Employer-4", "50", "03.03.2022"},}; //DataBase.getWorkerPaymentData(id, "");
-		String [] titleTable = {"ID", "İşçi", "İşveren", "Miktar (₺)", "Tarih"};
+		String [] titleTable = {"ID", "Worker", "Employer", "Amount", "Date"};
 		
 		
 		JTable bottomTable = new JTable(tableData, titleTable) { 

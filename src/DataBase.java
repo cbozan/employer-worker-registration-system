@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -59,6 +60,67 @@ public class DataBase {
 		
 		return -1;
 		
+	}
+	
+	
+	public static boolean addWorker(String name, String surname, String phoneNumber) {
+		
+		Connection conn = DataBase.getConnect();
+		Statement st = null;
+		
+		try {
+			st = conn.createStatement();
+			if(st.executeUpdate("INSERT INTO worker(name, surname, phonenumber) VALUES "
+					+ "('"+name+"','"+surname+"','"+phoneNumber+"')") == 0) {
+				
+				st.close();
+				conn.close();
+				return false;
+			} 
+			
+			st.close();
+			conn.close();
+			
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		return false;
+		
+	}
+	
+	
+	public static boolean addEmployer(String name, String surname, String business, String phoneNumber) {
+		
+		Connection conn = DataBase.getConnect();
+		PreparedStatement pst = null;
+		try {
+			pst = conn.prepareStatement("INSERT INTO employer (name, surname, business, phonenumber) VALUES (?, ?, ?, ?)");
+			pst.setString(1, name);
+			pst.setString(2, surname);
+			pst.setString(3, business);
+			pst.setString(4, phoneNumber);
+			
+			if(pst.executeUpdate() == 0) {
+				pst.close();
+				conn.close();
+				return false;
+			}
+			
+			pst.close();
+			conn.close();
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 	
 	public static void main(String[] args) {

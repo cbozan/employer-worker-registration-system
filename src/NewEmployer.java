@@ -138,6 +138,16 @@ public class NewEmployer extends JPanel implements FocusListener, ActionListener
 		phoneNumber_text = new JTextField();
 		phoneNumber_text.setBounds(phoneNumber_label.getX() + LW + LHS, phoneNumber_label.getY(), TW, TH);
 		phoneNumber_text.addFocusListener(this);
+		phoneNumber_text.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				if(save_button != null) {
+					save_button.doClick();
+				}
+				
+				
+			}
+		});
 		textArray.add(phoneNumber_text);
 		add(phoneNumber_text);
 		
@@ -172,17 +182,17 @@ public class NewEmployer extends JPanel implements FocusListener, ActionListener
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		boolean phoneNumberControl = true;
+		boolean phoneNumberControl = false;
 		if(phoneNumber_text.getText().length() != 0) {
 			phoneNumberControl = (phoneNumber_text.getText().charAt(0) == '0' && phoneNumber_text.getText().length() == 11)
 					|| (phoneNumber_text.getText().charAt(0) != '0' && phoneNumber_text.getText().length() == 10);
-		
+			phoneNumberControl = true;
 		}
 		
 		if(!name_text.getText().replaceAll("\\s+", "").equals("") && !surname_text.getText().replaceAll("\\s+", "").equals("") && phoneNumberControl) {
 			
 			String text = "\n  Name :\t" + name_text.getText().toUpperCase() + "\n\n" + "  Surname : \t" + surname_text.getText().toUpperCase() + 
-					"\n\n" + "  Business : \t" + business_text.getText().toUpperCase() + "\n\n" + "  Phone number : \t" + phoneNumber_text.getText().toUpperCase() + "\n";
+					"\n\n" + "  Business : \t" + business_text.getText().toUpperCase() + "\n\n" + "  Phone number :   " + phoneNumber_text.getText().toUpperCase() + "\n";
 			Object[] pane = {
 					new JLabel("Will be saved as"),
 					new JTextArea(text) {
@@ -202,7 +212,17 @@ public class NewEmployer extends JPanel implements FocusListener, ActionListener
 					
 			if(result == 0) {
 				
-				// Database processes
+				if(DataBase.addEmployer(name_text.getText().toUpperCase(), surname_text.getText().toUpperCase(), 
+						business_text.getText().toUpperCase(), phoneNumber_text.getText().toUpperCase())) {
+					
+					JOptionPane.showMessageDialog(this, "SAVED");
+					
+				} else {
+					
+					JOptionPane.showMessageDialog(this, "NOT SAVED", "DATABASE ERROR", JOptionPane.ERROR_MESSAGE);
+				
+				}
+				
 			}
 		}
 		

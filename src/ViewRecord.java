@@ -16,6 +16,7 @@ import javax.swing.table.TableCellRenderer;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.ComponentOrientation;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -128,9 +129,13 @@ public class ViewRecord extends JPanel{
 						String date = (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 4);
 						String note = (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 5);
 						
-						detailRecord_scroll.getViewport().add(createTable(/*DataBase.get(...*/null, detailColumn_array));
 						
+						detailRecord_scroll.getViewport().add(createTable(/*DataBase.get(...*/getData(), detailColumn_array));
+
 						note_area.setText(note);
+						
+						revalidate();
+						repaint();
 						
 					} else {
 						JOptionPane.showOptionDialog(null, "Already displayed", "CALM DOWN", 0, JOptionPane.WARNING_MESSAGE, 
@@ -156,7 +161,7 @@ public class ViewRecord extends JPanel{
 		chooseEmployer_label.setBounds(TX + TW/7, TY + TH + SPACE, TW / 4, 24);
 		add(chooseEmployer_label);
 		
-		employer_comboBox = new JComboBox<String>(/* DataBase.get(..)*/);
+		employer_comboBox = new JComboBox<String>(/* DataBase.get(..)*/new String[] {"EMPLOYER-1", "EMPLOYER-2", "EMPLOYER-3"});
 		employer_comboBox.setBounds(chooseEmployer_label.getX(), chooseEmployer_label.getY() + 
 				chooseEmployer_label.getHeight(), chooseEmployer_label.getWidth(), 24);
 		employer_comboBox.setSelectedItem(null);

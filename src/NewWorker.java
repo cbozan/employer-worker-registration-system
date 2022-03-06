@@ -7,6 +7,7 @@ import java.awt.event.FocusListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
@@ -177,10 +178,9 @@ public class NewWorker extends JPanel implements ActionListener, FocusListener{
 			
 		} else {
 			if(e.getSource() == phoneNumber_text) {
-				if( (phoneNumber_text.getText().charAt(0) == '0' && phoneNumber_text.getText().length() == 11) 
-					|| (phoneNumber_text.getText().charAt(0) != '0' && phoneNumber_text.getText().length() == 10) 
-					|| (phoneNumber_text.getText().charAt(0) == '+' && phoneNumber_text.getText().length() == 13)) {
+				if( phoneNumberControl(phoneNumber_text.getText())) {
 					
+					color = Color.white;
 					
 				} else {
 					color = Color.red;
@@ -197,9 +197,104 @@ public class NewWorker extends JPanel implements ActionListener, FocusListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		
+		if(name_text.getText().replaceAll("\\s+", "").equals("") 
+				|| surname_text.getText().replaceAll("\\s+", "").equals("") 
+				|| !phoneNumberControl(phoneNumber_text.getText())) {
+			
+			JOptionPane.showMessageDialog(this, "Please enter the information correctly", "ERROR", JOptionPane.ERROR_MESSAGE);
+			
+		} else {
+			
+			JLabel nameLabel, surnameLabel, phoneNumberLabel;
+			JTextField nameText, surnameText, phoneNumberText;
+			
+			nameLabel = new JLabel(name_label.getText());
+			
+			surnameLabel = new JLabel(surname_label.getText());
+			
+			phoneNumberLabel = new JLabel(phoneNumber_label.getText());
+			
+			nameText = new JTextField(name_text.getText().toUpperCase());
+			nameText.setSize(80, 24);
+			nameText.setEditable(false);
+			
+			surnameText = new JTextField(surname_text.getText().toUpperCase());
+			surnameText.setSize(80, 24);
+			surnameText.setEditable(false);
+			
+			phoneNumberText = new JTextField(phoneNumber_text.getText().toUpperCase());
+			phoneNumberText.setSize(80, 24);
+			phoneNumberText.setEditable(false);
+			
+			
+			Object [] approvalForm = new Object[] {
+					
+					nameLabel,
+					nameText,
+					surnameLabel,
+					surnameText,
+					phoneNumberLabel,
+					phoneNumberText
+					
+			};
+			
+			int result = JOptionPane.showOptionDialog(this, approvalForm, "Save Form", JOptionPane.OK_OPTION, -1, new ImageIcon("src//icons//accounting_icon_1_32.png"), new Object[] {"SAVE",  "CANCEL"}, "CANCEL");
+			System.out.print(result);
+			//SAVE = 0, CANCEL = 1
+			if(result == 0) {
+				
+				if( DataBase.addWorker(nameText.getText().toUpperCase(), surnameText.getText().toUpperCase(), 
+						phoneNumberText.getText().toUpperCase()) ) {
+					
+					JOptionPane.showMessageDialog(this, "SAVED");
+					clearPanel();
+					
+				} else {
+					
+					JOptionPane.showMessageDialog(this, "NOT SAVED", "DATABASE ERROR", JOptionPane.ERROR_MESSAGE);
+					
+				}
+				
+			}
+		}
 		
 	}
+
+
+	public boolean phoneNumberControl(String phoneNumber) {
+		
+		if(phoneNumber.equals("")) {
+			return true;
+		} else if( (phoneNumber.charAt(0) == '0' && phoneNumber.length() == 11) 
+				|| (phoneNumber.charAt(0) != '0' && phoneNumber.length() == 10) 
+				|| (phoneNumber.charAt(0) == '+' && phoneNumber.length() == 13)) {
+			
+			return true;
+			
+		}
+		
+		return false;
+		
+	}
+	
+	
+	public void clearPanel() {
+		
+		name_text.setText("");
+		surname_text.setText("");
+		phoneNumber_text.setText("");
+		
+		name_text.setBorder(new LineBorder(Color.white));
+		surname_text.setBorder(new LineBorder(Color.white));
+		phoneNumber_text.setBorder(new LineBorder(Color.white));
+		
+		
+	}
+	
+	
+	
+	
 
 
 	@Override

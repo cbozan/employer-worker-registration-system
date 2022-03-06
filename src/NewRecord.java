@@ -1,6 +1,9 @@
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -29,6 +32,8 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 
 public class NewRecord extends JPanel implements CaretListener, ActionListener, ListSelectionListener{
@@ -94,16 +99,17 @@ public class NewRecord extends JPanel implements CaretListener, ActionListener, 
 	private final String countText = "Selected : ";
 	
 	private JList<String> selectionBox_list, selectedBox_list;
-	private DefaultListModel<String> selection_model, selected_model;
+	private DefaultListModel<String> selection_model, selected_model, data_model;
 	private JTextField selectionSearchBox_text, selectedSearchBox_text, dateBox_text;
-	private JScrollPane selection_scroll, selected_scroll;
+	private JScrollPane selection_scroll, selected_scroll, note_scroll;
 	private JButton add_button, remove_button, save_button;
 	
 	private JLabel selectionBox_label, selectedBox_label, countText_label, employer_label;
 	private JLabel dateBox_label, todayCheckBox_label, selectionEmployer_label, selectedEmployer_label;
-	private JLabel selectionDate_label, selectedDate_label, note_label;
+	private JLabel selectionDate_label, selectedDate_label, note_label, noteRemainderCharacter_label;
 	
 	private JTextArea note_textArea;
+	private String logNote;
 	private JCheckBox today_checkBox;
 	private JComboBox<String> employer_comboBox;
 	private DefaultComboBoxModel<String> employer_model;
@@ -113,17 +119,17 @@ public class NewRecord extends JPanel implements CaretListener, ActionListener, 
 		
 		setLayout(null);
 		
-		selection_model = new DefaultListModel<>();//pull database
+		data_model = new DefaultListModel<>(); // get database
+		data_model.addElement("JAMES");
+		data_model.addElement("MARY");
+		data_model.addElement("ROBERT");
+		data_model.addElement("PATRICIA");
+		data_model.addElement("JENNIFER");
+		data_model.addElement("JOHN");
 		
+		selection_model = data_model;
 		
-		selection_model.addElement("JAMES");
-		selection_model.addElement("MARY");
-		selection_model.addElement("ROBERT");
-		selection_model.addElement("PATRICIA");
-		selection_model.addElement("JENNIFER");
-		selection_model.addElement("JOHN");
-		
-		employer_model = new DefaultComboBoxModel<>(); // pull from database
+		employer_model = new DefaultComboBoxModel<>(); // get database
 		employer_model.addElement("JAMES");
 		employer_model.addElement("MARY");
 		employer_model.addElement("ROBERT");
@@ -132,8 +138,6 @@ public class NewRecord extends JPanel implements CaretListener, ActionListener, 
 		employer_model.addElement("JOHN");
 		
 		selected_model = new DefaultListModel<String>();
-		
-		
 		
 		selectionBox_list = new JList<String>(selection_model);
 		selectionBox_list.setFixedCellHeight(24);
@@ -239,8 +243,30 @@ public class NewRecord extends JPanel implements CaretListener, ActionListener, 
 		add(note_label);
 		
 		note_textArea = new JTextArea();
-		note_textArea.setBounds(note_label.getX(), note_label.getY() + note_label.getHeight(), LBS, 60);
-		add(note_textArea);
+		note_textArea.setBounds(0, 0, LBS, 60);
+		note_textArea.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(note_textArea.getText().length() < 256) {
+					logNote = note_textArea.getText();
+					noteRemainderCharacter_label.setText("Limited to 255 characters (Remainder : " + (255 - logNote.length()) + " )");
+					noteRemainderCharacter_label.setForeground(new Color(0, 190, 0));
+				} else {
+					note_textArea.setText(logNote);
+					noteRemainderCharacter_label.setForeground(new Color(190, 0, 0));
+				}
+			}
+		});
+		
+		note_scroll = new JScrollPane(note_textArea);
+		note_scroll.setBounds(note_label.getX(), note_label.getY() + note_label.getHeight(), LBS, 60);
+		add(note_scroll);
+		
+		noteRemainderCharacter_label = new JLabel("Limited to 255 characters (Remainder : )");
+		noteRemainderCharacter_label.setFont(new Font(Font.DIALOG, Font.ITALIC, 9));
+		noteRemainderCharacter_label.setForeground(new Color(0, 190, 0));
+		noteRemainderCharacter_label.setBounds(note_scroll.getX(), note_scroll.getY() + note_scroll.getHeight(), LBW, 24);
+		add(noteRemainderCharacter_label);
 		
 		add_button = new JButton("Add");
 		add_button.setFocusPainted(false);
@@ -269,7 +295,7 @@ public class NewRecord extends JPanel implements CaretListener, ActionListener, 
 		add(selectedSearchBox_text);
 		
 		save_button = new JButton("SAVE");
-		save_button.setBounds(note_textArea.getX() + LBW + LBS, note_textArea.getY(), LBW, note_textArea.getHeight() - 10);
+		save_button.setBounds(note_scroll.getX() + LBW + LBS, note_scroll.getY(), LBW, note_scroll.getHeight() - 10);
 		save_button.setFocusPainted(false);
 		save_button.setBackground(Color.CYAN);
 		save_button.addActionListener(new ActionListener() {
