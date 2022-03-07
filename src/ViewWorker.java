@@ -69,12 +69,15 @@ public class ViewWorker extends JPanel implements MouseListener{
 	private DefaultListModel<String> worker_model = new DefaultListModel<String>();
 	private String[][] firstRecordData_2array, filterData_2array;
 	
+	private ArrayList<String[]> workerData_arrayList;
+	private ArrayList<String[]> employerData_arrayList;
+	
 	
 	public ViewWorker() {
 		
 		setLayout(null);
 		
-		//worker_model = DataBase.get();
+		//workerData_arrayList = DataBase.getData("worker");
 		worker_model.addElement("Worker_model_1");
 		worker_model.addElement("Worker_model_2");
 		worker_model.addElement("Worker_model_3");

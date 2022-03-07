@@ -225,10 +225,8 @@ public static ArrayList<String[]> getData(String tableName, String condition) {
 		Statement st = null;
 		ResultSet rs = null;
 	
-		if(condition != null && tableName.equals("worker"));
-		else {
+		if(condition == null)
 			condition = "";
-		}
 		
 		try {
 			st = conn.createStatement();
@@ -260,7 +258,6 @@ public static ArrayList<String[]> getData(String tableName, String condition) {
 	
 	public static void main(String[] args) {
 		
-		DataBase.getData("employer");
 
 	}
 

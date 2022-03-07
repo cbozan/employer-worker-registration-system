@@ -27,6 +27,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -62,9 +63,10 @@ public class ViewRecord extends JPanel{
 	 */
 	private final int SPACE = 80;
 	
-	private final String[] column_array = {"ID", "Name", "Surname", "Number of workers", "Date", "Note"};
+	private final String[] column_array = {"ID", "Employer ID", "Date", "Number of workers", "Note" , "wage"};
 	private final String[] detailColumn_array = {"ID", "Name", "Surname", "Date"};
 	private String[][] data_2array;
+	private String[][] employer_2array;
 	private JButton filter_button, detail_button, print_button;
 	private JCheckBox date_checkBox;
 	private JScrollPane record_scroll, detailRecord_scroll;
@@ -132,7 +134,7 @@ public class ViewRecord extends JPanel{
 						
 						detailRecord_scroll.getViewport().removeAll();
 						detailRecord_scroll.getViewport().add(createTable(getData("worker_record", 
-								employer_id + "," + date + "," + numberOfWorkers), detailColumn_array));
+								employer_id + ",'" + date + "'"), detailColumn_array));
 
 						note_area.setText(note);
 						
@@ -163,7 +165,9 @@ public class ViewRecord extends JPanel{
 		chooseEmployer_label.setBounds(TX + TW/7, TY + TH + SPACE, TW / 4, 24);
 		add(chooseEmployer_label);
 		
-		employer_comboBox = new JComboBox<String>(/* DataBase.get(..)*/new String[] {"EMPLOYER-1", "EMPLOYER-2", "EMPLOYER-3"});
+		
+		employer_2array = listConvertToArray(DataBase.getData("employer"));
+		employer_comboBox = new JComboBox<String>(listConvertToArray(DataBase.getData("employer"), 1, 2));
 		employer_comboBox.setBounds(chooseEmployer_label.getX(), chooseEmployer_label.getY() + 
 				chooseEmployer_label.getHeight(), chooseEmployer_label.getWidth(), 24);
 		employer_comboBox.setSelectedItem(null);
@@ -213,27 +217,60 @@ public class ViewRecord extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				
 				tableSelectedRow = -1;
-				boolean dateBool = false;
+				boolean dateBool = false, employerBool = false;
 				String chooseEmployer = (String)employer_comboBox.getSelectedItem();
-				String chooseDate = null;
+				int chooseEmployerId = -1;
+				String operation = "";
+				
+				if(chooseEmployer != null) {
+					for(int i = 0; i < employer_2array.length; i++) {
+						if(chooseEmployer.equals(employer_2array[i][1] + " " + employer_2array[i][2])) {
+							chooseEmployerId = Integer.parseInt(employer_2array[i][0]);
+							employerBool = true;
+							break;
+						}
+					}
+				}
+				String chooseDate = "";
 				
 				try {
 					if(!date_text.getText().equals("")) {
 						new SimpleDateFormat("yyyy-MM-dd").parse(date_text.getText());
 						chooseDate = date_text.getText();
 					}
-					dateBool = true;
+					if(!chooseDate.equals(""))
+						dateBool = true;
+						
 				} catch(ParseException e1) {
 					JOptionPane.showMessageDialog(ViewRecord.this, "incorrect date format", "Date", JOptionPane.ERROR_MESSAGE);
 				}
 				
 				if(dateBool) {
-					
-					//data_2array = DataBase.get(chooseEmployer, chooseDate);
-					record_scroll.getViewport().add(createTable(data_2array, column_array));
-					//((JTable)record_scroll.getViewport().getComponent(0)).getColumnModel().getColumn(5).setPreferredWidth(100);
-					//((JTable)record_scroll.getViewport().getComponent(0)).setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+					operation += "WHERE date='" + chooseDate + "'";
 				}
+				
+				if(employerBool) {
+					
+					if(operation.equals("")) {
+						operation += "WHERE employer_id=" + chooseEmployerId;
+					} else {
+						operation += " AND employer_id=" + chooseEmployerId;
+					}
+				}
+				
+				if(operation.equals("")) {
+					data_2array = new String[][] {};
+				} else {
+					data_2array = listConvertToArray(DataBase.getData("employer_record", operation));
+				}
+				
+				System.out.println(operation);
+				
+				record_scroll.getViewport().removeAll();
+				record_scroll.getViewport().add(createTable(data_2array, column_array));
+				
+				
+				
 				tableCount_label.setText(data_2array.length + " displaying");
 				employer_comboBox.setSelectedItem(null);
 				
@@ -305,22 +342,53 @@ public class ViewRecord extends JPanel{
 			StringTokenizer st = new StringTokenizer(operation, ",");
 			
 			operation = "WHERE";
-			operation += " employer_id=" + st.nextToken();
-			operation += " AND date=" + st.nextToken();
-			operation += " AND number_worker=" + st.nextToken();
+			operation += " date='" + st.nextToken()+"'";
+			operation += " AND employer_id=" + st.nextToken();
+			
 			
 			temp = DataBase.getData(tableName, operation);
 			
 		}
 		
-		String[][] data = new String[temp.size()][temp.get(0).length];
-		for(int i = 0; i < data.length; i++) {
-			for(int j = 0; j < data[i].length; j++) {
-				data[i][j] = temp.get(i)[j];
+		
+		return listConvertToArray(temp);
+	}
+	
+	
+	public String[][] listConvertToArray(ArrayList<String[]> temp){
+		String[][] data = new String[][] {};
+		if(temp.size() != 0) {
+			data = new String[temp.size()][temp.get(0).length];
+			for(int i = 0; i < data.length; i++) {
+				for(int j = 0; j < data[i].length; j++) {
+					data[i][j] = temp.get(i)[j];
+				}
 			}
 		}
-		
 		return data;
+		
+	}
+	
+	public String[] listConvertToArray(ArrayList<String[]> temp, int...column) {
+		
+		String[][] data = listConvertToArray(temp);
+		String[] array = new String[data.length];
+		
+		if(data[0].length < Arrays.stream(column).max().getAsInt()) {
+			return null;
+		}
+
+		for(int i = 0; i < data.length; i++) {
+			array[i] = "";
+			for(int j = 0; j < column.length; j++) {
+				array[i] += data[i][column[j]] + " ";
+			}
+			array[i] = array[i].substring(0, array[i].length() - 1);
+			
+		}
+		
+		return array;
+		
 	}
 
 	@Override
