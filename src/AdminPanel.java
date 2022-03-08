@@ -51,7 +51,7 @@ public class AdminPanel extends JFrame implements ActionListener{
 	private JMenuBar menuBar_menubar;
 	private JMenu homePage_menu, record_menu, view_menu, bill_menu, system_menu;
 	private JMenuItem addEmployer_item, addWorker_item, addRecord_item, viewRecord_item;
-	private JMenuItem viewWorker_item, billEmployer_item, billWorker_item;
+	private JMenuItem billEmployer_item, billWorker_item;
 	private JMenuItem settings_item, reset_item, logout_item;
 	private HomePage homePage;
 	private ArrayList<JPanel> components = new ArrayList<>();
@@ -128,10 +128,6 @@ public class AdminPanel extends JFrame implements ActionListener{
 		view_menu.add(viewRecord_item);
 		viewRecord_item.addActionListener(this);
 		
-		viewWorker_item = new JMenuItem("View worker");
-		view_menu.add(viewWorker_item);
-		viewWorker_item.addActionListener(this);
-		
 		
 		billWorker_item = new JMenuItem("Worker payment");
 		bill_menu.add(billWorker_item);
@@ -173,7 +169,6 @@ public class AdminPanel extends JFrame implements ActionListener{
 		components.add(new NewRecord());
 		components.add(new NewEmployer());
 		components.add(new ViewRecord());
-		components.add(new ViewWorker());
 		components.add(new WorkerPayment());
 		components.add(new EmployerPayment());
 		
@@ -233,32 +228,22 @@ public class AdminPanel extends JFrame implements ActionListener{
 			
 			init();
 			
-		} else if( ((JMenuItem)e.getSource()).getText().equals(viewWorker_item.getText())) {
+		} else if( ((JMenuItem)e.getSource()).getText().equals(billWorker_item.getText())) {
 
 			if(currentComponent == 5) {
-				components.set(currentComponent, new ViewWorker());
+				components.set(currentComponent, new WorkerPayment());
 			} else {
 				currentComponent = 5;
 			}
 			
 			init();
 			
-		} else if( ((JMenuItem)e.getSource()).getText().equals(billWorker_item.getText())) {
-
-			if(currentComponent == 6) {
-				components.set(currentComponent, new WorkerPayment());
-			} else {
-				currentComponent = 6;
-			}
-			
-			init();
-			
 		} else if( ((JMenuItem)e.getSource()).getText().equals(billEmployer_item.getText())) {
 
-			if(currentComponent == 7) {
+			if(currentComponent == 6) {
 				components.set(currentComponent, new EmployerPayment());
 			} else {
-				currentComponent = 7;
+				currentComponent = 6;
 			}
 			
 			init();
@@ -280,7 +265,7 @@ public class AdminPanel extends JFrame implements ActionListener{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					new AdminPanel();
+					new AdminPanel(currentComponent);
 				}
 			});
 		} else if( ((JMenuItem)e.getSource()).getText().equals(logout_item.getText())) {

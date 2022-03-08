@@ -63,7 +63,7 @@ public class ViewRecord extends JPanel{
 	 */
 	private final int SPACE = 80;
 	
-	private final String[] column_array = {"ID", "Employer ID", "Date", "Number of workers", "Note" , "wage"};
+	private final String[] column_array = {"ID", "Employer", "Date", "Note", "Number of workers", "Wage"};
 	private final String[] detailColumn_array = {"ID", "Name", "Surname", "Date"};
 	private String[][] data_2array;
 	private String[][] employer_2array;
@@ -104,7 +104,7 @@ public class ViewRecord extends JPanel{
 		note_area.setEditable(false);
 		add(note_area);
 		
-		data_2array = getData("employer_record", "all");
+		data_2array = idConvertName(getData("employer_record", "all"), "employer", 1);
 		
 		record_scroll = new JScrollPane(createTable(data_2array, column_array));
 		record_scroll.setBounds(TX, TY, TW, TH);
@@ -299,6 +299,19 @@ public class ViewRecord extends JPanel{
 		
 	}
 	
+	private String[][] idConvertName(String[][] data, String tableName, int indis) {
+		String[][] temp = data;
+		
+		for(int i = 0; i < data.length; i++) {
+			
+			temp[i][indis] = DataBase.getData("employer", "WHERE employer_id='"+Integer.parseInt(data[i][0]) + "'").get(0)[1] + " " +
+					DataBase.getData("employer", "WHERE employer_id='" + Integer.parseInt(data[i][0]) + "'").get(0)[2]; 
+			
+		}
+		
+		return temp;
+	}
+
 	private Component createTable(String[][] tableData, String[] tableColumn) {
 		
 		JTable tab = new JTable(tableData, tableColumn) {
@@ -318,8 +331,8 @@ public class ViewRecord extends JPanel{
 			
 			@Override
 			public TableCellRenderer getCellRenderer(int row, int column) {
-				if(column == 1 || column == 2)
-					return renderLeft;
+				/*if(column == 1 || column == 2)
+					return renderLeft;*/
 				return renderCenter;
 			}
 		};
@@ -327,8 +340,37 @@ public class ViewRecord extends JPanel{
 		tab.setRowHeight(25);
 		tab.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
+		if(tableColumn.length == 6) {
+			
+			tab.getColumnModel().getColumn(0).setPreferredWidth(18);
+			tab.getColumnModel().getColumn(1).setPreferredWidth(150);
+			tab.getColumnModel().getColumn(2).setPreferredWidth(80);
+			tab.getColumnModel().getColumn(3).setPreferredWidth(30);
+			tab.getColumnModel().getColumn(4).setPreferredWidth(100);
+			tab.getColumnModel().getColumn(5).setPreferredWidth(25);
+			
+		} else if(tableColumn.length == 4) {
+			
+			tab.getColumnModel().getColumn(0).setPreferredWidth(18);
+			tab.getColumnModel().getColumn(0).setPreferredWidth(150);
+			tab.getColumnModel().getColumn(0).setPreferredWidth(60);
+			tab.getColumnModel().getColumn(0).setPreferredWidth(30);
+			
+		}
+		
+		
 		return tab;
 		
+	}
+	
+	public JTable setColumnWidth(JTable table, int ...column) {
+		
+		for(int i = 0; i < table.getColumnCount() && i < column.length; i++)
+			table.getColumnModel().getColumn(i).setPreferredWidth(column[i]);
+		
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+		
+		return table;
 	}
 	
 	public String[][] getData(String tableName, String operation){
