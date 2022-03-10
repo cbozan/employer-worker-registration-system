@@ -72,7 +72,7 @@ public class WorkerPayment extends JPanel{
 		searchBox_text.addCaretListener(new CaretListener() {
 			@Override
 			public void caretUpdate(CaretEvent e) {
-				if(searchBox_text.getText().length() > 1)
+				if(searchBox_text.getText().length() > 0)
 					updateBottomPanel(((JTextField)e.getSource()).getText());
 				else {
 					bottom_panel.setVisible(false);
@@ -351,9 +351,14 @@ public class WorkerPayment extends JPanel{
 		this.add(amount2Title_label);
 		
 		
-		String id = nameConvertToId(worker);
+		String id = nameConvertToId("worker", worker);
+		String [][] data1 = getData("worker_payment", "WHERE worker_id=" + id);
+		System.out.println(data1.length + ", " + data1[0].length);
+		String[][] data2 = idConvertName(data1, "worker", 1);
+		System.out.println(data2.length + ", " + data2[0].length);
+		String [][] tableData = idConvertName(data2, "employer", 2);
+		System.out.println(tableData.length + ", " + tableData[0].length);
 		
-		String [][] tableData = getData("worker", "WHERE worker_id=" + id);
 		
 		
 		JTable bottomTable = new JTable(tableData, titleTable) { 
@@ -397,23 +402,26 @@ public class WorkerPayment extends JPanel{
 						
 						amount = Integer.parseInt(amount_text.getText());
 						
+						System.out.println(amount);
 						
-						String employerId = (String) employer_comboBox.getSelectedItem();
+						String employerId = nameConvertToId("employer", (String) employer_comboBox.getSelectedItem());
+						String workerId = nameConvertToId("worker", worker);
 						
-						String workerId = nameConvertToId(worker);
-						String paid = "" + amount;
+						System.out.println(employerId + " " + workerId + " " + amount);
 						
-						if(employerId != null)
-						
-						if(DataBase.payment("worker_payment", workerId, employerId, paid) ) {
+						if(DataBase.workerPayment("worker_payment", workerId, employerId, amount) ) {
 							JOptionPane.showMessageDialog(WorkerPayment.this, "PAYMENT SUCCESSFUL", "PAYMENT RESULT", JOptionPane.INFORMATION_MESSAGE);
 
 							paymentGUI(worker);
+							
+						} else {
+							JOptionPane.showMessageDialog(WorkerPayment.this, "PAYMENT FAILED", "PAYMENT RESULT", JOptionPane.ERROR_MESSAGE);
 							
 						}
 						
 						
 					} catch(NumberFormatException nfe) {
+						nfe.printStackTrace();
 						JOptionPane.showMessageDialog(null, "Enter only the number values \nin the amount field.", "ERROR", JOptionPane.ERROR_MESSAGE);
 					}
 					
@@ -427,17 +435,7 @@ public class WorkerPayment extends JPanel{
 		
 	}
 	
-	private String nameConvertToId(String worker) {
-
-		for(int i = 0; i < workerData_2array.length; i++) {
-			
-			if((workerData_2array[i][1] + workerData_2array[i][2]).equals(worker)){
-				return workerData_2array[i][0];
-			}
-			
-		}
-		return null;
-	}
+	
 
 	public JTable setColumnWidth(JTable table, int ...column) {
 		
@@ -499,6 +497,44 @@ public class WorkerPayment extends JPanel{
 		
 		return array;
 		
+	}
+	
+	private String nameConvertToId(String person, String name) {
+		
+		String[][] data=null;
+		if(person.equals("worker")) {
+			data = workerData_2array;
+		} 
+		
+		if(person.equals("employer")) {
+			
+			data = employerData_2array;
+		}
+		
+		
+		for(int i = 0; i < data.length; i++) {
+			
+			if((data[i][1] + " " + data[i][2]).equals(name)){
+				return data[i][0];
+			}
+			
+		}
+		
+		
+		return null;
+	}
+	
+	private String[][] idConvertName(String[][] data, String tableName, int indis) {
+		String[][] temp = data;
+		String titleId = indis == 1 ? "worker" : (indis == 2 ? "employer" : null);
+		
+		for(int i = 0; i < data.length; i++) {
+			temp[i][indis] = DataBase.getData(tableName, "WHERE " + titleId + "_id='" + Integer.parseInt(data[i][indis]) + "'").get(0)[1] + " " +
+					DataBase.getData(tableName, "WHERE " + titleId + "_id='" + Integer.parseInt(data[i][indis]) + "'").get(0)[2]; 
+			
+		}
+		
+		return temp;
 	}
 
 	@Override

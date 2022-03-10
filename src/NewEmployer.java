@@ -172,7 +172,7 @@ public class NewEmployer extends JPanel implements FocusListener, ActionListener
 		textArray.add(phoneNumber_text);
 		add(phoneNumber_text);
 		
-		save_button = new JButton("KAYDET");
+		save_button = new JButton("SAVE");
 		save_button.setBounds(phoneNumber_text.getX() + ((TW - BW) / 2), phoneNumber_text.getY() + LH + 20, BW, BH);
 		//save_button.setContentAreaFilled(false);
 		save_button.setFocusPainted(false);

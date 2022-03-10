@@ -124,18 +124,29 @@ public class ViewRecord extends JPanel{
 						
 						tableSelectedRow = ((JTable)record_scroll.getViewport().getComponent(0)).getSelectedRow();
 						
-						String record_id = (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 1);
-						String employer_id = (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 2);
-						String date = (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 0);
+						String record_id = (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 0);
+						String employer_id = ViewRecord.this.nameConvertToId("employer", (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 1));
+						String date = (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 2);
 						String note = (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 3);
 						String numberOfWorkers = (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 4);
 						String wage = (String) ((JTable)record_scroll.getViewport().getComponent(0)).getValueAt(tableSelectedRow, 5);
 						
+						System.out.println(record_id + " " + employer_id + " " + date + " " + note + " " + numberOfWorkers + " " + wage);
 						
-						detailRecord_scroll.getViewport().removeAll();
-						detailRecord_scroll.getViewport().add(createTable(idConvertName(idConvertName(getData("worker_record", 
-								employer_id + ",'" + date + "'"), "worker", 1), "employer", 2), detailColumn_array));
+						//detailRecord_scroll.getViewport().removeAll();
 						
+						String [][] tempDataNew = getData("employer_record", employer_id + "," + date);
+						//detailRecord_scroll.getViewport().add(createTable(idConvertName(idConvertName(, "worker", 1), "employer", 2), detailColumn_array));
+						
+						System.out.println("Length = " + tempDataNew.length);
+						
+						for(int i = 0; i < tempDataNew.length; i++) {
+							for(int j = 0; j < tempDataNew.length; j++) {
+								System.out.print(tempDataNew[i][j] + " | ");
+							}
+							System.out.println("");
+							
+						}
 						
 						
 						
@@ -311,8 +322,8 @@ public class ViewRecord extends JPanel{
 		
 		for(int i = 0; i < data.length; i++) {
 			
-			temp[i][indis] = DataBase.getData(tableName, "WHERE " + tableName + "_id='" + Integer.parseInt(data[i][0]) + "'").get(0)[1] + " " +
-					DataBase.getData(tableName, "WHERE " + tableName + "_id='" + Integer.parseInt(data[i][0]) + "'").get(0)[2]; 
+			temp[i][indis] = DataBase.getData(tableName, "WHERE " + tableName + "_id='" + Integer.parseInt(data[i][indis]) + "'").get(0)[1] + " " +
+					DataBase.getData(tableName, "WHERE " + tableName + "_id='" + Integer.parseInt(data[i][indis]) + "'").get(0)[2]; 
 			
 		}
 		
@@ -391,11 +402,18 @@ public class ViewRecord extends JPanel{
 			StringTokenizer st = new StringTokenizer(operation, ",");
 			
 			operation = "WHERE";
-			operation += " date='" + st.nextToken()+"'";
+			operation += " date='" + st.nextToken() + "'";
 			operation += " AND employer_id=" + st.nextToken();
 			
 			
 			temp = DataBase.getData(tableName, operation);
+			
+			for(int i = 0; i < temp.size(); i++) {
+				for(int j = 0; j < temp.get(i).length; j++) {
+					System.out.print(temp.get(i)[j] + " | ");
+				}
+				System.out.println("");
+			}
 			
 		}
 		
@@ -439,6 +457,35 @@ public class ViewRecord extends JPanel{
 		return array;
 		
 	}
+	
+	
+	private String nameConvertToId(String person, String name) {
+		
+		String[][] data= employer_2array;
+		/*if(person.equals("worker")) {
+			data = getData("worker", "all");
+		} 
+		
+		if(person.equals("employer")) {
+			
+			data = employer_2array;
+		}
+		*/
+		
+		for(int i = 0; i < data.length; i++) {
+			
+			if((data[i][1] + " " + data[i][2]).equals(name)){
+				return data[i][0];
+			}
+			
+		}
+		
+		
+		return null;
+	}
+	
+
+
 
 	@Override
 	public String toString() {

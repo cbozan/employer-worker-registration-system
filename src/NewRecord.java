@@ -374,23 +374,20 @@ public class NewRecord extends JPanel implements CaretListener, ActionListener, 
 							
 							String worker_array[] = new String[selected_model.getSize()];
 							for(int i = worker_array.length - 1; i >= 0; i--) {
-								worker_array[i] = getPersonId(workerData_arrayList, selected_model.remove(i));
+								worker_array[i] = getPersonId(workerData_arrayList, selected_model.get(i));
 							}
 							
 							int state = DataBase.addRecord(getPersonId(employerData_arrayList, employer_text_t.getText()), 
 									date_text_t.getText(), worker_array, note_text_t.getText());
 							
 							if( state == 1) {
-								
 								JOptionPane.showMessageDialog(NewRecord.this, "SAVED", "SUCCESSFUL", JOptionPane.INFORMATION_MESSAGE);
 								clearPanel();
 								
 							} else {
 								
 								JOptionPane.showMessageDialog(NewRecord.this, ( "NOT SAVED" + (state == 0 ? "" : ("only " + state + " added")) + "\nUnsaved, in selected box" ), "DATABASE ERROR", JOptionPane.ERROR_MESSAGE);
-								
-								for(int i = selected_model.getSize() - 1; (i > state -1); i--)
-									selection_model.addElement(selected_model.remove(i));
+
 							}
 							
 							
@@ -405,7 +402,7 @@ public class NewRecord extends JPanel implements CaretListener, ActionListener, 
 				} else {
 					JOptionPane.showMessageDialog(NewRecord.this, "Please fill in the blanks", "NULL", JOptionPane.ERROR_MESSAGE);
 				}
-				
+		
 			}
 		});
 		add(save_button);
@@ -529,10 +526,16 @@ public class NewRecord extends JPanel implements CaretListener, ActionListener, 
 	
 	private void clearPanel() {
 		
-		// clear listboxs
-		for(int i = selected_model.getSize() - 1; i >= 0; i--)
-			selection_model.addElement(selected_model.remove(i));
+		while(selected_model.size() > 0) {
+			selection_model.addElement(selected_model.remove(selected_model.size() - 1));
+		}
 		
+		employer_comboBox.setSelectedIndex(-1);
+		dateBox_text.setText("");
+		today_checkBox.setSelected(false);
+		selectedEmployer_label.setText("");
+		selectedDate_label.setText("");
+		note_textArea.setText("");
 		
 	}
 

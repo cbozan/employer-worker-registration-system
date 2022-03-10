@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.DefaultListCellRenderer;
@@ -36,10 +37,12 @@ public class EmployerPayment extends JPanel{
 	JTextField searchBox_text;
 	JPanel searchBottom_panel;
 	JLabel searchBoxInfoMessage_label, searchBoxTitle_label;
-	private /*final*/ String[][] employers = {{"1", "EMPLOYER-1", "300", "02.03.2022"}, {"1", "EMPLOYER-2", "8300", "07.03.2022"}, {"3", "EMPLOYER-3", "500", "02.02.2022"},{"1", "EMPLOYER-4", "300", "18.11.2022"}, {"5", "EMPLOYER-5", "2348", "22.06.2022"}};//DataBase.getEmployerData(employerId);;// DataBase
+	private String[][] employers;//{{"1", "EMPLOYER-1", "300", "02.03.2022"}, {"1", "EMPLOYER-2", "8300", "07.03.2022"}, {"3", "EMPLOYER-3", "500", "02.02.2022"},{"1", "EMPLOYER-4", "300", "18.11.2022"}, {"5", "EMPLOYER-5", "2348", "22.06.2022"}};//DataBase.getEmployerData(employerId);;// DataBase
 	
 	public EmployerPayment() {
 		setLayout(null);
+		
+		employers = getData("employer", "all");
 		
 		newSearch_button = new JButton("New search");
 		newSearch_button.setFocusPainted(false);
@@ -191,8 +194,9 @@ public class EmployerPayment extends JPanel{
 		amountTitle2_label.setVerticalAlignment(SwingConstants.CENTER);
 		this.add(amountTitle2_label);
 		
-		String [][] tableData_2array = {{"1", "EMPLOYER-1", "300", "02.03.2022"}, {"1", "EMPLOYER-2", "8300", "07.03.2022"}, {"3", "EMPLOYER-3", "500", "02.02.2022"},{"1", "EMPLOYER-4", "300", "18.11.2022"}, {"5", "EMPLOYER-5", "2348", "22.06.2022"}};//DataBase.getEmployerData(employerId);
-		String [] titleTable_array = {"ID", "Employer", "Amount", "Date"};
+		String id = nameConvertToId(employer);
+		String [][] tableData_2array = idConvertName(getData("employer_payment", "WHERE employer_id="+id), 1);//{{"1", "EMPLOYER-1", "300", "02.03.2022"}, {"1", "EMPLOYER-2", "8300", "07.03.2022"}, {"3", "EMPLOYER-3", "500", "02.02.2022"},{"1", "EMPLOYER-4", "300", "18.11.2022"}, {"5", "EMPLOYER-5", "2348", "22.06.2022"}};//DataBase.getEmployerData(employerId);
+		String [] titleTable_array = {"ID", "Employer", "Date", "Paid"};
 		
 		/*
 		for(int i = 0; i < tableData.length; i++) {
@@ -243,9 +247,9 @@ public class EmployerPayment extends JPanel{
 						
 						amount = Integer.parseInt(amount_text.getText());
 						
-						String employerId = "1";//DataBase.getEmployerData(employer, "")[0][0];
+						String employerId = nameConvertToId(employer);
 						
-						if( true ) { //DataBase.getPaid(employerID, ""+amount) ) {
+						if(DataBase.employerPayment("employer_payment", employerId, amount) ) {
 							JOptionPane.showMessageDialog(null, "PAYMENT SUCCESSFUL", "PAYMENT RESULT", JOptionPane.INFORMATION_MESSAGE);
 
 							viewGUI(employer); // rebuild
@@ -278,7 +282,7 @@ public class EmployerPayment extends JPanel{
 		
 		DefaultListModel<String> searchResultsListModel = new DefaultListModel<String>();
 		for(int i = 0; i < (employers == null ? 0 : employers.length); i++) {
-			searchResultsListModel.addElement(employers[i][1]);
+			searchResultsListModel.addElement(employers[i][1] + " " + employers[i][2]);
 		}
 		
 		String[] temp = new String[searchResultsListModel.getSize()];
@@ -332,8 +336,8 @@ public class EmployerPayment extends JPanel{
 		int position = 0;
 		for(int i = 0; i < (employers == null ? 0 : employers.length); i++) {
 			
-			if(employers[i][1].contains(text.toUpperCase())) {
-				searchBottom_panel.add((JTextField)getBottomComponent(employers[i][1].toUpperCase(), position));
+			if((employers[i][1] + " " + employers[i][2]).contains(text.toUpperCase())) {
+				searchBottom_panel.add((JTextField)getBottomComponent(employers[i][1].toUpperCase() + " " + employers[i][2], position));
 				searchBottom_panel.add((JButton)getBottomComponent("", position));
 				position++;
 			}
@@ -395,6 +399,65 @@ public class EmployerPayment extends JPanel{
 		
 				
 		return comp;
+	}
+	
+	
+	public String[][] getData(String tableName, String operation){
+		ArrayList<String[]> temp;
+	
+		if(operation.equals("all")) {
+			temp = DataBase.getData(tableName);
+			
+		} else {
+			
+			temp = DataBase.getData(tableName, operation);
+			
+		}
+		
+		
+		return listConvertToArray(temp);
+	}
+	
+	public String[][] listConvertToArray(ArrayList<String[]> temp){
+		String[][] data = new String[][] {};
+		if(temp.size() != 0) {
+			data = new String[temp.size()][temp.get(0).length];
+			for(int i = 0; i < data.length; i++) {
+				for(int j = 0; j < data[i].length; j++) {
+					data[i][j] = temp.get(i)[j];
+				}
+			}
+		}
+		return data;
+		
+	}
+	
+	
+	private String nameConvertToId(String name) {
+		
+		for(int i = 0; i < employers.length; i++) {
+			
+			if((employers[i][1] + " " + employers[i][2]).equals(name)){
+				return employers[i][0];
+			}
+			
+		}
+		
+		
+		return null;
+	}
+	
+	private String[][] idConvertName(String data[][], int indis) {
+		
+		String temp[][] = data;
+		
+		for(int i = 0; i < temp.length; i++) {
+			temp[i][indis] = DataBase.getData("employer", "WHERE employer_id='" + Integer.parseInt(data[i][indis]) + "'").get(0)[1] + " " +
+					DataBase.getData("employer", "WHERE employer_id='" + Integer.parseInt(data[i][indis]) + "'").get(0)[2]; 
+			
+		}
+		
+		return temp;
 	}
 
 	@Override

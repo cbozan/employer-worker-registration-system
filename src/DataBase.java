@@ -82,7 +82,7 @@ public class DataBase {
 		
 		try {
 			st = conn.createStatement();
-			if(st.executeUpdate("INSERT INTO worker(name, surname, phonenumber) VALUES "
+			if(st.executeUpdate("INSERT INTO worker(name, surname, phone_number) VALUES "
 					+ "('"+name+"','"+surname+"','"+phoneNumber+"')") > 0) {
 				state = true;
 			}
@@ -179,7 +179,7 @@ public class DataBase {
 				pst = conn.prepareStatement("INSERT INTO worker_record (worker_id, employer_id, date, wage) VALUES (?, ?, ?, ?)");
 				for(int i = 0; i < worker_array.length; i++) {
 					
-					pst.setInt(1, Integer.parseInt(worker_array[0]));
+					pst.setInt(1, Integer.parseInt(worker_array[i]));
 					pst.setInt(2, Integer.parseInt(employer_id));
 					pst.setString(3, date);
 					pst.setShort(4, AdminPanel.WAGE);
@@ -245,6 +245,8 @@ public static ArrayList<String[]> getData(String tableName, String condition) {
 				arrayList.add(arrayString);
 			}
 			
+			System.out.println("arrayLength = " + arrayList.size());
+			
 			rs.close();
 			st.close();
 			conn.close();
@@ -260,12 +262,10 @@ public static ArrayList<String[]> getData(String tableName, String condition) {
 	}
 
 
-	public static boolean payment(String tableName, String worker_id, String employer_id, String paid) {
+	public static boolean workerPayment(String tableName, String worker_id, String employer_id, int paid) {
 		Connection conn = DataBase.getConnect();
 		PreparedStatement pst;
-
-		
-		if(tableName.equals("worker_payment")) {
+		int state = 0;
 			
 			try {
 				
@@ -273,41 +273,53 @@ public static ArrayList<String[]> getData(String tableName, String condition) {
 				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				
 				
-				pst = conn.prepareStatement("INSERT INTO " + tableName + "(worker_id, employer_id, date, paid) VALUES (?, ?, ?, ?)");
-				pst.setInt(0, Integer.parseInt(worker_id));
-				pst.setInt(1, Integer.parseInt(employer_id));
-				pst.setString(2, nowDate.format(dtf));
-				pst.setString(3, paid);
-				return pst.execute();
+				pst = conn.prepareStatement("INSERT INTO " + tableName + " (worker_id,employer_id,date,paid) VALUES (?, ?, ?, ?)");
+				pst.setInt(1, Integer.parseInt(worker_id));
+				pst.setInt(2, Integer.parseInt(employer_id));
+				pst.setString(3, ""+nowDate.format(dtf));
+				pst.setInt(4, paid);
+				
+				state = pst.executeUpdate();
+				
+				pst.close();
+				conn.close();
 				
 			} catch (SQLException e1) {
-
-				return false;
+				e1.printStackTrace();
+				state = -1;
 			}
 			
+			return state > 0;
+		
+	}
+	
+	public static boolean employerPayment(String tableName, String employer_id, int paid) {
+		Connection conn = DataBase.getConnect();
+		PreparedStatement pst;
+		int state = 0;
 			
+			try {
+				
+				LocalDate nowDate = LocalDate.now();
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				
+				
+				pst = conn.prepareStatement("INSERT INTO " + tableName + " (employer_id,date,paid) VALUES (?, ?, ?)");
+				pst.setInt(1, Integer.parseInt(employer_id));
+				pst.setString(2, nowDate.format(dtf));
+				pst.setInt(3, paid);
+				
+				state = pst.executeUpdate();
+				
+				pst.close();
+				conn.close();
+				
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+				state = -1;
+			}
 			
-			
-		} else if(tableName.equals("employer_payment")) {
-			
-//			try {
-//				
-////				pst = conn.prepareStatement("INSERT INTO " + tableName + "(employer_id, employer_id, date, paid) VALUES (?, ?, ?, ?)");
-////				pst.setInt(0, Integer.parseInt(worker_id));
-////				pst.setInt(1, Integer.parseInt(employer_id));
-////				pst.setString(2, date);
-////				pst.setString(3, paid);
-////				return pst.execute();
-//				
-//			} catch (SQLException e1) {
-//
-//				return false;
-//			}
-//			
-			return false;
-		}
-
-		return false;
+			return state > 0;
 		
 	}
 	
