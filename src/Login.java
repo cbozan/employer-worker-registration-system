@@ -58,7 +58,7 @@ public class Login extends JFrame{
 		//setVisible(true);
 		
 		insets = this.getInsets();
-		new AdminPanel(4);
+		new AdminPanel(5);
 		this.dispose();
 		//GUI();
 		

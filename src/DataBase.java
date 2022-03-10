@@ -4,6 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -253,6 +256,58 @@ public static ArrayList<String[]> getData(String tableName, String condition) {
 		
 		
 		return arrayList;
+		
+	}
+
+
+	public static boolean payment(String tableName, String worker_id, String employer_id, String paid) {
+		Connection conn = DataBase.getConnect();
+		PreparedStatement pst;
+
+		
+		if(tableName.equals("worker_payment")) {
+			
+			try {
+				
+				LocalDate nowDate = LocalDate.now();
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				
+				
+				pst = conn.prepareStatement("INSERT INTO " + tableName + "(worker_id, employer_id, date, paid) VALUES (?, ?, ?, ?)");
+				pst.setInt(0, Integer.parseInt(worker_id));
+				pst.setInt(1, Integer.parseInt(employer_id));
+				pst.setString(2, nowDate.format(dtf));
+				pst.setString(3, paid);
+				return pst.execute();
+				
+			} catch (SQLException e1) {
+
+				return false;
+			}
+			
+			
+			
+			
+		} else if(tableName.equals("employer_payment")) {
+			
+//			try {
+//				
+////				pst = conn.prepareStatement("INSERT INTO " + tableName + "(employer_id, employer_id, date, paid) VALUES (?, ?, ?, ?)");
+////				pst.setInt(0, Integer.parseInt(worker_id));
+////				pst.setInt(1, Integer.parseInt(employer_id));
+////				pst.setString(2, date);
+////				pst.setString(3, paid);
+////				return pst.execute();
+//				
+//			} catch (SQLException e1) {
+//
+//				return false;
+//			}
+//			
+			return false;
+		}
+
+		return false;
 		
 	}
 	

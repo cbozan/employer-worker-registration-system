@@ -5,7 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.StringTokenizer;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
@@ -32,6 +34,7 @@ public class WorkerPayment extends JPanel{
 	JTextField searchBox_text;
 	JButton search_button, newSearch_button;
 	JLabel searchBoxTitle_label, searchBoxInfoMessage_label;
+	private final String[] titleTable = {"ID", "Worker", "Employer", "Date", "Paid"};
 	private final String[][] workerData_2array; // = DataBase.getWorkerData();
 	private final String[][] employerData_2array; // = DataBase.getEmployerData();
 	
@@ -39,8 +42,8 @@ public class WorkerPayment extends JPanel{
 		
 		setLayout(null);
 		
-		workerData_2array = new String[][]{{"1", "WORKER-1"}, {"2", "WORKER-2"}, {"3", "WORKER-3"}, {"4", "WORKER-4"}, {"5", "WORKER-5"}, {"6", "WORKER-6"}};
-		employerData_2array = new String[][]{{"1", "EMPLOYER-1"}, {"2", "EMPLOYER-2"}, {"3", "EMPLOYER-3"}, {"4", "EMPLOYER-4"}, {"5", "EMPLOYER-5"}, {"6", "EMPLOYER-6"}};
+		workerData_2array = getData("worker", "all");//new String[][]{{"1", "WORKER-1"}, {"2", "WORKER-2"}, {"3", "WORKER-3"}, {"4", "WORKER-4"}, {"5", "WORKER-5"}, {"6", "WORKER-6"}};
+		employerData_2array = getData("employer", "all");//new String[][]{{"1", "EMPLOYER-1"}, {"2", "EMPLOYER-2"}, {"3", "EMPLOYER-3"}, {"4", "EMPLOYER-4"}, {"5", "EMPLOYER-5"}, {"6", "EMPLOYER-6"}};
 		
 		newSearch_button = new JButton("New search");
 		newSearch_button.setFocusPainted(false);
@@ -137,7 +140,7 @@ public class WorkerPayment extends JPanel{
 		for(int i = 0; i < workerData_2array.length; i++) {
 			
 			if(workerData_2array[i][1].contains(text.toUpperCase())) {
-				bottom_panel.add((JTextField)getBottomComponent(workerData_2array[i][1].toUpperCase(), position));
+				bottom_panel.add((JTextField)getBottomComponent(workerData_2array[i][1].toUpperCase() + " " + workerData_2array[i][2], position));
 				bottom_panel.add((JButton)getBottomComponent("", position));
 				position++;
 			}
@@ -210,8 +213,8 @@ public class WorkerPayment extends JPanel{
 		
 		DefaultListModel<String> searchResultsListModel = new DefaultListModel<String>();
 		for(int i = 0; i < workerData_2array.length; i++) {
-			if(workerData_2array[i][1].contains(searchText))
-				searchResultsListModel.addElement(workerData_2array[i][1]);
+			if((workerData_2array[i][1] + " " + workerData_2array[i][2]).contains(searchText))
+				searchResultsListModel.addElement(workerData_2array[i][1] + " " + workerData_2array[i][2]);
 		}
 		String[] temp = new String[searchResultsListModel.getSize()];
 		searchResultsListModel.copyInto(temp);
@@ -281,7 +284,7 @@ public class WorkerPayment extends JPanel{
 		
 		DefaultComboBoxModel<String> employer_model = new DefaultComboBoxModel<String>();
 		for(int i = 0; i < employerData_2array.length; i++) {
-			employer_model.addElement(employerData_2array[i][1]);
+			employer_model.addElement(employerData_2array[i][1] + " " + employerData_2array[i][2]);
 		}
 		
 		JComboBox<String> employer_comboBox = new JComboBox<String>(employer_model);
@@ -348,13 +351,9 @@ public class WorkerPayment extends JPanel{
 		this.add(amount2Title_label);
 		
 		
-		String id = "1";//getWorkerData(worker, 1);
+		String id = nameConvertToId(worker);
 		
-		String [][] tableData = {{"1", "Worker-1", "Employer-1", "320", "03.03.2022"},
-				{"3", "Worker-3", "Employer-3", "230", "03.03.2022"}, 
-				{"2", "Worker-2", "Employer-2", "302", "03.03.2022"},
-				{"4", "Worker-4", "Employer-4", "50", "03.03.2022"},}; //DataBase.getWorkerPaymentData(id, "");
-		String [] titleTable = {"ID", "Worker", "Employer", "Amount", "Date"};
+		String [][] tableData = getData("worker", "WHERE worker_id=" + id);
 		
 		
 		JTable bottomTable = new JTable(tableData, titleTable) { 
@@ -398,14 +397,18 @@ public class WorkerPayment extends JPanel{
 						
 						amount = Integer.parseInt(amount_text.getText());
 						
-						String employerId = "1";//getEmployer();
-						String WorkerId = "1";//getWorker();
 						
-						if( true) {//DataBase.payment(workerId, employerId, ""+amount) ) {
+						String employerId = (String) employer_comboBox.getSelectedItem();
+						
+						String workerId = nameConvertToId(worker);
+						String paid = "" + amount;
+						
+						if(employerId != null)
+						
+						if(DataBase.payment("worker_payment", workerId, employerId, paid) ) {
 							JOptionPane.showMessageDialog(WorkerPayment.this, "PAYMENT SUCCESSFUL", "PAYMENT RESULT", JOptionPane.INFORMATION_MESSAGE);
 
 							paymentGUI(worker);
-							
 							
 						}
 						
@@ -421,6 +424,80 @@ public class WorkerPayment extends JPanel{
 		
 		revalidate();
 		repaint();
+		
+	}
+	
+	private String nameConvertToId(String worker) {
+
+		for(int i = 0; i < workerData_2array.length; i++) {
+			
+			if((workerData_2array[i][1] + workerData_2array[i][2]).equals(worker)){
+				return workerData_2array[i][0];
+			}
+			
+		}
+		return null;
+	}
+
+	public JTable setColumnWidth(JTable table, int ...column) {
+		
+		for(int i = 0; i < table.getColumnCount() && i < column.length; i++)
+			table.getColumnModel().getColumn(i).setPreferredWidth(column[i]);
+		
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+		
+		return table;
+	}
+	
+	public String[][] getData(String tableName, String operation){
+		ArrayList<String[]> temp;
+	
+		if(operation.equals("all")) {
+			temp = DataBase.getData(tableName);
+			
+		} else {
+			
+			temp = DataBase.getData(tableName, operation);
+			
+		}
+		
+		
+		return listConvertToArray(temp);
+	}
+	
+	public String[][] listConvertToArray(ArrayList<String[]> temp){
+		String[][] data = new String[][] {};
+		if(temp.size() != 0) {
+			data = new String[temp.size()][temp.get(0).length];
+			for(int i = 0; i < data.length; i++) {
+				for(int j = 0; j < data[i].length; j++) {
+					data[i][j] = temp.get(i)[j];
+				}
+			}
+		}
+		return data;
+		
+	}
+	
+	public String[] listConvertToArray(ArrayList<String[]> temp, int...column) {
+		
+		String[][] data = listConvertToArray(temp);
+		String[] array = new String[data.length];
+		
+		if(data[0].length < Arrays.stream(column).max().getAsInt()) {
+			return null;
+		}
+
+		for(int i = 0; i < data.length; i++) {
+			array[i] = "";
+			for(int j = 0; j < column.length; j++) {
+				array[i] += data[i][column[j]] + " ";
+			}
+			array[i] = array[i].substring(0, array[i].length() - 1);
+			
+		}
+		
+		return array;
 		
 	}
 

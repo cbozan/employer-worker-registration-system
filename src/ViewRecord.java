@@ -64,7 +64,7 @@ public class ViewRecord extends JPanel{
 	private final int SPACE = 80;
 	
 	private final String[] column_array = {"ID", "Employer", "Date", "Note", "Number of workers", "Wage"};
-	private final String[] detailColumn_array = {"ID", "Name", "Surname", "Date"};
+	private final String[] detailColumn_array = {"ID", "Worker", "Employer", "Date"};
 	private String[][] data_2array;
 	private String[][] employer_2array;
 	private JButton filter_button, detail_button, print_button;
@@ -133,8 +133,14 @@ public class ViewRecord extends JPanel{
 						
 						
 						detailRecord_scroll.getViewport().removeAll();
-						detailRecord_scroll.getViewport().add(createTable(getData("worker_record", 
-								employer_id + ",'" + date + "'"), detailColumn_array));
+						detailRecord_scroll.getViewport().add(createTable(idConvertName(idConvertName(getData("worker_record", 
+								employer_id + ",'" + date + "'"), "worker", 1), "employer", 2), detailColumn_array));
+						
+						
+						
+						
+						
+						//data_2array = idConvertName(getData("employer_record", "all"), "employer", 1);
 
 						note_area.setText(note);
 						
@@ -267,7 +273,8 @@ public class ViewRecord extends JPanel{
 				System.out.println(operation);
 				
 				record_scroll.getViewport().removeAll();
-				record_scroll.getViewport().add(createTable(data_2array, column_array));
+				record_scroll.getViewport().add(createTable(idConvertName(data_2array, "employer", 1), column_array));
+				
 				
 				
 				
@@ -304,8 +311,8 @@ public class ViewRecord extends JPanel{
 		
 		for(int i = 0; i < data.length; i++) {
 			
-			temp[i][indis] = DataBase.getData("employer", "WHERE employer_id='"+Integer.parseInt(data[i][0]) + "'").get(0)[1] + " " +
-					DataBase.getData("employer", "WHERE employer_id='" + Integer.parseInt(data[i][0]) + "'").get(0)[2]; 
+			temp[i][indis] = DataBase.getData(tableName, "WHERE " + tableName + "_id='" + Integer.parseInt(data[i][0]) + "'").get(0)[1] + " " +
+					DataBase.getData(tableName, "WHERE " + tableName + "_id='" + Integer.parseInt(data[i][0]) + "'").get(0)[2]; 
 			
 		}
 		
