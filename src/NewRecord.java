@@ -39,9 +39,6 @@ import javax.swing.text.PlainDocument;
 
 public class NewRecord extends JPanel implements CaretListener, ActionListener, ListSelectionListener{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	/**
@@ -124,7 +121,6 @@ public class NewRecord extends JPanel implements CaretListener, ActionListener, 
 		setLayout(null);
 		
 		workerData_arrayList = DataBase.getData("worker");
-		
 		employerData_arrayList = DataBase.getData("employer");
 		
 		data_model = new DefaultListModel<>();
@@ -390,7 +386,6 @@ public class NewRecord extends JPanel implements CaretListener, ActionListener, 
 
 							}
 							
-							
 						}
 						
 					} else {
@@ -406,9 +401,6 @@ public class NewRecord extends JPanel implements CaretListener, ActionListener, 
 			}
 		});
 		add(save_button);
-		
-		
-		
 		
 	}
 	
@@ -446,6 +438,7 @@ public class NewRecord extends JPanel implements CaretListener, ActionListener, 
 		return newModel;
 		
 	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -472,6 +465,7 @@ public class NewRecord extends JPanel implements CaretListener, ActionListener, 
 		countText_label.setText(countText + selected_model.getSize());
 		
 	}
+	
 
 	@Override
 	public void caretUpdate(CaretEvent e) {
@@ -538,6 +532,7 @@ public class NewRecord extends JPanel implements CaretListener, ActionListener, 
 		note_textArea.setText("");
 		
 	}
+	
 
 	@Override
 	public String toString() {

@@ -27,17 +27,13 @@ import javax.swing.table.TableCellRenderer;
 
 public class EmployerPayment extends JPanel{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	
 	
 	JButton newSearch_button, search_button;
 	JTextField searchBox_text;
 	JPanel searchBottom_panel;
 	JLabel searchBoxInfoMessage_label, searchBoxTitle_label;
-	private String[][] employers;//{{"1", "EMPLOYER-1", "300", "02.03.2022"}, {"1", "EMPLOYER-2", "8300", "07.03.2022"}, {"3", "EMPLOYER-3", "500", "02.02.2022"},{"1", "EMPLOYER-4", "300", "18.11.2022"}, {"5", "EMPLOYER-5", "2348", "22.06.2022"}};//DataBase.getEmployerData(employerId);;// DataBase
+	private String[][] employers;
 	
 	public EmployerPayment() {
 		setLayout(null);
@@ -58,6 +54,7 @@ public class EmployerPayment extends JPanel{
 		GUI();
 	}
 	
+	
 	void GUI() {
 		
 		this.removeAll();
@@ -73,11 +70,8 @@ public class EmployerPayment extends JPanel{
 					updateBottomPanel(((JTextField)e.getSource()).getText());
 				} else {
 					searchBottom_panel.setVisible(false);
-				}
-				
+				}	
 			}
-
-			
 		});
 		searchBox_text.addActionListener(new ActionListener() {
 			@Override
@@ -95,7 +89,6 @@ public class EmployerPayment extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				searchResultsGUI(searchBox_text.getText().toUpperCase());
-				
 			}
 		});
 		this.add(search_button);
@@ -127,24 +120,15 @@ public class EmployerPayment extends JPanel{
 	
 	void viewGUI(String employer) {
 		
-		
 		this.removeAll();
 		this.setBackground(Color.white);
 		this.add(newSearch_button);
-		/*
-		JLabel employer_label = new JLabel(employer);
-		employer_label.setFont(new Font(Font.SERIF, Font.BOLD, 21));
-		employer_label.setForeground(new Color(61, 35, 82));
-		employer_label.setHorizontalAlignment(SwingConstants.RIGHT);
-		employer_label.setBounds(0, 60, 440, 28);
-		this.add(employer_label);
-		*/
+		
 		JLabel title_label = new JLabel("Payment form for " + employer);
 		title_label.setFont(new Font(Font.SERIF, Font.BOLD + Font.ITALIC, 21));
 		title_label.setBounds(0, 60, this.getWidth(), 28);
 		title_label.setHorizontalAlignment(SwingConstants.CENTER);
 		title_label.setForeground(new Color(152, 30, 58));
-		//System.out.println(title_label.getPreferredSize());
 		this.add(title_label);
 		
 		JTextField amount_text = new JTextField();
@@ -198,23 +182,14 @@ public class EmployerPayment extends JPanel{
 		String [][] tableData_2array = idConvertName(getData("employer_payment", "WHERE employer_id="+id), 1);//{{"1", "EMPLOYER-1", "300", "02.03.2022"}, {"1", "EMPLOYER-2", "8300", "07.03.2022"}, {"3", "EMPLOYER-3", "500", "02.02.2022"},{"1", "EMPLOYER-4", "300", "18.11.2022"}, {"5", "EMPLOYER-5", "2348", "22.06.2022"}};//DataBase.getEmployerData(employerId);
 		String [] titleTable_array = {"ID", "Employer", "Date", "Paid"};
 		
-		/*
-		for(int i = 0; i < tableData.length; i++) {
-			tableData[i][1] = getEmployer(tableData[i][1], 2);
-		}
-		*/
-		
 		JTable bottom_table = new JTable(tableData_2array, titleTable_array) {
-			
 			DefaultTableCellRenderer render = new DefaultTableCellRenderer();
 			{
 				render.setHorizontalAlignment(SwingConstants.CENTER);
 			}
-			public TableCellRenderer getCellRenderer (int row, int col) {
-				
+			public TableCellRenderer getCellRenderer (int row, int col) {	
 				return render;
 			}
-			
 			public boolean isCellEditable(int row, int col) {
 				return false;
 			}
@@ -246,24 +221,17 @@ public class EmployerPayment extends JPanel{
 					try {
 						
 						amount = Integer.parseInt(amount_text.getText());
-						
 						String employerId = nameConvertToId(employer);
 						
 						if(DataBase.employerPayment("employer_payment", employerId, amount) ) {
 							JOptionPane.showMessageDialog(null, "PAYMENT SUCCESSFUL", "PAYMENT RESULT", JOptionPane.INFORMATION_MESSAGE);
-
 							viewGUI(employer); // rebuild
-							
-							
 						}
-						
 						
 					} catch(NumberFormatException nfe) {
 						JOptionPane.showMessageDialog(null, "Enter only the number values \nin the amount field.", "ERROR", JOptionPane.ERROR_MESSAGE);
 					}
-					
 				}
-				
 			}
 		});
 		this.add(getPaid_button);
@@ -272,7 +240,6 @@ public class EmployerPayment extends JPanel{
 		repaint();
 		
 	}
-	
 	
 	
 	protected void searchResultsGUI(String searchText) {
@@ -308,7 +275,6 @@ public class EmployerPayment extends JPanel{
 			}
 		});
 		
-		
 		MyScrollPane searchResultsScroll = new MyScrollPane(searchResultsList);
 		searchResultsScroll.setBounds(0, 40, 944, 210);
 		this.add(searchResultsScroll);
@@ -321,7 +287,6 @@ public class EmployerPayment extends JPanel{
 		
 		this.add(scroll_bottom_info);
 		
-		
 		revalidate();
 		repaint();
 		
@@ -331,7 +296,6 @@ public class EmployerPayment extends JPanel{
 	protected void updateBottomPanel(String text) {
 		
 		searchBottom_panel.removeAll();
-		
 		
 		int position = 0;
 		for(int i = 0; i < (employers == null ? 0 : employers.length); i++) {
@@ -347,8 +311,7 @@ public class EmployerPayment extends JPanel{
 		
 		searchBottom_panel.setSize(502, (position > 10 ? 10 : position) * 29);
 		searchBottom_panel.setVisible(true);
-		
-		//IsciOdeme.this.revalidate();
+
 		this.repaint();
 		
 	}
@@ -416,6 +379,7 @@ public class EmployerPayment extends JPanel{
 		
 		
 		return listConvertToArray(temp);
+		
 	}
 	
 	public String[][] listConvertToArray(ArrayList<String[]> temp){
@@ -447,6 +411,7 @@ public class EmployerPayment extends JPanel{
 		return null;
 	}
 	
+	
 	private String[][] idConvertName(String data[][], int indis) {
 		
 		String temp[][] = data;
@@ -459,6 +424,7 @@ public class EmployerPayment extends JPanel{
 		
 		return temp;
 	}
+	
 
 	@Override
 	public String toString() {

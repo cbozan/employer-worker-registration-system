@@ -18,10 +18,6 @@ import javax.swing.border.LineBorder;
 
 public class NewEmployer extends JPanel implements FocusListener, ActionListener{
 
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	/**
@@ -78,12 +74,11 @@ public class NewEmployer extends JPanel implements FocusListener, ActionListener
 	
 	private JLabel name_label, surname_label, business_label, phoneNumber_label, image_label, imageText_label;
 	private JTextField name_text, surname_text, business_text, phoneNumber_text;
-	
 	private JButton save_button, paneSave_button, paneCancel_button;
 	private JPanel saveButton_panel;
-	
 	private int currentTextArray = 0;
 	private ArrayList<JTextField> textArray;
+	
 	
 	public NewEmployer() {
 		
@@ -164,8 +159,7 @@ public class NewEmployer extends JPanel implements FocusListener, ActionListener
 
 				if(save_button != null) {
 					save_button.doClick();
-				}
-				
+				}	
 				
 			}
 		});

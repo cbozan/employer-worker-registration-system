@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
@@ -21,14 +22,12 @@ import javax.swing.event.MenuListener;
 
 public class AdminPanel extends JFrame implements ActionListener{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	public static final short WAGE = 100;
 
 	public static final String NAME = "Registration System";
+	
 	/**
 	 * AdminPanel window width
 	 */
@@ -43,10 +42,6 @@ public class AdminPanel extends JFrame implements ActionListener{
 	 * frame edge
 	 */
 	public static Insets INSETS;
-	
-	/**
-	 * current settings
-	 */
 	
 	private JMenuBar menuBar_menubar;
 	private JMenu homePage_menu, record_menu, view_menu, bill_menu, system_menu;
@@ -88,13 +83,12 @@ public class AdminPanel extends JFrame implements ActionListener{
 		createComponents();
 		init();
 		
-		
 	}
+	
 	
 	private void createMenus() {
 		
 		menuBar_menubar = new JMenuBar();
-	
 		
 		homePage_menu = new JMenu("Home page");
 		homePage_menu.addMouseListener(new MouseAdapter() {
@@ -110,8 +104,7 @@ public class AdminPanel extends JFrame implements ActionListener{
 		view_menu = new JMenu("View");
 		bill_menu = new JMenu("Bill");
 		system_menu = new JMenu("System");
-		
-
+	
 		addWorker_item = new JMenuItem("New worker");
 		record_menu.add(addWorker_item);
 		addWorker_item.addActionListener(this);
@@ -127,7 +120,6 @@ public class AdminPanel extends JFrame implements ActionListener{
 		viewRecord_item = new JMenuItem("View record");
 		view_menu.add(viewRecord_item);
 		viewRecord_item.addActionListener(this);
-		
 		
 		billWorker_item = new JMenuItem("Worker payment");
 		bill_menu.add(billWorker_item);
@@ -148,7 +140,6 @@ public class AdminPanel extends JFrame implements ActionListener{
 		logout_item = new JMenuItem("Logout");
 		system_menu.add(logout_item);
 		logout_item.addActionListener(this);
-		
 		
 		menuBar_menubar.add(homePage_menu);
 		menuBar_menubar.add(record_menu);
@@ -251,6 +242,7 @@ public class AdminPanel extends JFrame implements ActionListener{
 		} else if( ((JMenuItem)e.getSource()).getText().equals(settings_item.getText())) {
 			
 			// Settings pane .. . 
+			JOptionPane.showMessageDialog(this, "Not available");
 			
 		} else if( ((JMenuItem)e.getSource()).getText().equals(reset_item.getText())) {
 			
@@ -274,9 +266,6 @@ public class AdminPanel extends JFrame implements ActionListener{
 			
 		} 
 		
-		
 	}
 	
-	
-
 }

@@ -42,8 +42,8 @@ public class WorkerPayment extends JPanel{
 		
 		setLayout(null);
 		
-		workerData_2array = getData("worker", "all");//new String[][]{{"1", "WORKER-1"}, {"2", "WORKER-2"}, {"3", "WORKER-3"}, {"4", "WORKER-4"}, {"5", "WORKER-5"}, {"6", "WORKER-6"}};
-		employerData_2array = getData("employer", "all");//new String[][]{{"1", "EMPLOYER-1"}, {"2", "EMPLOYER-2"}, {"3", "EMPLOYER-3"}, {"4", "EMPLOYER-4"}, {"5", "EMPLOYER-5"}, {"6", "EMPLOYER-6"}};
+		workerData_2array = getData("worker", "all");
+		employerData_2array = getData("employer", "all");
 		
 		newSearch_button = new JButton("New search");
 		newSearch_button.setFocusPainted(false);
@@ -56,10 +56,10 @@ public class WorkerPayment extends JPanel{
 			}
 		});
 		
-		
 		GUI();
 		
 	}
+	
 	
 	void GUI() {
 		
@@ -77,10 +77,7 @@ public class WorkerPayment extends JPanel{
 				else {
 					bottom_panel.setVisible(false);
 				}
-				
 			}
-
-			
 		});
 		searchBox_text.addActionListener(new ActionListener() {
 			@Override
@@ -111,7 +108,6 @@ public class WorkerPayment extends JPanel{
 		searchBoxInfoMessage_label.setHorizontalAlignment(SwingConstants.CENTER);
 		this.add(searchBoxInfoMessage_label);
 		
-		
 		searchBoxTitle_label = new JLabel("SEARCH WORKER");
 		searchBoxTitle_label.setBounds(searchBox_text.getX(), searchBox_text.getY() - 50, searchBox_text.getWidth(), 24);
 		searchBoxTitle_label.setFont(new Font("Tahoma", Font.BOLD + Font.ITALIC, 18));
@@ -135,7 +131,6 @@ public class WorkerPayment extends JPanel{
 		
 		bottom_panel.removeAll(); 
 		
-		
 		int position = 0;
 		for(int i = 0; i < workerData_2array.length; i++) {
 			
@@ -144,8 +139,6 @@ public class WorkerPayment extends JPanel{
 				bottom_panel.add((JButton)getBottomComponent("", position));
 				position++;
 			}
-			
-			
 		}
 		
 		bottom_panel.setSize(502, (position > 10 ? 10 : position) * 29);
@@ -200,7 +193,6 @@ public class WorkerPayment extends JPanel{
 			comp = tf;
 		}
 		
-				
 		return comp;
 		
 	}
@@ -359,8 +351,6 @@ public class WorkerPayment extends JPanel{
 		String [][] tableData = idConvertName(data2, "employer", 2);
 		System.out.println(tableData.length + ", " + tableData[0].length);
 		
-		
-		
 		JTable bottomTable = new JTable(tableData, titleTable) { 
 			DefaultTableCellRenderer render = new DefaultTableCellRenderer();
 			{render.setHorizontalAlignment(SwingConstants.CENTER);}
@@ -389,7 +379,6 @@ public class WorkerPayment extends JPanel{
 		pay_button.setBounds(150, 380, 286, 30);
 		pay_button.setFocusPainted(false);
 		this.add(pay_button);
-		
 		
 		pay_button.addActionListener(new ActionListener() {
 			
@@ -424,9 +413,7 @@ public class WorkerPayment extends JPanel{
 						nfe.printStackTrace();
 						JOptionPane.showMessageDialog(null, "Enter only the number values \nin the amount field.", "ERROR", JOptionPane.ERROR_MESSAGE);
 					}
-					
 				}
-				
 			}
 		});
 		
@@ -434,7 +421,6 @@ public class WorkerPayment extends JPanel{
 		repaint();
 		
 	}
-	
 	
 
 	public JTable setColumnWidth(JTable table, int ...column) {
@@ -446,6 +432,7 @@ public class WorkerPayment extends JPanel{
 		
 		return table;
 	}
+	
 	
 	public String[][] getData(String tableName, String operation){
 		ArrayList<String[]> temp;
@@ -459,9 +446,9 @@ public class WorkerPayment extends JPanel{
 			
 		}
 		
-		
 		return listConvertToArray(temp);
 	}
+	
 	
 	public String[][] listConvertToArray(ArrayList<String[]> temp){
 		String[][] data = new String[][] {};
@@ -476,6 +463,7 @@ public class WorkerPayment extends JPanel{
 		return data;
 		
 	}
+	
 	
 	public String[] listConvertToArray(ArrayList<String[]> temp, int...column) {
 		
@@ -498,6 +486,7 @@ public class WorkerPayment extends JPanel{
 		return array;
 		
 	}
+	
 	
 	private String nameConvertToId(String person, String name) {
 		
@@ -524,6 +513,7 @@ public class WorkerPayment extends JPanel{
 		return null;
 	}
 	
+	
 	private String[][] idConvertName(String[][] data, String tableName, int indis) {
 		String[][] temp = data;
 		String titleId = indis == 1 ? "worker" : (indis == 2 ? "employer" : null);
@@ -536,6 +526,7 @@ public class WorkerPayment extends JPanel{
 		
 		return temp;
 	}
+	
 
 	@Override
 	public String toString() {

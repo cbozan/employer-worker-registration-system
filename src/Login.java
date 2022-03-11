@@ -17,10 +17,6 @@ import javax.swing.JTextField;
 
 public class Login extends JFrame{
 
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -61,8 +57,8 @@ public class Login extends JFrame{
 		
 		GUI();
 		
-		
 	}
+	
 	
 	private void GUI() {
 		
@@ -97,12 +93,9 @@ public class Login extends JFrame{
 		passwordField_password.setBounds(textField_username.getX(), label_password.getY(), 
 				120, label_password.getHeight());
 		passwordField_password.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
 				button_login.doClick();
-				
 			}
 		});
 		contentPane.add(passwordField_password);
@@ -111,7 +104,6 @@ public class Login extends JFrame{
 		button_login.setBounds(textField_username.getX() + 20, label_username.getY() + 80, 80, 22);
 		button_login.setFocusPainted(false);
 		button_login.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 		
@@ -129,13 +121,10 @@ public class Login extends JFrame{
 								JOptionPane.INFORMATION_MESSAGE);*/
 						
 						EventQueue.invokeLater(new Runnable() {
-							
 							@Override
 							public void run() {
-								
 								Login.this.dispose();
 								new AdminPanel();
-								
 							}
 						});
 						
@@ -159,7 +148,6 @@ public class Login extends JFrame{
 				170, 30);
 		label_errorText.setFont(new Font("Tahoma", Font.PLAIN + Font.BOLD, 11));
 		contentPane.add(label_errorText);
-		
 		
 		setContentPane(contentPane);
 		

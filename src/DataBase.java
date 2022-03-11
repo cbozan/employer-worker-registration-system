@@ -66,6 +66,7 @@ public class DataBase {
 		
 	}
 	
+	
 	/**
 	 * 
 	 * @param name
@@ -94,9 +95,6 @@ public class DataBase {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
 		
 		return state;
 		
@@ -140,18 +138,7 @@ public class DataBase {
 		return state;
 	}
 
-	
-	
-	
 
-	/**
-	 * 
-	 * @param employer_id
-	 * @param date
-	 * @param worker_array
-	 * @param note
-	 * @return
-	 */
 	public static int addRecord(String employer_id, String date, String[] worker_array, String note) {
 		
 		Connection conn = DataBase.getConnect();
@@ -205,6 +192,7 @@ public class DataBase {
 		return state;
 	}
 	
+	
 	/**
 	 * 
 	 * @param tableName 
@@ -219,7 +207,8 @@ public class DataBase {
 		
 	}
 	
-public static ArrayList<String[]> getData(String tableName, String condition) {
+	
+	public static ArrayList<String[]> getData(String tableName, String condition) {
 		
 		ArrayList<String[]> arrayList = new ArrayList<String[]>();
 		String[] arrayString;
@@ -255,7 +244,6 @@ public static ArrayList<String[]> getData(String tableName, String condition) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		
 		return arrayList;
 		
@@ -293,6 +281,7 @@ public static ArrayList<String[]> getData(String tableName, String condition) {
 		
 	}
 	
+	
 	public static boolean employerPayment(String tableName, String employer_id, int paid) {
 		Connection conn = DataBase.getConnect();
 		PreparedStatement pst;
@@ -321,11 +310,6 @@ public static ArrayList<String[]> getData(String tableName, String condition) {
 			
 			return state > 0;
 		
-	}
-	
-	public static void main(String[] args) {
-		
-
 	}
 
 }

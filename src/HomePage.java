@@ -4,9 +4,6 @@ import javax.swing.JPanel;
 
 public class HomePage extends JPanel{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private JLabel backgroundImage;
@@ -27,6 +24,7 @@ public class HomePage extends JPanel{
 		// but new features will come...
 		
 	}
+	
 
 	@Override
 	public String toString() {

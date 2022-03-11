@@ -33,9 +33,6 @@ import java.util.StringTokenizer;
 
 public class ViewRecord extends JPanel{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -76,7 +73,6 @@ public class ViewRecord extends JPanel{
 	private JTextArea note_area;
 	private JComboBox<String> employer_comboBox;
 	private int tableSelectedRow = -1;
-	
 	
 	
 	public ViewRecord() {
@@ -148,9 +144,6 @@ public class ViewRecord extends JPanel{
 							
 						}
 						
-						
-						
-						
 						//data_2array = idConvertName(getData("employer_record", "all"), "employer", 1);
 
 						note_area.setText(note);
@@ -189,7 +182,6 @@ public class ViewRecord extends JPanel{
 				chooseEmployer_label.getHeight(), chooseEmployer_label.getWidth(), 24);
 		employer_comboBox.setSelectedItem(null);
 		add(employer_comboBox);
-		/* */
 		
 		chooseDate_label = new JLabel("Selection date");
 		chooseDate_label.setForeground(new Color(76, 76, 76));
@@ -229,7 +221,6 @@ public class ViewRecord extends JPanel{
 				employer_comboBox.getWidth(), 24);
 		filter_button.setFocusPainted(false);
 		filter_button.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
@@ -286,9 +277,6 @@ public class ViewRecord extends JPanel{
 				record_scroll.getViewport().removeAll();
 				record_scroll.getViewport().add(createTable(idConvertName(data_2array, "employer", 1), column_array));
 				
-				
-				
-				
 				tableCount_label.setText(data_2array.length + " displaying");
 				employer_comboBox.setSelectedItem(null);
 				
@@ -313,7 +301,6 @@ public class ViewRecord extends JPanel{
 			}
 		});
 		add(print_button);
-		
 		
 	}
 	
@@ -342,9 +329,9 @@ public class ViewRecord extends JPanel{
 			DefaultTableCellRenderer renderCenter = new DefaultTableCellRenderer();
 			DefaultTableCellRenderer renderLeft = new DefaultTableCellRenderer();
 			
-			{ // initializer block
+			{ 
 				renderCenter.setHorizontalAlignment(SwingConstants.CENTER);
-				renderLeft.setHorizontalAlignment(SwingConstants.LEFT);
+				//renderLeft.setHorizontalAlignment(SwingConstants.LEFT);
 			}
 			
 			@Override
@@ -376,10 +363,10 @@ public class ViewRecord extends JPanel{
 			
 		}
 		
-		
 		return tab;
 		
 	}
+	
 	
 	public JTable setColumnWidth(JTable table, int ...column) {
 		
@@ -390,6 +377,7 @@ public class ViewRecord extends JPanel{
 		
 		return table;
 	}
+	
 	
 	public String[][] getData(String tableName, String operation){
 		ArrayList<String[]> temp;
@@ -417,7 +405,6 @@ public class ViewRecord extends JPanel{
 			
 		}
 		
-		
 		return listConvertToArray(temp);
 	}
 	
@@ -432,9 +419,11 @@ public class ViewRecord extends JPanel{
 				}
 			}
 		}
+		
 		return data;
 		
 	}
+	
 	
 	public String[] listConvertToArray(ArrayList<String[]> temp, int...column) {
 		
@@ -462,15 +451,6 @@ public class ViewRecord extends JPanel{
 	private String nameConvertToId(String person, String name) {
 		
 		String[][] data= employer_2array;
-		/*if(person.equals("worker")) {
-			data = getData("worker", "all");
-		} 
-		
-		if(person.equals("employer")) {
-			
-			data = employer_2array;
-		}
-		*/
 		
 		for(int i = 0; i < data.length; i++) {
 			
@@ -480,11 +460,8 @@ public class ViewRecord extends JPanel{
 			
 		}
 		
-		
 		return null;
 	}
-	
-
 
 
 	@Override

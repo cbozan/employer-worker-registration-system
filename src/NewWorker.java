@@ -14,9 +14,6 @@ import javax.swing.border.LineBorder;
 
 public class NewWorker extends JPanel implements ActionListener, FocusListener{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	/**
@@ -145,12 +142,10 @@ public class NewWorker extends JPanel implements ActionListener, FocusListener{
 		//save_button.setContentAreaFilled(false);
 		//save_button.setOpaque(false);
 		//save_button.setBorder(new LineBorder(Color.GREEN, 2));
-		
-		
+
 		//saveButtonBack_panel.add(save_button);
 		
 		add(save_button);
-		
 		
 	}
 
@@ -251,10 +246,8 @@ public class NewWorker extends JPanel implements ActionListener, FocusListener{
 					JOptionPane.showMessageDialog(this, "NOT SAVED", "DATABASE ERROR", JOptionPane.ERROR_MESSAGE);
 					
 				}
-				
 			}
 		}
-		
 	}
 
 
@@ -288,10 +281,6 @@ public class NewWorker extends JPanel implements ActionListener, FocusListener{
 		
 	}
 	
-	
-	
-	
-
 
 	@Override
 	public String toString() {
