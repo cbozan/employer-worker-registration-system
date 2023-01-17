@@ -3,14 +3,17 @@ package com.cbozan.main;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 
 import com.cbozan.view.helper.Observer;
+import com.cbozan.view.record.JobPanel;
 
 
 
@@ -146,7 +149,12 @@ public class MainFrame extends JFrame implements ActionListener{
 	
 	private void createComponents() {
 		
+		JobPanel job = new JobPanel();
 		
+		components = new ArrayList<>();
+		components.add(job);
+		
+		setContentPane((JPanel) components.get(activePage));
 		
 	}
 	
