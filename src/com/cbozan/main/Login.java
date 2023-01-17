@@ -117,7 +117,7 @@ public class Login extends JFrame{
 							@Override
 							public void run() {
 								Login.this.dispose();
-								//new AdminPanel();
+								new MainFrame();
 							}
 						});
 						
