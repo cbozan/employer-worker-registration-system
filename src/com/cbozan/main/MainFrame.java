@@ -13,6 +13,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import com.cbozan.entity.Price;
+import com.cbozan.view.add.WorkerPaymentPanel;
 import com.cbozan.view.helper.Observer;
 import com.cbozan.view.record.EmployerPanel;
 import com.cbozan.view.record.JobPanel;
@@ -153,16 +154,23 @@ public class MainFrame extends JFrame implements ActionListener{
 	
 	private void createComponents() {
 		
+		// record menu panels
 		JobPanel job = new JobPanel();
 		WorkerPanel worker = new WorkerPanel();
 		EmployerPanel employer = new EmployerPanel();
 		PricePanel price = new PricePanel();
+		
+		// add menu panels
+		WorkerPaymentPanel workerPayment = new WorkerPaymentPanel();
+		
 		
 		components = new ArrayList<>();
 		components.add(job);
 		components.add(worker);
 		components.add(employer);
 		components.add(price);
+		
+		components.add(workerPayment);
 		
 		
 		setContentPane((JPanel) components.get(activePage));
