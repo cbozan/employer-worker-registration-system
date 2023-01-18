@@ -13,6 +13,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import com.cbozan.view.helper.Observer;
+import com.cbozan.view.record.EmployerPanel;
 import com.cbozan.view.record.JobPanel;
 import com.cbozan.view.record.WorkerPanel;
 
@@ -152,10 +153,13 @@ public class MainFrame extends JFrame implements ActionListener{
 		
 		JobPanel job = new JobPanel();
 		WorkerPanel worker = new WorkerPanel();
+		EmployerPanel employer = new EmployerPanel();
 		
 		components = new ArrayList<>();
 		components.add(job);
 		components.add(worker);
+		components.add(employer);
+		
 		
 		setContentPane((JPanel) components.get(activePage));
 		
