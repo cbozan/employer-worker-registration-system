@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 
 import com.cbozan.view.helper.Observer;
 import com.cbozan.view.record.JobPanel;
+import com.cbozan.view.record.WorkerPanel;
 
 
 
@@ -150,9 +151,11 @@ public class MainFrame extends JFrame implements ActionListener{
 	private void createComponents() {
 		
 		JobPanel job = new JobPanel();
+		WorkerPanel worker = new WorkerPanel();
 		
 		components = new ArrayList<>();
 		components.add(job);
+		components.add(worker);
 		
 		setContentPane((JPanel) components.get(activePage));
 		
@@ -160,7 +163,16 @@ public class MainFrame extends JFrame implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		if(Integer.parseInt(e.getActionCommand())>= 0 && Integer.parseInt(e.getActionCommand()) < components.size()) {
+			if(Integer.parseInt(e.getActionCommand()) == activePage) {
+				components.get(activePage).update();
+			} else {
+				activePage = (byte) Integer.parseInt(e.getActionCommand());
+			}
+			setContentPane((JPanel)components.get(activePage));
+			
+			revalidate();
+		}
 		
 	}
 
