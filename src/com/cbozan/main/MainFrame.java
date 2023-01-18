@@ -13,6 +13,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import com.cbozan.entity.Price;
+import com.cbozan.view.add.JobPaymentPanel;
 import com.cbozan.view.add.WorkPanel;
 import com.cbozan.view.add.WorkerPaymentPanel;
 import com.cbozan.view.helper.Observer;
@@ -117,7 +118,7 @@ public class MainFrame extends JFrame implements ActionListener{
 		newWorkItem.setActionCommand("5");
 		newWorkItem.addActionListener(this);
 		
-		newEmployerPaymentItem = new JMenuItem("Employer payment");
+		newEmployerPaymentItem = new JMenuItem("Job payment");
 		newEmployerPaymentItem.setActionCommand("6");
 		newEmployerPaymentItem.addActionListener(this);
 		
@@ -164,6 +165,7 @@ public class MainFrame extends JFrame implements ActionListener{
 		// add menu panels
 		WorkerPaymentPanel workerPayment = new WorkerPaymentPanel();
 		WorkPanel work = new WorkPanel();
+		JobPaymentPanel jobPayment = new JobPaymentPanel();
 		
 		components = new ArrayList<>();
 		components.add(job);
@@ -172,6 +174,7 @@ public class MainFrame extends JFrame implements ActionListener{
 		components.add(price);
 		components.add(workerPayment);
 		components.add(work);
+		components.add(jobPayment);
 		
 		
 		
