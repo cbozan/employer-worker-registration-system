@@ -55,8 +55,8 @@ public class WorkerDisplay extends JPanel implements Observer{
 	private final int FW = 210;
 	
 	
-	private final String[] workTableColumns = {"ID", "İŞ", "İŞÇİ", "ÇALIŞMA ŞEKLİ", "AÇIKLAMA", "TARİH"}; 
-	private final String[] workerPaymentTableColumns = {"ID", "İŞ", "İŞÇİ", "ÖDEME ŞEKLİ", "MİKTAR", "TARİH"};
+	private final String[] workTableColumns = {"ID", "Job", "Worker", "Work type", "Description", "Date"}; 
+	private final String[] workerPaymentTableColumns = {"ID", "Job", "Worker", "Pay type", "Amount", "Date"};
 	
 	private JLabel workerImageLabel, workerSearchBoxImageLabel;
 	private WorkerCard workerCard;
@@ -124,7 +124,7 @@ public class WorkerDisplay extends JPanel implements Observer{
 		this.add(workerSearchBox.getPanel());
 		
 		
-		workScrollPaneLabel = new JLabel("GÜNLÜK ÇALIŞMA TABLOSU");
+		workScrollPaneLabel = new JLabel("DAILY WORK TABLE");
 		workScrollPaneLabel.setOpaque(true);
 		workScrollPaneLabel.setBackground(new Color(189, 224, 254));
 		workScrollPaneLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -148,12 +148,12 @@ public class WorkerDisplay extends JPanel implements Observer{
 		workScrollPane.setBounds(workScrollPaneLabel.getX(), workScrollPaneLabel.getY() + workScrollPaneLabel.getHeight(), RLW, WTH);
 		this.add(workScrollPane);
 		
-		workCountLabel = new JLabel("0 Kayıt");
+		workCountLabel = new JLabel("0 record");
 		workCountLabel.setBounds(workScrollPane.getX(), workScrollPane.getY() + workScrollPane.getHeight(), RLW, RLH - 8);
 		workCountLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		this.add(workCountLabel);
 		
-		workerPaymentScrollPaneLabel = new JLabel("YAPILAN ÖDEMELER TABLOSU");
+		workerPaymentScrollPaneLabel = new JLabel("PAYMENT TABLE");
 		workerPaymentScrollPaneLabel.setOpaque(true);
 		workerPaymentScrollPaneLabel.setBackground(workScrollPaneLabel.getBackground());
 		workerPaymentScrollPaneLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -178,17 +178,17 @@ public class WorkerDisplay extends JPanel implements Observer{
 		this.add(workerPaymentScrollPane);
 		
 		
-		workerPaymentCountLabel = new JLabel("0 Kayıt");
+		workerPaymentCountLabel = new JLabel("0 Record");
 		workerPaymentCountLabel.setBounds(workerPaymentScrollPane.getX() + RLW / 2, workerPaymentScrollPane.getY() + workerPaymentScrollPane.getHeight(), RLW / 2, RLH - 8);
 		workerPaymentCountLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		this.add(workerPaymentCountLabel);
 		
-		workerPaymentTotalLabel = new JLabel("Toplam 0 ₺");
+		workerPaymentTotalLabel = new JLabel("Total 0 ₺");
 		workerPaymentTotalLabel.setBounds(workerPaymentScrollPane.getX(), workerPaymentScrollPane.getY() + workerPaymentScrollPane.getHeight(), RLW / 2, RLH - 8);
 		workerPaymentTotalLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		this.add(workerPaymentTotalLabel);
 		
-		workTableJobFilterLabel = new JLabel("İŞE GÖRE FİLTRELE");
+		workTableJobFilterLabel = new JLabel("Filter by job");
 		workTableJobFilterLabel.setForeground(Color.GRAY);
 		workTableJobFilterLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		workTableJobFilterLabel.setBounds(workScrollPane.getX() + workScrollPane.getWidth() + 5, workScrollPane.getY(), FW, RLH);
@@ -213,7 +213,7 @@ public class WorkerDisplay extends JPanel implements Observer{
 		workTableJobFilterSearchBox.getPanel().setBounds(workTableJobFilterSearchBox.getX(), workTableJobFilterSearchBox.getY() + workTableJobFilterSearchBox.getHeight(), workTableJobFilterSearchBox.getWidth(), 0);
 		this.add(workTableJobFilterSearchBox.getPanel());
 		
-		removeWorkTableJobFilterButton = new JButton("FİLTREYİ KALDIR");
+		removeWorkTableJobFilterButton = new JButton("Remove filter");
 		removeWorkTableJobFilterButton.setBounds(workTableJobFilterSearchBox.getX(), workTableJobFilterSearchBox.getY() + workTableJobFilterSearchBox.getHeight(), workTableJobFilterSearchBox.getWidth(), 16);
 		removeWorkTableJobFilterButton.setBorderPainted(false);
 		removeWorkTableJobFilterButton.setFont(new Font(removeWorkTableJobFilterButton.getFont().getName(), Font.BOLD, 9));
@@ -234,7 +234,7 @@ public class WorkerDisplay extends JPanel implements Observer{
 		});
 		this.add(removeWorkTableJobFilterButton);
 		
-		workTableWorktypeFilterLabel = new JLabel("ÇALIŞMA ŞEKLİNE GÖRE FİLTRELE");
+		workTableWorktypeFilterLabel = new JLabel("Filter by work type");
 		workTableWorktypeFilterLabel.setForeground(Color.GRAY);
 		workTableWorktypeFilterLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		workTableWorktypeFilterLabel.setBounds(workTableJobFilterLabel.getX(), workTableJobFilterSearchBox.getY() + workTableJobFilterSearchBox.getHeight() + (int)(MS * (1.5f)), FW, RLH);
@@ -260,7 +260,7 @@ public class WorkerDisplay extends JPanel implements Observer{
 		workTableWorktypeFilterSearchBox.getPanel().setBounds(workTableWorktypeFilterSearchBox.getX(), workTableWorktypeFilterSearchBox.getY() + workTableWorktypeFilterSearchBox.getHeight(), workTableWorktypeFilterSearchBox.getWidth(), 0);
 		this.add(workTableWorktypeFilterSearchBox.getPanel());
 		
-		removeWorkTableWorktypeFilterButton = new JButton("FİLTREYİ KALDIR");
+		removeWorkTableWorktypeFilterButton = new JButton("Remove filter");
 		removeWorkTableWorktypeFilterButton.setBounds(workTableWorktypeFilterSearchBox.getX(), workTableWorktypeFilterSearchBox.getY() + workTableWorktypeFilterSearchBox.getHeight(), workTableWorktypeFilterSearchBox.getWidth(), 16);
 		removeWorkTableWorktypeFilterButton.setBorderPainted(false);
 		removeWorkTableWorktypeFilterButton.setFont(new Font(removeWorkTableWorktypeFilterButton.getFont().getName(), Font.BOLD, 9));
@@ -284,7 +284,7 @@ public class WorkerDisplay extends JPanel implements Observer{
 		
 		
 		
-		workTableDateFilterLabel = new JLabel("TARİHE GÖRE FİLTRELE");
+		workTableDateFilterLabel = new JLabel("Filter by date");
 		workTableDateFilterLabel.setForeground(Color.GRAY);
 		workTableDateFilterLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		workTableDateFilterLabel.setBounds(workTableWorktypeFilterLabel.getX(), workTableWorktypeFilterSearchBox.getY() + workTableWorktypeFilterSearchBox.getHeight() + (int)(MS * (1.5f)), FW, RLH);
@@ -341,7 +341,7 @@ public class WorkerDisplay extends JPanel implements Observer{
 		
 
 		
-		removeWorkTableDateFilterButton = new JButton("FİLTREYİ KALDIR");
+		removeWorkTableDateFilterButton = new JButton("Remove filter");
 		removeWorkTableDateFilterButton.setBounds(workTableDateFilterSearchBox.getX(), workTableDateFilterSearchBox.getY() + workTableDateFilterSearchBox.getHeight(), workTableDateFilterSearchBox.getWidth(), 16);
 		removeWorkTableDateFilterButton.setBorderPainted(false);
 		removeWorkTableDateFilterButton.setFont(new Font(removeWorkTableDateFilterButton.getFont().getName(), Font.BOLD, 9));
@@ -363,7 +363,7 @@ public class WorkerDisplay extends JPanel implements Observer{
 		
 		
 		
-		workerPaymentJobFilterLabel = new JLabel("İŞE GÖRE FİLTRELE");
+		workerPaymentJobFilterLabel = new JLabel("Filter by job");
 		workerPaymentJobFilterLabel.setForeground(Color.GRAY);
 		workerPaymentJobFilterLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		workerPaymentJobFilterLabel.setBounds(workerPaymentScrollPane.getX() + workerPaymentScrollPane.getWidth() + 5, workerPaymentScrollPaneLabel.getY(), FW, RLH);
@@ -388,7 +388,7 @@ public class WorkerDisplay extends JPanel implements Observer{
 		workerPaymentJobFilterSearchBox.getPanel().setBounds(workerPaymentJobFilterSearchBox.getX(), workerPaymentJobFilterSearchBox.getY() + workerPaymentJobFilterSearchBox.getHeight(), workerPaymentJobFilterSearchBox.getWidth(), 0);
 		this.add(workerPaymentJobFilterSearchBox.getPanel());
 		
-		removeWorkerPaymentJobFilterButton = new JButton("FİLTREYİ KALDIR");
+		removeWorkerPaymentJobFilterButton = new JButton("Remove filter");
 		removeWorkerPaymentJobFilterButton.setBounds(workerPaymentJobFilterSearchBox.getX(), workerPaymentJobFilterSearchBox.getY() + workerPaymentJobFilterSearchBox.getHeight(), workerPaymentJobFilterSearchBox.getWidth(), 16);
 		removeWorkerPaymentJobFilterButton.setBorderPainted(false);
 		removeWorkerPaymentJobFilterButton.setFont(new Font(removeWorkTableJobFilterButton.getFont().getName(), Font.BOLD, 9));
@@ -411,7 +411,7 @@ public class WorkerDisplay extends JPanel implements Observer{
 		
 		
 		
-		workerPaymentDateFilterLabel = new JLabel("TARİHE GÖRE FİLTRELE");
+		workerPaymentDateFilterLabel = new JLabel("Filter by date");
 		workerPaymentDateFilterLabel.setForeground(Color.GRAY);
 		workerPaymentDateFilterLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		workerPaymentDateFilterLabel.setBounds(workerPaymentJobFilterLabel.getX(), workerPaymentJobFilterSearchBox.getY() + workerPaymentJobFilterSearchBox.getHeight() + (int)(MS * (1.5f)), FW, RLH);
@@ -468,7 +468,7 @@ public class WorkerDisplay extends JPanel implements Observer{
 		
 
 		
-		removeWorkerPaymentDateFilterButton = new JButton("FİLTREYİ KALDIR");
+		removeWorkerPaymentDateFilterButton = new JButton("Remove filter");
 		removeWorkerPaymentDateFilterButton.setBounds(workerPaymentDateFilterSearchBox.getX(), workerPaymentDateFilterSearchBox.getY() + workerPaymentDateFilterSearchBox.getHeight(), workerPaymentDateFilterSearchBox.getWidth(), 16);
 		removeWorkerPaymentDateFilterButton.setBorderPainted(false);
 		removeWorkerPaymentDateFilterButton.setFont(new Font(removeWorkerPaymentDateFilterButton.getFont().getName(), Font.BOLD, 9));
@@ -550,7 +550,7 @@ public class WorkerDisplay extends JPanel implements Observer{
 			((JTable)workScrollPane.getViewport().getComponent(0)).getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
 			((JTable)workScrollPane.getViewport().getComponent(0)).getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
 			
-			workCountLabel.setText(workList.size() + " Kayıt");
+			workCountLabel.setText(workList.size() + " Record");
 			
 		}
 	}
@@ -594,8 +594,8 @@ public class WorkerDisplay extends JPanel implements Observer{
 			((JTable)workerPaymentScrollPane.getViewport().getComponent(0)).getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
 			((JTable)workerPaymentScrollPane.getViewport().getComponent(0)).getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
 			
-			workerPaymentTotalLabel.setText("Toplam " + totalAmount + " ₺");
-			workerPaymentCountLabel.setText(paymentList.size() + " Kayıt");
+			workerPaymentTotalLabel.setText("Total " + totalAmount + " ₺");
+			workerPaymentCountLabel.setText(paymentList.size() + " Record");
 			
 		}
 		

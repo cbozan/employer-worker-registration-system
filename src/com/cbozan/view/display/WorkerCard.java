@@ -51,7 +51,7 @@ public class WorkerCard extends JPanel implements ActionListener{
 		
 		selectedWorker = null;
 		
-		fnameLabel = new JLabel("İsim");
+		fnameLabel = new JLabel("Name");
 		fnameLabel.setBounds(0, 0, rowWidth, rowHeight);
 		addHeight(fnameLabel.getHeight());
 		this.add(fnameLabel);
@@ -65,7 +65,7 @@ public class WorkerCard extends JPanel implements ActionListener{
 		this.add(addEditButton(fnameTextField, lnameTextField));
 		
 		
-		lnameLabel = new JLabel("Soyisim");
+		lnameLabel = new JLabel("Surname");
 		lnameLabel.setBounds(fnameTextField.getX(), fnameTextField.getY() + fnameTextField.getHeight() + VMS, rowWidth, rowHeight);
 		addHeight(lnameLabel.getHeight() + VMS);
 		this.add(lnameLabel);
@@ -78,7 +78,7 @@ public class WorkerCard extends JPanel implements ActionListener{
 		this.add(lnameTextField);
 		this.add(addEditButton(lnameTextField, telTextField));
 		
-		telLabel = new JLabel("Telefon Numarası");
+		telLabel = new JLabel("Phone Number");
 		telLabel.setBounds(lnameTextField.getX(), lnameTextField.getY() + lnameTextField.getHeight() + VMS, rowWidth, rowHeight);
 		addHeight(telLabel.getHeight() + VMS);
 		this.add(telLabel);
@@ -91,7 +91,7 @@ public class WorkerCard extends JPanel implements ActionListener{
 		this.add(telTextField);
 		this.add(addEditButton(telTextField, ibanTextField));
 		
-		ibanLabel = new JLabel("İban Numarası");
+		ibanLabel = new JLabel("Iban no");
 		ibanLabel.setBounds(telTextField.getX(), telTextField.getY() + telTextField.getHeight() + VMS, rowWidth, rowHeight);
 		addHeight(ibanLabel.getHeight() + VMS);
 		this.add(ibanLabel);
@@ -104,7 +104,7 @@ public class WorkerCard extends JPanel implements ActionListener{
 		this.add(ibanTextField);
 		this.add(addEditButton(ibanTextField, descriptionTextArea));
 		
-		descriptionLabel = new JLabel("Açıklama");
+		descriptionLabel = new JLabel("Description");
 		descriptionLabel.setBounds(ibanTextField.getX(), ibanTextField.getY() + ibanTextField.getHeight() + VMS, rowWidth, rowHeight);
 		addHeight(descriptionLabel.getHeight() + VMS);
 		this.add(descriptionLabel);
@@ -139,7 +139,7 @@ public class WorkerCard extends JPanel implements ActionListener{
 			}
 			});
 		
-		updateButton = new JButton("Güncelle");
+		updateButton = new JButton("Update");
 		updateButton.setFocusable(false);
 		updateButton.addActionListener(this);
 		updateButton.setBounds(descriptionTextArea.getX(), descriptionTextArea.getY() + descriptionTextArea.getHeight() + VBS, rowWidth - BW - BS, rowHeight);
@@ -307,7 +307,7 @@ public class WorkerCard extends JPanel implements ActionListener{
 			setDescriptionTextAreaContent(getDescriptionTextAreaContent());
 			
 			if(true == WorkerDAO.getInstance().update(selectedWorker)) {
-				JOptionPane.showMessageDialog(this, "Güncelleme başarılı", "BAŞARILI", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Update successful", "SUCCESSFUL", JOptionPane.INFORMATION_MESSAGE);
 				
 				Component component = getParent();
 				while(component != null && component.getClass() != WorkerDisplay.class) {
@@ -319,7 +319,7 @@ public class WorkerCard extends JPanel implements ActionListener{
 				}
 				
 			} else {
-				JOptionPane.showMessageDialog(this, "Güncelleme başarısız", "BAŞARISIZ", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Update failed", "UNSUCCESSFUL", JOptionPane.ERROR_MESSAGE);
 			}
 			
 			

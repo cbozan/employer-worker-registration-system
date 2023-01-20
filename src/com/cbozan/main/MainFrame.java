@@ -17,6 +17,7 @@ import com.cbozan.view.add.JobPaymentPanel;
 import com.cbozan.view.add.WorkPanel;
 import com.cbozan.view.add.WorkerPaymentPanel;
 import com.cbozan.view.display.JobDisplay;
+import com.cbozan.view.display.WorkerDisplay;
 import com.cbozan.view.helper.Observer;
 import com.cbozan.view.record.EmployerPanel;
 import com.cbozan.view.record.JobPanel;
@@ -171,6 +172,7 @@ public class MainFrame extends JFrame implements ActionListener{
 		
 		// display menu panels
 		JobDisplay jobDisplay = new JobDisplay();
+		WorkerDisplay workerDisplay = new WorkerDisplay();
 		
 		
 		components = new ArrayList<>();
@@ -182,6 +184,7 @@ public class MainFrame extends JFrame implements ActionListener{
 		components.add(work);
 		components.add(jobPayment);
 		components.add(jobDisplay);
+		components.add(workerDisplay);
 		
 		
 		

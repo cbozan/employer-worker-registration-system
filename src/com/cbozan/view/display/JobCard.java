@@ -54,7 +54,7 @@ public class JobCard extends JPanel implements ActionListener{
 		super();
 		setLayout(null);
 		
-		titleLabel = new JLabel("İş Başlığı");
+		titleLabel = new JLabel("Job Title");
 		titleLabel.setBounds(0, 0, rowWidth, rowHeight);
 		addHeight(titleLabel.getHeight());
 		this.add(titleLabel);
@@ -70,7 +70,7 @@ public class JobCard extends JPanel implements ActionListener{
 		
 		
 		
-		employerLabel = new JLabel("İşveren");
+		employerLabel = new JLabel("Employer");
 		employerLabel.setBounds(titleTextField.getX(), titleTextField.getY() + titleTextField.getHeight() + VMS, rowWidth, rowHeight);
 		addHeight(employerLabel.getHeight() + VMS);
 		this.add(employerLabel);
@@ -103,7 +103,7 @@ public class JobCard extends JPanel implements ActionListener{
 		this.add(employerSearchBox.getPanel());
 		
 		
-		priceLabel = new JLabel("Ücretlendirme");
+		priceLabel = new JLabel("Price");
 		priceLabel.setBounds(employerSearchBox.getX(), employerSearchBox.getY() + employerSearchBox.getHeight() + VMS, rowWidth, rowHeight);
 		addHeight(priceLabel.getHeight() + VMS);
 		this.add(priceLabel);
@@ -135,7 +135,7 @@ public class JobCard extends JPanel implements ActionListener{
 		priceSearchBox.getPanel().setBounds(priceSearchBox.getX(), priceSearchBox.getY() + priceSearchBox.getHeight(), rowWidth - BW - BS, 0);
 		this.add(priceSearchBox.getPanel());
 		
-		descriptionLabel = new JLabel("Açıklama");
+		descriptionLabel = new JLabel("Description");
 		descriptionLabel.setBounds(priceSearchBox.getX(), priceSearchBox.getY() + priceSearchBox.getHeight() + VMS, rowWidth, rowHeight);
 		addHeight(descriptionLabel.getHeight() + VMS);
 		this.add(descriptionLabel);
@@ -172,7 +172,7 @@ public class JobCard extends JPanel implements ActionListener{
 		
 		
 		
-		updateButton = new JButton("Güncelle");
+		updateButton = new JButton("Update");
 		updateButton.setFocusable(false);
 		updateButton.addActionListener(this);
 		updateButton.setBounds(descriptionTextArea.getX(), descriptionTextArea.getY() + descriptionTextArea.getHeight() + VBS, rowWidth - BW - BS, rowHeight);
@@ -305,7 +305,7 @@ public class JobCard extends JPanel implements ActionListener{
 			
 			
 			if(true == JobDAO.getInstance().update(selectedJob)) {
-				JOptionPane.showMessageDialog(this, "Güncelleme başarılı", "BAŞARILI", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Update successful", "SUCCESSFUL", JOptionPane.INFORMATION_MESSAGE);
 				
 				Component component = getParent();
 				while(component != null && component.getClass() != JobDisplay.class) {
@@ -316,7 +316,7 @@ public class JobCard extends JPanel implements ActionListener{
 					((Observer)component).update();
 				}
 			} else {
-				JOptionPane.showMessageDialog(this, "Güncelleme başarısız", "BAŞARISIZ", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Update failed", "UNSUCCESSFUL", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		

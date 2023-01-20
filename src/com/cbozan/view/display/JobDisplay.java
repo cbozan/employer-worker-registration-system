@@ -38,7 +38,7 @@ private static final long serialVersionUID = -7816939112811838345L;
 	private final int WTH = 180;
 	private final int FW = 210;
 	
-	private final String[] jobWorkTableColumns = {"ID", "İŞ BAŞLIĞI", "ÇALIŞMA ŞEKLİ", "KİŞİ SAYISI", "AÇIKLAMA", "TARİH"};
+	private final String[] jobWorkTableColumns = {"ID", "Job title", "Work type", "Count", "Description", "Date"};
 	
 	private JLabel jobImageLabel, jobSearchBoxImageLabel;
 	private JLabel jobWorkScrollPaneLabel, jobWorkCountLabel, jobWorkTotalCountLabel;
@@ -92,7 +92,7 @@ private static final long serialVersionUID = -7816939112811838345L;
 		this.add(jobSearchBox.getPanel());
 		
 		
-		jobWorkScrollPaneLabel = new JLabel("İŞ GÜNLÜK KAYIT TABLOSU");
+		jobWorkScrollPaneLabel = new JLabel("WORK DAILY RECORD TABLE");
 		jobWorkScrollPaneLabel.setOpaque(true);
 		jobWorkScrollPaneLabel.setBackground(new Color(189, 224, 254));
 		jobWorkScrollPaneLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -117,13 +117,13 @@ private static final long serialVersionUID = -7816939112811838345L;
 		this.add(jobWorkScrollPane);
 		
 		
-		jobWorkTotalCountLabel = new JLabel("Toplam 0 yevmiye");
+		jobWorkTotalCountLabel = new JLabel("0 daily wages");
 		jobWorkTotalCountLabel.setBounds(jobWorkScrollPane.getX(), jobWorkScrollPane.getY() + jobWorkScrollPane.getHeight(), RLW / 2 - 1, RLH - 8);
 		jobWorkTotalCountLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		this.add(jobWorkTotalCountLabel);
 		
 		
-		jobWorkCountLabel = new JLabel("0 Kayıt");
+		jobWorkCountLabel = new JLabel("0 record");
 		jobWorkCountLabel.setBounds(jobWorkTotalCountLabel.getX() + jobWorkTotalCountLabel.getWidth() + 1, jobWorkTotalCountLabel.getY(), RLW / 2, RLH - 8);
 		jobWorkCountLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		this.add(jobWorkCountLabel);
@@ -164,8 +164,8 @@ private static final long serialVersionUID = -7816939112811838345L;
 			((JTable)jobWorkScrollPane.getViewport().getComponent(0)).getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
 			
 			//jobWorkCount 
-			jobWorkTotalCountLabel.setText("Toplam " + totalCount + " yevmiye");
-			jobWorkCountLabel.setText(workgroupList.size() + " Kayıt");
+			jobWorkTotalCountLabel.setText(totalCount + " daily wages");
+			jobWorkCountLabel.setText(workgroupList.size() + " Record");
 		}
 		
 	}
