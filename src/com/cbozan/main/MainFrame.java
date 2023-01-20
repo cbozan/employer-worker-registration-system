@@ -167,6 +167,10 @@ public class MainFrame extends JFrame implements ActionListener{
 		WorkPanel work = new WorkPanel();
 		JobPaymentPanel jobPayment = new JobPaymentPanel();
 		
+		// display menu panels
+		
+		
+		
 		components = new ArrayList<>();
 		components.add(job);
 		components.add(worker);
