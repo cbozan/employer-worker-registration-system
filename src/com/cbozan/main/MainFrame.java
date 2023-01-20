@@ -16,6 +16,7 @@ import com.cbozan.entity.Price;
 import com.cbozan.view.add.JobPaymentPanel;
 import com.cbozan.view.add.WorkPanel;
 import com.cbozan.view.add.WorkerPaymentPanel;
+import com.cbozan.view.display.EmployerDisplay;
 import com.cbozan.view.display.JobDisplay;
 import com.cbozan.view.display.WorkerDisplay;
 import com.cbozan.view.helper.Observer;
@@ -173,7 +174,7 @@ public class MainFrame extends JFrame implements ActionListener{
 		// display menu panels
 		JobDisplay jobDisplay = new JobDisplay();
 		WorkerDisplay workerDisplay = new WorkerDisplay();
-		
+		EmployerDisplay employerDisplay = new EmployerDisplay();
 		
 		components = new ArrayList<>();
 		components.add(job);
@@ -185,8 +186,7 @@ public class MainFrame extends JFrame implements ActionListener{
 		components.add(jobPayment);
 		components.add(jobDisplay);
 		components.add(workerDisplay);
-		
-		
+		components.add(employerDisplay);
 		
 		setContentPane((JPanel) components.get(activePage));
 		
@@ -203,6 +203,18 @@ public class MainFrame extends JFrame implements ActionListener{
 			setContentPane((JPanel)components.get(activePage));
 			
 			revalidate();
+		}
+		
+	}
+	
+	public <C> void setComponent(Class<C> class1) {
+		
+		for(Observer obj : components) {
+			if(obj.getClass() == class1) {
+				setContentPane((JPanel)obj);
+				revalidate();
+				break;
+			}
 		}
 		
 	}
