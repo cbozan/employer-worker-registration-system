@@ -29,7 +29,7 @@ public abstract class Control {
 	public static boolean decimalControl(String ...args) {
 		boolean rValue = true;
 		for(String arg : args) {
-			rValue &= Pattern.compile("^((\\d+(\\.\\d{1,2})?)|())$").matcher(args[0]).find();
+			rValue &= Pattern.compile("^((\\d+(\\.\\d{1,2})?)|())$").matcher(arg).find();
 		}
 		return rValue;
 	}

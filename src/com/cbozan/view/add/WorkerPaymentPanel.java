@@ -32,8 +32,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -274,6 +272,9 @@ public class WorkerPaymentPanel extends JPanel implements Observer, FocusListene
 		
 		
 		lastPaymentsScroll = new JScrollPane(new JTable(new String[][] {}, paymentTableColumns) {
+			
+			private static final long serialVersionUID = 1L;
+
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}

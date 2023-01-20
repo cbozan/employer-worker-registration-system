@@ -14,10 +14,7 @@ import javax.swing.JOptionPane;
 
 import com.cbozan.entity.Employer;
 import com.cbozan.entity.Job;
-import com.cbozan.entity.Work;
-import com.cbozan.entity.Worker;
 import com.cbozan.entity.Job.JobBuilder;
-import com.cbozan.entity.Work.WorkBuilder;
 import com.cbozan.exception.EntityException;
 
 public class JobDAO {

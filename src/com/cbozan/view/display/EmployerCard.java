@@ -15,9 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.text.JTextComponent;
 
 import com.cbozan.dao.EmployerDAO;
-import com.cbozan.dao.WorkerDAO;
 import com.cbozan.entity.Employer;
-import com.cbozan.entity.Worker;
 import com.cbozan.exception.EntityException;
 import com.cbozan.view.component.RecordTextField;
 import com.cbozan.view.component.TextArea;

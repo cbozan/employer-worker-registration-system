@@ -29,7 +29,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import com.cbozan.dao.DB;
 import com.cbozan.dao.InvoiceDAO;
 import com.cbozan.dao.JobDAO;
 import com.cbozan.entity.Invoice;

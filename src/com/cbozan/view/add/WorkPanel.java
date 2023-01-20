@@ -118,6 +118,9 @@ public class WorkPanel extends JPanel implements Observer, ActionListener{
 		add(jobLabel);
 		
 		searchJobSearchBox = new SearchBox(JobDAO.getInstance().list(), new Dimension(LLW, LH)) {
+			
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void mouseAction(MouseEvent e, Object searchResultObject, int chooseIndex) {
 				selectedJob = (Job) searchResultObject;
@@ -184,6 +187,9 @@ public class WorkPanel extends JPanel implements Observer, ActionListener{
 		
 		selectedWorkerList = new JList<Worker>(selectedWorkerDefaultListModel);
 		selectedWorkerList.setCellRenderer(new DefaultListCellRenderer() {
+		
+			private static final long serialVersionUID = 1L;
+
 			@Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 JLabel listCellRendererComponent = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,cellHasFocus);
@@ -360,6 +366,9 @@ public class WorkPanel extends JPanel implements Observer, ActionListener{
 								message += worker2.toString() + "\n";
 							
 							JScrollPane scroll = new JScrollPane(new JTextArea(message)) {
+								
+								private static final long serialVersionUID = 1L;
+
 								@Override
 								public Dimension getPreferredSize() {
 									return new Dimension(240, (failedWorkerList.size() + 2) * 30 > 200 ? 200 : failedWorkerList.size() * 30);

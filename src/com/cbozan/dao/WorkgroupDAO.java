@@ -12,8 +12,6 @@ import java.util.Map.Entry;
 
 import javax.swing.JOptionPane;
 
-import com.cbozan.entity.Invoice;
-import com.cbozan.entity.Invoice.InvoiceBuilder;
 import com.cbozan.entity.Job;
 import com.cbozan.entity.Workgroup;
 import com.cbozan.entity.Workgroup.WorkgroupBuilder;

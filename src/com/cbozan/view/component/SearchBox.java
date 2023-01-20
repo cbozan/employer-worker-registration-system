@@ -2,7 +2,6 @@ package com.cbozan.view.component;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
@@ -21,10 +20,10 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
-import com.cbozan.entity.Worker;
 
 public class SearchBox extends JTextField implements CaretListener, FocusListener{
 	
+	private static final long serialVersionUID = 1L;
 	public final Color DEFAULT_EXITED_COLOR = new Color(162, 208, 215);
 	public final Color DEFAULT_ENTERED_COLOR = new Color(73, 171, 134);
 	

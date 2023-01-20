@@ -25,13 +25,9 @@ import javax.swing.table.DefaultTableModel;
 import com.cbozan.dao.EmployerDAO;
 import com.cbozan.dao.InvoiceDAO;
 import com.cbozan.dao.JobDAO;
-import com.cbozan.dao.WorkDAO;
-import com.cbozan.dao.WorkerDAO;
 import com.cbozan.entity.Employer;
 import com.cbozan.entity.Invoice;
 import com.cbozan.entity.Job;
-import com.cbozan.entity.Payment;
-import com.cbozan.entity.Worker;
 import com.cbozan.view.component.SearchBox;
 import com.cbozan.view.helper.Observer;
 
@@ -47,7 +43,6 @@ public class EmployerDisplay extends JPanel implements Observer{
 	private final int RLW = 480;
 	private final int RLH = 24;
 	private final int BS = 20;
-	private final int MS = 15;
 	private final int WTH = 180;
 	private final int FW = 210;
 	
@@ -73,7 +68,7 @@ public class EmployerDisplay extends JPanel implements Observer{
 		super();
 		setLayout(null);
 		
-		LLW = employerCard.rowWidth;
+		LLW = EmployerCard.rowWidth;
 		selectedEmployer = null;
 		selectedJob = null;
 		

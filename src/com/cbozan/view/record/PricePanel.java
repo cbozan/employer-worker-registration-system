@@ -94,7 +94,7 @@ public class PricePanel extends JPanel implements Observer, Serializable, Action
 		
 		fulltimeLabel = new JLabel("Fulltime (TL)");
 		fulltimeLabel.setBounds(LX, LY + LTVS, LW, LH);
-		fulltimeLabel.setHorizontalAlignment(fulltimeLabel.CENTER);
+		fulltimeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		
 		fulltimeTextField = new RecordTextField(RecordTextField.DECIMAL_NUMBER_TEXT + RecordTextField.REQUIRED_TEXT);
@@ -115,7 +115,7 @@ public class PricePanel extends JPanel implements Observer, Serializable, Action
 		
 		halftimeLabel = new JLabel("Halftime (TL)");
 		halftimeLabel.setBounds(LX, fulltimeLabel.getY() + LVS + LTVS, LW, LH);
-		halftimeLabel.setHorizontalAlignment(halftimeLabel.CENTER);
+		halftimeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		halftimeTextField = new RecordTextField(RecordTextField.DECIMAL_NUMBER_TEXT + RecordTextField.REQUIRED_TEXT);
 		halftimeTextField.setHorizontalAlignment(SwingConstants.CENTER);
@@ -133,7 +133,7 @@ public class PricePanel extends JPanel implements Observer, Serializable, Action
 		
 		overtimeLabel = new JLabel("Overtime (TL)");
 		overtimeLabel.setBounds(LX, halftimeLabel.getY() + LVS + LTVS, LW, LH);
-		overtimeLabel.setHorizontalAlignment(overtimeLabel.CENTER);
+		overtimeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		overtimeTextField = new RecordTextField(RecordTextField.DECIMAL_NUMBER_TEXT + RecordTextField.REQUIRED_TEXT);
 		overtimeTextField.setHorizontalAlignment(SwingConstants.CENTER);

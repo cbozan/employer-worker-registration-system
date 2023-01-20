@@ -1,6 +1,5 @@
 package com.cbozan.view.display;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -32,6 +31,7 @@ import com.cbozan.view.helper.Observer;
 
 public class JobCard extends JPanel implements ActionListener{
 
+	private static final long serialVersionUID = 1L;
 	public static final int rowWidth = 240;
 	public static final int rowHeight = 24;
 	private final int BW = 40;

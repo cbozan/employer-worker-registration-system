@@ -17,10 +17,8 @@ import java.util.Map.Entry;
 import javax.swing.JOptionPane;
 
 import com.cbozan.entity.Payment;
-import com.cbozan.entity.Work;
 import com.cbozan.entity.Worker;
 import com.cbozan.entity.Payment.PaymentBuilder;
-import com.cbozan.entity.Work.WorkBuilder;
 import com.cbozan.exception.EntityException;
 
 public class PaymentDAO {

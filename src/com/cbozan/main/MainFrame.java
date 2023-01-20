@@ -12,7 +12,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import com.cbozan.entity.Price;
 import com.cbozan.view.add.JobPaymentPanel;
 import com.cbozan.view.add.WorkPanel;
 import com.cbozan.view.add.WorkerPaymentPanel;
@@ -29,7 +28,8 @@ import com.cbozan.view.record.WorkerPanel;
 
 public class MainFrame extends JFrame implements ActionListener{
 
-	
+	private static final long serialVersionUID = 1L;
+
 	public static final String FRAME_NAME = "Hesap-eProject";
 	
 	public static final int W_FRAME = 1080;
@@ -47,7 +47,7 @@ public class MainFrame extends JFrame implements ActionListener{
 	private JMenu newRecordMenu, addMenu, displayMenu;
 	private JMenuItem newEmployerItem, newWorkerItem, newJobItem, newPriceItem;
 	private JMenuItem newWorkItem, newWorkerPaymentItem, newEmployerPaymentItem;
-	private JMenuItem displayWorkerItem, displayEmployerItem, displayJobItem, displayWorkItem, displayWorkPayment, displayJobPayment;
+	private JMenuItem displayWorkerItem, displayEmployerItem, displayJobItem;
 	private List<Observer> components;
 	
 	public MainFrame() {

@@ -34,9 +34,7 @@ private static final long serialVersionUID = -7816939112811838345L;
 	private final int RLW = 480;
 	private final int RLH = 24;
 	private final int BS = 20;
-	private final int MS = 15;
 	private final int WTH = 180;
-	private final int FW = 210;
 	
 	private final String[] jobWorkTableColumns = {"ID", "Job title", "Work type", "Count", "Description", "Date"};
 	
@@ -52,7 +50,7 @@ private static final long serialVersionUID = -7816939112811838345L;
 		super();
 		setLayout(null);
 		
-		LLW = jobCard.rowWidth;
+		LLW = JobCard.rowWidth;
 		selectedJob = null;
 		
 		jobImageLabel = new JLabel(new ImageIcon("src\\icon\\new_job.png"));

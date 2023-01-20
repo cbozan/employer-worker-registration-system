@@ -15,9 +15,7 @@ import javax.swing.JOptionPane;
 
 import com.cbozan.entity.Employer;
 import com.cbozan.entity.Invoice;
-import com.cbozan.entity.Job;
 import com.cbozan.entity.Invoice.InvoiceBuilder;
-import com.cbozan.entity.Job.JobBuilder;
 import com.cbozan.exception.EntityException;
 
 public class InvoiceDAO {
